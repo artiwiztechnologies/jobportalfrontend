@@ -13,14 +13,14 @@ import { isAuthenticated,getUserWithId } from "../helper";
 
 
 const CandidateProfile = () => {
-  console.log(isAuthenticated());
-  getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
-    .then(data =>{
-      console.log(data)
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
+  // console.log(isAuthenticated());
+  // getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
+  //   .then(data =>{
+  //     console.log(data)
+  //   })
+  //   .catch((err)=>{
+  //     console.log(err);
+  //   })
   return (
     <>
       <PageWrapper headerConfig={{ button: "profile" }}>
