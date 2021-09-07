@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
+
+import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken} from "../helper/index";
+
+
+
 
 const defaultTypes = [
   { value: "b2b", label: "B2B" },
@@ -24,6 +29,67 @@ const defaultLocations = [
 ];
 
 const DashboardSettings = () => {
+  const uId = isAuthenticated().user_id;
+  const [userData,setUserData] = useState({
+    email:"",
+    photourl:"",
+    company_name:"",
+    corporate_type:"",
+    employee_size:"",
+    location:"",
+    about:"",
+    phonenumber:"",
+    website_link:""
+  });
+
+  const {photourl,about,company_name,corporate_type,employee_size,location,website_link} = userData;
+  console.log(isAuthenticated());
+  useEffect(()=>{
+    if(isAuthenticated())
+    getCompanyWithId(uId,isAuthenticated().access_token)
+      .then(data =>{
+        if(data.error==="token_expired"){
+          console.log("token expired refreshing please wait");
+          let ref_tkn = isAuthenticated().refresh_token;
+          refreshToken(ref_tkn)
+            .then(data=>{
+              console.log(data);
+              let new_tkn = data.access_token;
+              getCompanyWithId(uId,new_tkn)
+                .then(res=>{
+                  setUserData({
+                    ...userData,
+                    photourl: res.photoURL,
+                    email:res.email,
+                    phonenumber:res.phonenumber,
+                    company_name: res.name,
+        
+        
+                  })
+                })
+            })
+        }else{
+          setUserData({
+            ...userData,
+            photourl: data.photoURL,
+            email:data.email,
+            phonenumber:data.phonenumber,
+            company_name: data.name,
+
+
+          })
+          console.log(data)
+          
+        }
+      })
+  },[])
+
+  const handleChange = name => event =>{
+    setUserData({
+        ...userData,[name]:event.target.value
+    })
+}
+  
   return (
     <>
       <PageWrapper
@@ -80,6 +146,8 @@ const DashboardSettings = () => {
                                 className="form-control h-px-48"
                                 id="namedash"
                                 placeholder="eg. Apple"
+                                value={company_name}
+                                onChange={handleChange("company_name")}
                               />
                             </div>
                           </div>

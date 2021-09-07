@@ -213,7 +213,7 @@ const ModalSignUp = (props) => {
                       id="number"
                     />
                   </div>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label
                       htmlFor="phonenumber"
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
@@ -228,7 +228,7 @@ const ModalSignUp = (props) => {
                       placeholder="Enter your address"
                       id="number"
                     />
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <label
                       htmlFor="password"
@@ -285,12 +285,12 @@ const ModalSignUp = (props) => {
                       </a>
                     </div>
                   </div>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label
                       htmlFor="phonenumber"
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
                     >
-                     Phone-Number
+                     Photo
                     </label>
                     <input type="file" value={photourl} onChange={e => setPhotourl(e.target.value)} id="inputGroupFile01"></input>
                     {/* <label class="custom-file-label" for="inputGroupFile01">Choose file</label> */}
@@ -302,7 +302,7 @@ const ModalSignUp = (props) => {
                       placeholder="1234567899"
                       id="number"
                     /> */}
-                  </div>
+                  {/* </div>  */}
                   <div className="form-group d-flex flex-wrap justify-content-between mb-1">
                     <label
                       htmlFor="terms-check2"

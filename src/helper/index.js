@@ -118,3 +118,37 @@ export const getUserWithId = (uid,token) =>{
 }
 
 
+export const getCompanyWithId = (uid,token) =>{
+    return fetch(`${API}company/${uid}`,{
+        method:"GET",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(res => {
+        return res.json();
+    })
+    .catch(err =>{
+        console.log(err)
+    })
+}
+
+
+export const refreshToken = (ref_token) => {
+    return fetch(`${API}refresh`,{
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${ref_token}`
+        }
+    })
+    .then(res =>{
+        return res.json()
+    })
+    .catch(err => console.log(err));
+}
+
+
