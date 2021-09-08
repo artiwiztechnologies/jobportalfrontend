@@ -11,6 +11,9 @@ const GlobalProvider = ({ children }) => {
   const [signupCompanyModal,setSignupCompanyModal] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
   const [visibleOffCanvas, setVisibleOffCanvas] = useState(false);
+  const [showConfirmEmail,setShowConfirmEmail] = useState(false);
+  const [signinComp,setSigninComp] = useState(false);
+
   const [header, setHeader] = useState({
     theme: "light",
     bgClass: "default",
@@ -29,6 +32,14 @@ const GlobalProvider = ({ children }) => {
   const toggleTheme = () => {
     setThemeDark(!themeDark);
   };
+ 
+  const toggleSigninCompany = () =>{
+    setSigninComp(!signinComp);
+  }
+
+  const toggleConfirmEmail = () =>{
+    setShowConfirmEmail(!showConfirmEmail);
+  }
 
   const toggleSidebarDashboard = () => {
     setShowSidebarDashboard(!showSidebarDashboard);
@@ -84,7 +95,11 @@ const GlobalProvider = ({ children }) => {
         footer,
         setFooter,
         signupCompanyModal,
-        toggleSignupCompanyModal
+        toggleSignupCompanyModal,
+        showConfirmEmail,
+        toggleConfirmEmail,
+        signinComp,
+        toggleSigninCompany
       }}
     >
       {children}

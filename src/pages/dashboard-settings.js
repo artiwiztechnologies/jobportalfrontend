@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 
-import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken} from "../helper/index";
+import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails} from "../helper/index";
 
 
 
@@ -33,17 +33,31 @@ const DashboardSettings = () => {
   const [userData,setUserData] = useState({
     email:"",
     photourl:"",
-    company_name:"",
-    corporate_type:"",
-    employee_size:"",
+    name:"",
+    companyType:"",
+    companySize:"",
     location:"",
+    established:"",
+    jobsPosted:"",
     about:"",
     phonenumber:"",
-    website_link:""
+    links:"",
+    
   });
 
-  const {photourl,about,company_name,corporate_type,employee_size,location,website_link} = userData;
-  console.log(isAuthenticated());
+  // "email": "felixjordanew312@gmail.com",
+  // "phonenumber": "9585570988001",
+  // "name": "felixcomp2new",
+  // "location": "new",
+  // "companySize": null,
+  // "about": "new",
+  // "established": "new",
+  // "jobsPosted": "{'ids': [1, 2, 3] }",
+  // "companyType": "new",
+  // "links": "new"
+
+  const {photourl,about,name,companyType,companySize,location,links,established,jobsPosted} = userData;
+  
   useEffect(()=>{
     if(isAuthenticated())
     getCompanyWithId(uId,isAuthenticated().access_token)
@@ -62,7 +76,15 @@ const DashboardSettings = () => {
                     photourl: res.photoURL,
                     email:res.email,
                     phonenumber:res.phonenumber,
-                    company_name: res.name,
+                    name: res.name,
+                    location:res.location,
+                    companySize:res.companySize,
+                    about:res.about,
+                    established:res.established,
+                    jobsPosted:res.jobsPosted,
+                    companyType:res.companyType,
+                    links:res.links
+                    
         
         
                   })
@@ -74,7 +96,7 @@ const DashboardSettings = () => {
             photourl: data.photoURL,
             email:data.email,
             phonenumber:data.phonenumber,
-            company_name: data.name,
+            name: data.name,
 
 
           })
@@ -87,6 +109,25 @@ const DashboardSettings = () => {
   const handleChange = name => event =>{
     setUserData({
         ...userData,[name]:event.target.value
+    })
+}
+
+const updateProfile = () =>{
+  console.log(userData)
+  let tkn = isAuthenticated().access_token;
+  let uid = isAuthenticated().user_id;
+  updateCompanyDetails(tkn,uid,userData)
+    .then((data)=>{
+      console.log(data)
+      if(data.error==="token_expired"){
+        refreshToken(isAuthenticated().refresh_token)
+          .then(data=>{
+            updateCompanyDetails(data.access_token,uid,userData)
+              .then(res=>{
+                console.log(res)
+              })
+          })
+      }
     })
 }
   
@@ -146,8 +187,8 @@ const DashboardSettings = () => {
                                 className="form-control h-px-48"
                                 id="namedash"
                                 placeholder="eg. Apple"
-                                value={company_name}
-                                onChange={handleChange("company_name")}
+                                value={name}
+                                onChange={handleChange("name")}
                               />
                             </div>
                           </div>
@@ -157,7 +198,7 @@ const DashboardSettings = () => {
                                 htmlFor="select2"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                Corporate Type
+                                Company Type
                               </label>
                               <Select
                                 options={defaultTypes}
@@ -174,13 +215,9 @@ const DashboardSettings = () => {
                                 htmlFor="select3"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                Employee Size{" "}
+                                Company Size{" "}
                               </label>
-                              <Select
-                                options={defaultEmployees}
-                                className="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100 "
-                                border={false}
-                              />
+                              <input type="number" value={companySize} onChange={handleChange("companySize")} />
                             </div>
                           </div>
                           <div className="col-lg-6">
@@ -214,6 +251,8 @@ const DashboardSettings = () => {
                                 id="aboutTextarea"
                                 cols="30"
                                 rows="7"
+                                value={about}
+                                onChange={handleChange("about")}
                                 className="border border-mercury text-gray w-100 pt-4 pl-6"
                                 placeholder="Describe about the company what make it unique"
                               ></textarea>
@@ -229,16 +268,17 @@ const DashboardSettings = () => {
                               </label>
                               <input
                                 type="text"
+                                value={links}
+                                onChange={handleChange("links")}
                                 className="form-control"
                                 id="formGroupExampleInput"
                                 placeholder="https://www.example.com"
                               />
                             </div>
-                            <input
-                              type="button"
-                              value="Update Profile"
-                              className="btn btn-green btn-h-60 text-white min-width-px-210 rounded-5 text-uppercase"
-                            />
+                              <button className="btn btn-green btn-h-60 text-white min-width-px-210 rounded-5 text-uppercase" onClick={(e)=>{
+                                e.preventDefault();
+                                updateProfile()
+                              }}>Update Profile</button>
                           </div>
                         </div>
                       </fieldset>

@@ -50,6 +50,22 @@ export const SigninUser = (user) => {
     .catch(err => console.log(err))
 }
 
+export const SigninCompany = (user) => {
+    return  fetch(`${API}companylogin`,{
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(user)
+
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err))
+}
+
 
 export const authenticate = (data,next) =>{
     if(typeof window !== "undefined"){
@@ -152,3 +168,20 @@ export const refreshToken = (ref_token) => {
 }
 
 
+export const updateCompanyDetails = (token,uid,edited_data) => {
+    return  fetch(`${API}company/${uid}`,{
+        method:"PUT",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+            
+        },
+        body: JSON.stringify(edited_data)
+
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err))
+}

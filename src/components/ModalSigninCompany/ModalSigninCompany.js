@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
-import { authenticate, SigninUser } from "../../helper";
+import { authenticate, SigninCompany } from "../../helper";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -10,14 +10,14 @@ const ModalStyled = styled(Modal)`
   } */
 `;
 
-const ModalSignIn = (props) => {
+const ModalSigninCompany = (props) => {
   const [showPass, setShowPass] = useState(true);
   const gContext = useContext(GlobalContext);
   const [phonenumber,setPhonenumber] = useState("");
   const [password,setPassword] = useState("");
 
   const handleClose = () => {
-    gContext.toggleSignInModal();
+    gContext.toggleSigninCompany();
   };
 
   const togglePassword = () => {
@@ -32,29 +32,29 @@ const ModalSignIn = (props) => {
   }
   //console.log
       // console.log(user)
-      SigninUser(user)
+      SigninCompany(user)
         .then((data)=>{
           if(data.message==="Invalid Credentials!"){
               alert("enter valid credentials");
           }else{
             setPhonenumber("");
             setPassword("");
-            if(data.status==2){
+            // if(data.status==2){
 
               authenticate(data,()=>{
                 console.log("signed in and authenticated");
-                gContext.toggleSignInModal();
+                gContext.toggleSigninCompany();
   
                 // console.log(data);
   
                
               })
 
-            }else{
-              gContext.toggleSignInModal();
+            // }else{
+            //   gContext.toggleSigninCompany();
 
-              gContext.toggleConfirmEmail();
-            }
+            //   gContext.toggleConfirmEmail();
+            // }
             
            
           }
@@ -67,8 +67,8 @@ const ModalSignIn = (props) => {
       {...props}
       size="lg"
       centered
-      show={gContext.signInModalVisible}
-      onHide={gContext.toggleSignInModal}
+      show={gContext.signinComp}
+      onHide={gContext.toggleSigninCompany}
     >
       <Modal.Body className="p-0">
         <button
@@ -87,7 +87,7 @@ const ModalSignIn = (props) => {
                     Welcome
                   </h3>
                   <p className="mb-0 font-size-4 text-white">
-                    Log in to continue your account and explore new jobs.
+                    Log in to continue your account.
                   </p>
                 </div>
                 <div className="border-top border-default-color-2 mt-auto">
@@ -187,8 +187,6 @@ const ModalSignIn = (props) => {
                     }}>
                       Log in{" "}
                     </button>
-                    <p className="text-center">(or)</p>
-                    
                   </div>
                   <p className="font-size-4 text-center heading-default-color">
                     Don’t have an account?{" "}
@@ -197,12 +195,6 @@ const ModalSignIn = (props) => {
                     </a>
                   </p>
                 </form>
-                <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
-                      e.preventDefault();
-                      gContext.toggleSignInModal();
-                      console.log(gContext.signinComp)
-                      gContext.toggleSigninCompany();
-                    }}>Signin as company</button>
               </div>
             </div>
           </div>
@@ -212,4 +204,4 @@ const ModalSignIn = (props) => {
   );
 };
 
-export default ModalSignIn;
+export default ModalSigninCompany;

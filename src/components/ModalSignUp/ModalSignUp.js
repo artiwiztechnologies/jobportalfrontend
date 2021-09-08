@@ -69,7 +69,8 @@ const ModalSignUp = (props) => {
           setPassword("");
           setConfirmPass("");
           gContext.toggleSignUpModal()
-          gContext.toggleSignInModal()
+          gContext.toggleConfirmEmail()
+          
         })
     }
     else{

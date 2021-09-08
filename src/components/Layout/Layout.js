@@ -12,6 +12,8 @@ import ModalVideo from "../ModalVideo";
 import ModalApplication from "../ModalApplication";
 import ModalSignIn from "../ModalSignIn";
 import ModalSignUp from "../ModalSignUp";
+import ModalSigninCompany from "../ModalSigninCompany";
+
 
 import GlobalContext from "../../context/GlobalContext";
 
@@ -25,6 +27,9 @@ import { get, merge } from "lodash";
 import { theme as baseTheme } from "../../utils";
 import TestComp from "../TestComp";
 import ModalCompanySignUp from "../ModalCompanySignup/ModalCompanySignup";
+import ConfirmEmailModal from "../ConfirmEmailModal/ConfirmEmailModal";
+
+
 
 const Loader = styled.div`
   position: fixed;
@@ -112,6 +117,7 @@ const Layout = ({ children, pageContext }) => {
           <ModalSignIn />
           <ModalSignUp />
           <TestComp />
+          <ModalSigninCompany />
         </div>
       </ThemeProvider>
     );
@@ -149,6 +155,7 @@ const Layout = ({ children, pageContext }) => {
           <ModalSignIn />
           <ModalSignUp />
           <ModalCompanySignUp />
+          <ModalSigninCompany />
         </div>
       </ThemeProvider>
     );
@@ -180,6 +187,8 @@ const Layout = ({ children, pageContext }) => {
           <ModalSignIn />
           <ModalSignUp />
           <ModalCompanySignUp />
+          <ConfirmEmailModal />
+          <ModalSigninCompany />
 
         </div>
       </ThemeProvider>
