@@ -51,9 +51,9 @@ const ModalSignUp = (props) => {
         "name": name,
         "phonenumber": phonenumber,
         "email": email,
-        "address": address,
+        
         "password": password,
-        "photoURL": photourl,
+        
         "active": true,
         "status":2
     }

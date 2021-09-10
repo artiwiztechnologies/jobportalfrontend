@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import {useRouter} from "next/router"
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
@@ -11,6 +12,7 @@ const ModalStyled = styled(Modal)`
 `;
 
 const ModalSigninCompany = (props) => {
+  const router = useRouter();
   const [showPass, setShowPass] = useState(true);
   const gContext = useContext(GlobalContext);
   const [phonenumber,setPhonenumber] = useState("");
@@ -34,7 +36,7 @@ const ModalSigninCompany = (props) => {
       // console.log(user)
       SigninCompany(user)
         .then((data)=>{
-          if(data.message==="Invalid Credentials!"){
+          if(data.message || data.message==="Invalid Credentials!"){
               alert("enter valid credentials");
           }else{
             setPhonenumber("");
@@ -44,6 +46,8 @@ const ModalSigninCompany = (props) => {
               authenticate(data,()=>{
                 console.log("signed in and authenticated");
                 gContext.toggleSigninCompany();
+                router.push("/dashboard-settings")
+
   
                 // console.log(data);
   

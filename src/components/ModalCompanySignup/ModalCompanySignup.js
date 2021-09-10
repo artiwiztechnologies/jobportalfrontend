@@ -49,9 +49,9 @@ const ModalCompanySignUp = (props) => {
         "name": companyname,
         "phonenumber": phonenumber,
         "email": email,
-        "address": address,
+        
         "password": password,
-        "photoURL": photo ? photo : "https://image.shutterstock.com/image-vector/cartoon-crocodile-isolated-on-white-260nw-1019020537.jpg",
+        
         "active": true,
         "status":2
     }

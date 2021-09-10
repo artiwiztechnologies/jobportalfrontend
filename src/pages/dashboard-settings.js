@@ -4,6 +4,7 @@ import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 
 import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails} from "../helper/index";
+import {useRouter} from "next/router";
 
 
 
@@ -29,7 +30,10 @@ const defaultLocations = [
 ];
 
 const DashboardSettings = () => {
-  const uId = isAuthenticated().user_id;
+
+
+  const router = useRouter();
+  const uId = isAuthenticated().company_id;
   const [userData,setUserData] = useState({
     email:"",
     photourl:"",
@@ -60,8 +64,10 @@ const DashboardSettings = () => {
   
   useEffect(()=>{
     if(isAuthenticated())
+    console.log(uId);
     getCompanyWithId(uId,isAuthenticated().access_token)
       .then(data =>{
+        console.log(data);
         if(data.error==="token_expired"){
           console.log("token expired refreshing please wait");
           let ref_tkn = isAuthenticated().refresh_token;
@@ -94,9 +100,16 @@ const DashboardSettings = () => {
           setUserData({
             ...userData,
             photourl: data.photoURL,
-            email:data.email,
-            phonenumber:data.phonenumber,
-            name: data.name,
+                    email:data.email,
+                    phonenumber:data.phonenumber,
+                    name: data.name,
+                    location:data.location,
+                    companySize:data.companySize,
+                    about:data.about,
+                    established:data.established,
+                    jobsPosted:data.jobsPosted,
+                    companyType:data.companyType,
+                    links:data.links
 
 
           })
@@ -115,7 +128,7 @@ const DashboardSettings = () => {
 const updateProfile = () =>{
   console.log(userData)
   let tkn = isAuthenticated().access_token;
-  let uid = isAuthenticated().user_id;
+  let uid = isAuthenticated().company_id;
   updateCompanyDetails(tkn,uid,userData)
     .then((data)=>{
       console.log(data)
@@ -124,7 +137,9 @@ const updateProfile = () =>{
           .then(data=>{
             updateCompanyDetails(data.access_token,uid,userData)
               .then(res=>{
-                console.log(res)
+                console.log(res);
+                router.push("/");
+                
               })
           })
       }
