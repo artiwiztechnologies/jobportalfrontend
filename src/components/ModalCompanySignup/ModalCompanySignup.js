@@ -115,6 +115,7 @@ const ModalCompanySignUp = (props) => {
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
                         New jobs posted today
                       </p>
+
                     </div>
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">14</h3>
@@ -239,7 +240,7 @@ const ModalCompanySignUp = (props) => {
 
                   </div>
 
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label
                       htmlFor="address"
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
@@ -254,25 +255,10 @@ const ModalCompanySignUp = (props) => {
                       placeholder="enter company address"
                       id="address"
                     />
-                  </div>
+                  </div> */}
 
 
-                  <div className="form-group mb-10">
-                    <label
-                      htmlFor="photo"
-                      className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
-                    >
-                      Photo-URL
-                    </label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      value={photo}
-                      onChange={e => setPhoto(e.target.value)}
-                      placeholder="example@gmail.com"
-                      id="photo"
-                    />
-                  </div>
+                  
                   
                   <div className="form-group d-flex flex-wrap justify-content-between mb-1">
                     <label

@@ -185,3 +185,22 @@ export const updateCompanyDetails = (token,uid,edited_data) => {
     })
     .catch(err => console.log(err))
 }
+
+export const updateUserDetails = (token,uid,edited_data) => {
+    return  fetch(`${API}user/${uid}`,{
+        method:"PUT",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+            
+        },
+        body: JSON.stringify(edited_data)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err))
+}
+
+

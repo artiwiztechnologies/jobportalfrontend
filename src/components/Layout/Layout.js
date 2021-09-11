@@ -100,7 +100,7 @@ const Layout = ({ children, pageContext }) => {
         <div data-theme-mode-panel-active data-theme="light">
           <GlobalStyle />
           <Helmet>
-            <title>JustCamp</title>
+            <title>Job Site</title>
             <link rel="icon" type="image/png" href={imgFavicon} />
           </Helmet>
           <Loader id="loading" className={visibleLoader ? "" : "inActive"}>
@@ -133,7 +133,7 @@ const Layout = ({ children, pageContext }) => {
         <div data-theme-mode-panel-active data-theme="light">
           <GlobalStyle />
           <Helmet>
-            <title>JustCamp</title>
+            <title>Job Site</title>
             <link rel="icon" type="image/png" href={imgFavicon} />
           </Helmet>
           <Loader id="loading" className={visibleLoader ? "" : "inActive"}>
@@ -171,7 +171,7 @@ const Layout = ({ children, pageContext }) => {
         <div data-theme-mode-panel-active data-theme="light">
           <GlobalStyle />
           <Helmet>
-            <title>JustCamp</title>
+            <title>Job Site</title>
             <link rel="icon" type="image/png" href={imgFavicon} />
           </Helmet>
           <Loader id="loading" className={visibleLoader ? "" : "inActive"} />

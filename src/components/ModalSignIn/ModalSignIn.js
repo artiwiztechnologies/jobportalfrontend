@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
+
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninUser } from "../../helper";
+import { useRouter } from "next/router";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -11,6 +13,7 @@ const ModalStyled = styled(Modal)`
 `;
 
 const ModalSignIn = (props) => {
+  const router = useRouter();
   const [showPass, setShowPass] = useState(true);
   const gContext = useContext(GlobalContext);
   const [phonenumber,setPhonenumber] = useState("");
@@ -44,6 +47,7 @@ const ModalSignIn = (props) => {
               authenticate(data,()=>{
                 console.log("signed in and authenticated");
                 gContext.toggleSignInModal();
+                router.push("/dashboard-settings-user")
   
                 // console.log(data);
   
@@ -52,7 +56,7 @@ const ModalSignIn = (props) => {
 
             }else{
               gContext.toggleSignInModal();
-
+              router.push("/dashboard-settings-user")
               gContext.toggleConfirmEmail();
             }
             

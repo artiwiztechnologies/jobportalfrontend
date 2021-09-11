@@ -1,0 +1,23 @@
+line 206 header.js
+ <li className="nav-item" {...rest}>
+                              {isExternal ? (
+                                <a
+                                  className="nav-link"
+                                  href={`${name}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {label}
+                                </a>
+                              ) : (
+                                <Link href={`/${name}`}>
+                                  <a
+                                    className="nav-link"
+                                    role="button"
+                                    aria-expanded="false"
+                                  >
+                                    {label}
+                                  </a>
+                                </Link>
+                              )}
+                            </li>

@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 
-import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails} from "../helper/index";
-import {useRouter} from "next/router";
+import { getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateUserDetails } from "../helper/index";
 
 
 
@@ -30,20 +29,14 @@ const defaultLocations = [
 ];
 
 const DashboardSettings = () => {
-
-
-  const router = useRouter();
-  const uId = isAuthenticated().company_id;
+  const uId = isAuthenticated().user_id;
   const [userData,setUserData] = useState({
     email:"",
     photourl:"",
     name:"",
-    companyType:"",
-    companySize:"",
     location:"",
-    established:"",
-    jobsPosted:"",
-    about:"",
+    profession:"",
+    jobsApplied:"",
     phonenumber:"",
     links:"",
     
@@ -60,14 +53,12 @@ const DashboardSettings = () => {
   // "companyType": "new",
   // "links": "new"
 
-  const {photourl,about,name,companyType,companySize,location,links,established,jobsPosted} = userData;
+  const { photourl,about,name,location,links,email,jobsApplied,profession } = userData;
   
   useEffect(()=>{
     if(isAuthenticated())
-    console.log(uId);
-    getCompanyWithId(uId,isAuthenticated().access_token)
+    getUserWithId(uId,isAuthenticated().access_token)
       .then(data =>{
-        console.log(data);
         if(data.error==="token_expired"){
           console.log("token expired refreshing please wait");
           let ref_tkn = isAuthenticated().refresh_token;
@@ -75,7 +66,7 @@ const DashboardSettings = () => {
             .then(data=>{
               console.log(data);
               let new_tkn = data.access_token;
-              getCompanyWithId(uId,new_tkn)
+              getUserWithId(uId,new_tkn)
                 .then(res=>{
                   setUserData({
                     ...userData,
@@ -84,36 +75,26 @@ const DashboardSettings = () => {
                     phonenumber:res.phonenumber,
                     name: res.name,
                     location:res.location,
-                    companySize:res.companySize,
-                    about:res.about,
-                    established:res.established,
-                    jobsPosted:res.jobsPosted,
-                    companyType:res.companyType,
-                    links:res.links
-                    
-        
-        
+                    jobsApplied:res.jobsApplied,
+                    profession:res.profession,
+                    links:res.links   
                   })
                 })
             })
-        }else{
+          }else{
+        //   console.log(data)
+        //   console.log(userData)
           setUserData({
             ...userData,
             photourl: data.photoURL,
-                    email:data.email,
-                    phonenumber:data.phonenumber,
-                    name: data.name,
-                    location:data.location,
-                    companySize:data.companySize,
-                    about:data.about,
-                    established:data.established,
-                    jobsPosted:data.jobsPosted,
-                    companyType:data.companyType,
-                    links:data.links
-
-
+            email:data.email,
+            phonenumber:data.phonenumber,
+            name: data.name,
+            location:data.location,
+            jobsApplied:data.jobsApplied,
+            profession:data.profession,
+            links:data.links 
           })
-          console.log(data)
           
         }
       })
@@ -128,24 +109,18 @@ const DashboardSettings = () => {
 const updateProfile = () =>{
   console.log(userData)
   let tkn = isAuthenticated().access_token;
-  let uid = isAuthenticated().company_id;
-  updateCompanyDetails(tkn,uid,userData)
+  let uid = isAuthenticated().user_id;
+  updateUserDetails(tkn,uid,userData)
     .then((data)=>{
-      // console.log(data)
+      console.log(data)
       if(data.error==="token_expired"){
         refreshToken(isAuthenticated().refresh_token)
           .then(data=>{
-            updateCompanyDetails(data.access_token,uid,userData)
+            updateUserDetails(data.access_token,uid,userData)
               .then(res=>{
-                console.log(res);
-                alert("successfully updated");
-                router.push("/");
-                
+                console.log(res)
               })
           })
-      }else{
-        alert("successfully updated");
-        router.push("/");
       }
     })
 }
@@ -169,7 +144,7 @@ const updateProfile = () =>{
               <div className="row">
                 <div className="col-xxxl-9 px-lg-13 px-6">
                   <h5 className="font-size-6 font-weight-semibold mb-11">
-                    Update Company Profile
+                    Update User Profile
                   </h5>
                   <div className="contact-form bg-white shadow-8 rounded-4 pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13">
                     <div className="upload-file mb-16 text-center">
@@ -199,7 +174,7 @@ const updateProfile = () =>{
                                 htmlFor="namedash"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                Company Name
+                                Name
                               </label>
                               <input
                                 type="text"
@@ -214,38 +189,24 @@ const updateProfile = () =>{
                           <div className="col-lg-6">
                             <div className="form-group">
                               <label
-                                htmlFor="select2"
+                                htmlFor="namedash"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                Company Type
-                              </label>
-                              <Select
-                                options={defaultTypes}
-                                className="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100 "
-                                border={false}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mb-8">
-                          <div className="col-lg-6 mb-xl-0 mb-7">
-                            <div className="form-group position-relative">
-                              <label
-                                htmlFor="select3"
-                                className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
-                              >
-                                Company Size{" "}
+                                Profession
                               </label>
                               <input
                                 type="text"
                                 className="form-control h-px-48"
                                 id="namedash"
-                                placeholder=""
-                                value={companySize}
-                                onChange={handleChange("companySize")}
+                                placeholder="eg. Apple"
+                                value={profession}
+                                onChange={handleChange("profession")}
                               />
                             </div>
                           </div>
+                        </div>
+                        <div className="row mb-8">
+                          
                           <div className="col-lg-6">
                             <div className="form-group position-relative">
                               <label
@@ -262,6 +223,24 @@ const updateProfile = () =>{
                               <span className="h-100 w-px-50 pos-abs-tl d-flex align-items-center justify-content-center font-size-6"></span>
                             </div>
                           </div>
+                          {/* <div className="col-lg-6">
+                            <div className="form-group">
+                              <label
+                                htmlFor="namedash"
+                                className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
+                              >
+                                Company Name
+                              </label>
+                              <input
+                                type="file"
+                                className="form-control h-px-48"
+                                id="namedash"
+                                placeholder="eg. Apple"
+                                value={name}
+                                onChange={handleChange("name")}
+                              />
+                            </div>
+                          </div> */}
                         </div>
                         <div className="row">
                           <div className="col-md-12">
@@ -270,7 +249,7 @@ const updateProfile = () =>{
                                 htmlFor="aboutTextarea"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                About Comapny
+                                About Yourself
                               </label>
                               <textarea
                                 name="textarea"
@@ -290,7 +269,7 @@ const updateProfile = () =>{
                                 htmlFor="formGroupExampleInput"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                Company Website Link
+                                Portfolio Link
                               </label>
                               <input
                                 type="text"

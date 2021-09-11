@@ -13,7 +13,8 @@ import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 
 import imgP from "../../assets/image/header-profile.png";
-import { isAuthenticated } from "../../helper";
+import { isAuthenticated, signout } from "../../helper";
+import {useRouter} from "next/router";
 
 const SiteHeader = styled.header`
   .dropdown-toggle::after {
@@ -53,7 +54,7 @@ const Header = () => {
   const gContext = useContext(GlobalContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
-
+  const router = useRouter();
   const size = useWindowSize();
 
   useScrollPosition(({ prevPos, currPos }) => {
@@ -113,7 +114,7 @@ const Header = () => {
                       const hasSubItems = Array.isArray(items);
                       return (
                         <React.Fragment key={name + index}>
-                          {hasSubItems ? (
+                          {hasSubItems && label != "Home" ? (
                             <li className="nav-item dropdown" {...rest}>
                               <a
                                 className="nav-link dropdown-toggle gr-toggle-arrow"
@@ -203,28 +204,7 @@ const Header = () => {
                               </ul>
                             </li>
                           ) : (
-                            <li className="nav-item" {...rest}>
-                              {isExternal ? (
-                                <a
-                                  className="nav-link"
-                                  href={`${name}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {label}
-                                </a>
-                              ) : (
-                                <Link href={`/${name}`}>
-                                  <a
-                                    className="nav-link"
-                                    role="button"
-                                    aria-expanded="false"
-                                  >
-                                    {label}
-                                  </a>
-                                </Link>
-                              )}
-                            </li>
+                           null
                           )}
                         </React.Fragment>
                       );
@@ -277,16 +257,20 @@ const Header = () => {
                             Settings
                           </a>
                         </Link>
-                        <Link href="/#">
+                        <Link href="/dashboard-settings-user">
                           <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
                             Edit Profile
                           </a>
                         </Link>
-                        <Link href="/#">
-                          <a className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
+                        <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
+                            signout(()=>{
+                              console.log("signout success");
+                              router.push("/");
+
+                            },isAuthenticated().access_token)
+                          }}>
                             Log Out
-                          </a>
-                        </Link>
+                          </button>
                       </Dropdown.Menu>
                     ) : (
                       <div
@@ -298,16 +282,21 @@ const Header = () => {
                             Settings
                           </a>
                         </Link>
-                        <Link href="/#">
+                        <Link href="/dashboard-settings-user">
                           <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
                             Edit Profile
                           </a>
                         </Link>
-                        <Link href="/#">
-                          <a className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
+                        
+                          <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
+                            signout(()=>{
+                              console.log("signout success");
+                              router.push("/");
+                            },isAuthenticated().access_token)
+                          }}>
                             Log Out
-                          </a>
-                        </Link>
+                          </button>
+                        
                       </div>
                     )}
                   </Dropdown>
