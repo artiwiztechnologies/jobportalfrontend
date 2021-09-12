@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { Container, Dropdown } from "react-bootstrap";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import Link from "next/link";
-
+import {Avatar} from "@material-ui/core";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import GlobalContext from "../../context/GlobalContext";
 import Offcanvas from "../Offcanvas";
@@ -13,8 +13,9 @@ import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 
 import imgP from "../../assets/image/header-profile.png";
-import { isAuthenticated, signout } from "../../helper";
+import { getCompanyWithId, isAuthenticated, signout } from "../../helper";
 import {useRouter} from "next/router";
+
 
 const SiteHeader = styled.header`
   .dropdown-toggle::after {
@@ -69,6 +70,16 @@ const Header = () => {
       setShowReveal(false);
     }
   });
+  const [img_url,setImg_url] = useState("");
+  useEffect(()=>{
+    if(isAuthenticated()){
+      getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
+          .then(res =>{
+              // console.log(res)
+              setImg_url(res.photoURL)
+          })
+    } 
+  },[])
 
   return (
     <>
@@ -320,7 +331,11 @@ const Header = () => {
                 </a>
                   ) 
                 }
-                <a
+                {
+                  isAuthenticated() ? (
+                    <Avatar src="" />
+                  ):(
+                  <a
                   className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
                   href="/#"
                   onClick={(e) => {
@@ -329,7 +344,9 @@ const Header = () => {
                   }}
                 >
                   Sign Up
-                </a>
+                </a>)
+                }
+                
               </div>
             )}
 

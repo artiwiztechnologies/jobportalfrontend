@@ -86,6 +86,7 @@ export const isAuthenticated = () => {
     }
   };
 
+
 export const signout = (next,token) => {
     if(typeof window !== "undefined"){
         localStorage.removeItem("jwt")
@@ -162,6 +163,11 @@ export const refreshToken = (ref_token) => {
         }
     })
     .then(res =>{
+        // let data = isAuthenticated();
+        // console.log(data);
+        
+        // data.access_token=res.access_token;
+        // console.log(data)
         return res.json()
     })
     .catch(err => console.log(err));
@@ -204,3 +210,25 @@ export const updateUserDetails = (token,uid,edited_data) => {
 }
 
 
+export const imageUpload = (tkn,imgfile) =>{
+    const formData = new FormData();
+    formData.append('file',imgfile);
+    
+    return fetch(`${API}uploadcompanyphoto`,{
+        method:"POST",
+        
+        headers:{
+            
+            
+            Authorization: `Bearer ${tkn}`
+        },
+        body: formData
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+    
+}

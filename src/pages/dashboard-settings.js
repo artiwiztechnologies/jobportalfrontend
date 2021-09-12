@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 
-import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails} from "../helper/index";
+import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails, imageUpload} from "../helper/index";
 import {useRouter} from "next/router";
+import TestComp from "../components/TestComp";
 
 
 
@@ -33,6 +34,9 @@ const DashboardSettings = () => {
 
 
   const router = useRouter();
+  const [imgfile,setImgfile] = useState(false);
+  const [showUploadbtn,setShowUploadbtn] = useState();
+  const [generatedImgurl,setGeneratedImgurl] = useState("");
   const uId = isAuthenticated().company_id;
   const [userData,setUserData] = useState({
     email:"",
@@ -49,6 +53,9 @@ const DashboardSettings = () => {
     
   });
 
+  let auth_data = isAuthenticated();
+
+
   // "email": "felixjordanew312@gmail.com",
   // "phonenumber": "9585570988001",
   // "name": "felixcomp2new",
@@ -61,6 +68,24 @@ const DashboardSettings = () => {
   // "links": "new"
 
   const {photourl,about,name,companyType,companySize,location,links,established,jobsPosted} = userData;
+  // const formdata = new FormData();
+
+
+  // const uploadImage = (e) => {
+     
+  //   // const val_name = "file";
+  //   // const value = e.target.files[0];
+  //   // const formData = new FormData();
+  //   // formData.set(val_name,value);
+  //   const uid=isAuthenticated().company_id;
+  //   const tkn=isAuthenticated().access_token;
+    
+    
+  //   imageUpload(tkn,imgfile)
+  //     .then(data=>{
+  //       console.log(data)
+  //     })
+  // }
   
   useEffect(()=>{
     if(isAuthenticated())
@@ -75,7 +100,12 @@ const DashboardSettings = () => {
             .then(data=>{
               console.log(data);
               let new_tkn = data.access_token;
-              getCompanyWithId(uId,new_tkn)
+              
+                auth_data.access_token=data.access_token;
+              if(typeof window !== "undefined"){
+
+                localStorage.setItem("jwt",JSON.stringify(auth_data))
+                getCompanyWithId(uId,new_tkn)
                 .then(res=>{
                   setUserData({
                     ...userData,
@@ -95,6 +125,9 @@ const DashboardSettings = () => {
         
                   })
                 })
+                
+                
+            }
             })
         }else{
           setUserData({
@@ -149,6 +182,8 @@ const updateProfile = () =>{
       }
     })
 }
+
+
   
   return (
     <>
@@ -186,9 +221,45 @@ const updateProfile = () =>{
                         <input
                           type="file"
                           id="fileUpload"
+                          
+                          onChange={(e)=>{
+                            // const val_name = "file";
+                            // const value = e.target.files[0];
+                            // const formData = new FormData();
+                            // // formData.set(val_name,value);
+                            // const uid=isAuthenticated().company_id;
+                            // const tkn=isAuthenticated().access_token;
+                            
+                            // formData.set('file',e.target.files[0])
+                            // imageUpload(uid,tkn,formData);
+                            
+                            // formdata.set('file',e.target.files[0])
+                            if(e.target.files){
+                              console.log(e.target.files[0]);
+                              setImgfile(e.target.files[0]);
+                              setShowUploadbtn(!showUploadbtn);
+                              if(e.target.files[0] ){
+                                imageUpload(isAuthenticated().access_token,e.target.files[0])
+                                  .then(res=>{
+                                    console.log(res)
+                                    setUserData({
+                                      ...userData,photourl:res.photoURL
+                                    })
+                                  })
+                              }
+                              
+                            }
+
+
+                          }}
                           className="sr-only"
                         />
+                       
+                        
                       </div>
+                      {
+                         photourl.length !=0 ? (<img src={photourl} alt="" />):(null)
+                       }
                     </div>
                     <form action="/">
                       <fieldset>
@@ -305,6 +376,7 @@ const updateProfile = () =>{
                                 e.preventDefault();
                                 updateProfile()
                               }}>Update Profile</button>
+                              {/* <TestComp /> */}
                           </div>
                         </div>
                       </fieldset>
@@ -315,6 +387,7 @@ const updateProfile = () =>{
             </div>
           </div>
         </div>
+        
       </PageWrapper>
     </>
   );

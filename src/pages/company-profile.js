@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Nav, Tab } from "react-bootstrap";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
@@ -9,7 +9,7 @@ import imgB2 from "../assets/image/l1/png/feature-brand-4.png";
 import imgB3 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB4 from "../assets/image/l3/png/github-mark.png";
 import imgB5 from "../assets/image/l3/png/universal.png";
-import { isAuthenticated,getUserWithId } from "../helper";
+import { isAuthenticated,getUserWithId, getCompanyWithId, refreshToken } from "../helper";
 
 
 const CandidateProfile = () => {
@@ -21,6 +21,40 @@ const CandidateProfile = () => {
   //   .catch((err)=>{
   //     console.log(err);
   //   })
+  let c_id=isAuthenticated().company_id;
+  let tkn = isAuthenticated().access_token;
+  let r_tkn = isAuthenticated().refresh_token;
+  let auth_data = isAuthenticated();
+  
+ 
+  
+
+
+  
+  useEffect(()=>{
+    if(isAuthenticated()){
+      getCompanyWithId(c_id,tkn)
+       .then(data=>{
+         console.log(data);
+         if(data.error==="token_expired"){
+           refreshToken(r_tkn)
+            .then(data=>{
+              auth_data.access_token=data.access_token;
+              if(typeof window !== "undefined"){
+
+                localStorage.setItem("jwt",JSON.stringify(auth_data))
+                getCompanyWithId(c_id,data.access_token)
+                  .then(res=>{
+                    console.log(res)
+                  })
+                
+                
+            }
+            })
+         }
+       })
+    }
+  },[])
   return (
     <>
       <PageWrapper headerConfig={{ button: "profile" }}>
