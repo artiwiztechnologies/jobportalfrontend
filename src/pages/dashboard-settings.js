@@ -5,7 +5,7 @@ import { Select } from "../components/Core";
 
 import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails, imageUpload} from "../helper/index";
 import {useRouter} from "next/router";
-import TestComp from "../components/TestComp";
+
 // import dashboardstyles from "../styles/Dashboard-settings.module.css";
 
 
@@ -219,7 +219,7 @@ const updateProfile = () =>{
                         <input
                           type="file"
                           id="fileUpload"
-                          className="custom-file-input"
+                          // className="custom-file-input"
                           placeholder="upload an image"
                           style={{border:"none"}}
                           onChange={(e)=>{
