@@ -232,3 +232,27 @@ export const imageUpload = (tkn,imgfile) =>{
     })
     
 }
+
+
+export const UserImageUpload = (tkn,imgfile) =>{
+    const formData = new FormData();
+    formData.append('file',imgfile);
+    
+    return fetch(`${API}uploaduserphoto`,{
+        method:"POST",
+        
+        headers:{
+            
+            
+            Authorization: `Bearer ${tkn}`
+        },
+        body: formData
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+    
+}

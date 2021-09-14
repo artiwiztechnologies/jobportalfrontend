@@ -216,6 +216,10 @@ const updateProfile = () =>{
                          photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px"}} />):(null)
                        }
 
+                       {/* <label>
+                         Change your profile pic
+                       </label> */}
+
                         <input
                           type="file"
                           id="fileUpload"

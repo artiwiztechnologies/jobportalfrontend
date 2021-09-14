@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { Collapse } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
-import imgL from "../../assets/image/logo-main-black.png";
+// import imgL from "../../assets/image/logo-main-black.png";
+import Textilejobs2 from "../../assets/Textilejobs2.png";
 
 const Sidebar = () => {
   const gContext = useContext(GlobalContext);
@@ -14,7 +15,7 @@ const Sidebar = () => {
           <div className="brand-logo px-11">
             <Link href="/">
               <a>
-                <img src={imgL} alt="" />
+                <img src={Textilejobs2} alt="" />
               </a>
             </Link>
           </div>
