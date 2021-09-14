@@ -13,7 +13,7 @@ import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 
 import imgP from "../../assets/image/header-profile.png";
-import { getCompanyWithId, isAuthenticated, signout } from "../../helper";
+import { getCompanyWithId, isAuthenticated, refreshToken, signout } from "../../helper";
 import {useRouter} from "next/router";
 
 
@@ -57,7 +57,8 @@ const Header = () => {
   const [showReveal, setShowReveal] = useState(false);
   const router = useRouter();
   const size = useWindowSize();
-
+  const authdata=isAuthenticated();
+  
   useScrollPosition(({ prevPos, currPos }) => {
     if (currPos.y < 0) {
       setShowScrolling(true);
@@ -72,11 +73,33 @@ const Header = () => {
   });
   const [img_url,setImg_url] = useState("");
   useEffect(()=>{
-    if(isAuthenticated()){
+    if(isAuthenticated() && isAuthenticated().company_id){
       getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
-          .then(res =>{
-              // console.log(res)
-              setImg_url(res.photoURL)
+          .then(data =>{
+            if(data.error==="token_expired"){
+              refreshToken(authdata.refresh_token)
+                .then(res=>{
+                  authdata.access_token=res.access_token;
+              if(typeof window !== "undefined"){
+
+                localStorage.setItem("jwt",JSON.stringify(authdata))
+                getCompanyWithId(authdata.company_id,res.access_token)
+                  .then(respo=>{
+                    console.log(respo)
+              setImg_url(respo.photoURL)
+
+
+                  })
+                
+                
+                
+            }
+                })
+            }else{
+              console.log(data)
+              setImg_url(data.photoURL)
+            }
+              
           })
     } 
   },[])
@@ -333,7 +356,7 @@ const Header = () => {
                 }
                 {
                   isAuthenticated() ? (
-                    <Avatar src="" />
+                    <Avatar src={img_url} />
                   ):(
                   <a
                   className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}

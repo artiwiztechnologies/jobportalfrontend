@@ -6,6 +6,7 @@ import { Select } from "../components/Core";
 import {getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateCompanyDetails, imageUpload} from "../helper/index";
 import {useRouter} from "next/router";
 import TestComp from "../components/TestComp";
+// import dashboardstyles from "../styles/Dashboard-settings.module.css";
 
 
 
@@ -207,33 +208,22 @@ const updateProfile = () =>{
                     Update Company Profile
                   </h5>
                   <div className="contact-form bg-white shadow-8 rounded-4 pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13">
-                    <div className="upload-file mb-16 text-center">
-                      <div
-                        id="userActions"
-                        className="square-144 m-auto px-6 mb-7"
-                      >
-                        <label
-                          htmlFor="fileUpload"
-                          className="mb-0 font-size-4 text-smoke"
-                        >
-                          Browse or Drag and Drop
-                        </label>
+                  
+                    <div className="upload-file mb-16">
+                    
+                      
+                    {
+                         photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px"}} />):(null)
+                       }
+
                         <input
                           type="file"
                           id="fileUpload"
-                          
+                          className="custom-file-input"
+                          placeholder="upload an image"
+                          style={{border:"none"}}
                           onChange={(e)=>{
-                            // const val_name = "file";
-                            // const value = e.target.files[0];
-                            // const formData = new FormData();
-                            // // formData.set(val_name,value);
-                            // const uid=isAuthenticated().company_id;
-                            // const tkn=isAuthenticated().access_token;
                             
-                            // formData.set('file',e.target.files[0])
-                            // imageUpload(uid,tkn,formData);
-                            
-                            // formdata.set('file',e.target.files[0])
                             if(e.target.files){
                               console.log(e.target.files[0]);
                               setImgfile(e.target.files[0]);
@@ -252,14 +242,12 @@ const updateProfile = () =>{
 
 
                           }}
-                          className="sr-only"
+                          // className="sr-only"
                         />
                        
                         
-                      </div>
-                      {
-                         photourl.length !=0 ? (<img src={photourl} alt="" />):(null)
-                       }
+                      
+                      
                     </div>
                     <form action="/">
                       <fieldset>
