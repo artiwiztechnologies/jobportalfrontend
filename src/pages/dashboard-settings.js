@@ -364,7 +364,7 @@ const updateProfile = () =>{
                                 e.preventDefault();
                                 updateProfile()
                               }}>Update Profile</button>
-                              {/* <TestComp /> */}
+                              
                           </div>
                         </div>
                       </fieldset>

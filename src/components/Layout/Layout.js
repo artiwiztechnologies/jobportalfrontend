@@ -25,7 +25,7 @@ import { get, merge } from "lodash";
 
 // the full theme object
 import { theme as baseTheme } from "../../utils";
-import TestComp from "../TestComp";
+
 import ModalCompanySignUp from "../ModalCompanySignup/ModalCompanySignup";
 import ConfirmEmailModal from "../ConfirmEmailModal/ConfirmEmailModal";
 
@@ -116,7 +116,7 @@ const Layout = ({ children, pageContext }) => {
           <ModalApplication />
           <ModalSignIn />
           <ModalSignUp />
-          <TestComp />
+          
           <ModalSigninCompany />
         </div>
       </ThemeProvider>
