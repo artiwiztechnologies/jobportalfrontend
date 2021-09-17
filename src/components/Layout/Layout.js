@@ -28,6 +28,7 @@ import { theme as baseTheme } from "../../utils";
 
 import ModalCompanySignUp from "../ModalCompanySignup/ModalCompanySignup";
 import ConfirmEmailModal from "../ConfirmEmailModal/ConfirmEmailModal";
+import NewHeader from "../NewHeader";
 
 
 
@@ -146,6 +147,7 @@ const Layout = ({ children, pageContext }) => {
             ref={eleRef}
           >
             <Header isDark={gContext.headerDark} />
+            {/* <NewHeader /> */}
             <SidebarDashboard />
             {children}
           </div>
@@ -177,6 +179,7 @@ const Layout = ({ children, pageContext }) => {
           <Loader id="loading" className={visibleLoader ? "" : "inActive"} />
           <div className="site-wrapper overflow-hidden" ref={eleRef}>
             <Header isDark={gContext.headerDark} />
+            {/* <NewHeader /> */}
             {children}
 
             <Footer isDark={gContext.footerDark} />

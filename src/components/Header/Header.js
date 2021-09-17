@@ -204,11 +204,27 @@ const Header = () => {
                                                       {itemInner.label}
                                                     </a>
                                                   ) : (
+                                                   itemInner.name==="dashboard-settings" ?(
+                                                        isAuthenticated().company_id ?(
+                                                          <Link
+                                                      href={`/${itemInner.name}`}
+                                                    >
+                                                      <a>{itemInner.label}</a>
+                                                    </Link>
+                                                        ):(
+                                                          <Link
+                                                      href={`/${itemInner.name}-user`}
+                                                    >
+                                                      <a>{itemInner.label}</a>
+                                                    </Link>
+                                                        )
+                                                   ):(
                                                     <Link
                                                       href={`/${itemInner.name}`}
                                                     >
                                                       <a>{itemInner.label}</a>
                                                     </Link>
+                                                   )
                                                   )}
                                                 </li>
                                               )

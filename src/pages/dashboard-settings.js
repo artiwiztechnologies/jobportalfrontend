@@ -186,6 +186,7 @@ const updateProfile = () =>{
 
 
   
+  
   return (
     <>
       <PageWrapper
@@ -213,7 +214,7 @@ const updateProfile = () =>{
                     
                       
                     {
-                         photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px"}} />):(null)
+                         isAuthenticated().company_id ? (photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px"}} />):(null)):(null)
                        }
 
                        {/* <label>
@@ -333,7 +334,7 @@ const updateProfile = () =>{
                                 htmlFor="aboutTextarea"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                About Comapny
+                                About Company
                               </label>
                               <textarea
                                 name="textarea"

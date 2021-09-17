@@ -256,3 +256,27 @@ export const UserImageUpload = (tkn,imgfile) =>{
     })
     
 }
+
+export const UserResumeUpload = (tkn,resume) =>{
+    const formData = new FormData();
+    formData.append('file',resume);
+    
+    return fetch(`${API}user/upload-resume`,{
+        method:"POST",
+        
+        headers:{
+            
+            
+            Authorization: `Bearer ${tkn}`
+        },
+        body: formData
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+    
+}
+

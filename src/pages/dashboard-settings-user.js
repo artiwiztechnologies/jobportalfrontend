@@ -4,7 +4,7 @@ import {useRouter} from "next/router";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 
-import { getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateUserDetails, UserImageUpload } from "../helper/index";
+import { getUserWithId,getCompanyWithId,isAuthenticated, refreshToken, updateUserDetails, UserImageUpload, UserResumeUpload } from "../helper/index";
 
 
 
@@ -32,6 +32,8 @@ const defaultLocations = [
 const DashboardSettings = () => {
   const router = useRouter();
   const [imgfile,setImgfile] = useState(false);
+  const [resfile,setResfile] = useState("");
+  const [resfilename,setResfilename] = useState();
   const [docfile,setDocfile] = useState(false);
   const [showUploadbtn,setShowUploadbtn] = useState();
   const [generatedImgurl,setGeneratedImgurl] = useState("");
@@ -145,6 +147,12 @@ const updateProfile = () =>{
       }
     })
 }
+
+const previewFile = (resfile) =>{
+
+ window.open(resfile)
+
+}
   
   return (
     <>
@@ -168,6 +176,66 @@ const updateProfile = () =>{
                     Update User Profile
                   </h5>
                   <div className="contact-form bg-white shadow-8 rounded-4 pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13">
+                  {/*  */}
+                  <div className="upload-file mb-16 text-center">
+                      <div
+                        id="userActions"
+                        className="square-144 m-auto px-6 mb-7"
+                      >
+                        <label
+                          htmlFor="fileUpload"
+                          className="mb-0 font-size-4 text-smoke"
+                        >
+                          choose file
+                        </label>
+                        <input
+                          type="file"
+                          id="fileUpload"
+                          onChange={(e)=>{
+                            // const val_name = "file";
+                            // const value = e.target.files[0];
+                            // const formData = new FormData();
+                            // // formData.set(val_name,value);
+                            // const uid=isAuthenticated().company_id;
+                            // const tkn=isAuthenticated().access_token;
+                            
+                            // formData.set('file',e.target.files[0])
+                            // imageUpload(uid,tkn,formData);
+                            
+                            // formdata.set('file',e.target.files[0])
+                            if(e.target.files){
+                              console.log(e.target.files[0]);
+                              
+                              setResfilename(e.target.value[0].name)
+                              // setShowUploadbtn(!showUploadbtn);
+                              if(e.target.files[0] ){
+                                UserResumeUpload(isAuthenticated().access_token,e.target.files[0])
+                                  .then(res=>{
+                                    console.log(res);
+                                    setResfile(res.resume);
+                                  })
+                              }
+                              
+                            }
+
+
+                          }}
+                          className="sr-only"
+                        />
+                      </div>
+                      {
+                        <div>
+                        <a href={resfile}>uploaded file</a>
+                        <button onClick={()=>{
+                          previewFile(resfile)
+                        }}>Click</button>
+                        </div>
+                        
+                      }
+                   
+                    </div>
+                    {/*  */}
+
                     <div className="upload-file mb-16 text-center">
                       <div
                         id="userActions"
@@ -215,7 +283,7 @@ const updateProfile = () =>{
                           className="sr-only"
                         />
                       </div>
-                      {
+                      {isAuthenticated().user_id ?(
                          photourl.length !=0 ? (
                            <div style={{marginTop:"26px"}} align="center">
                             <p style={{marginBottom:"10px"}}>Preview Image</p>
@@ -224,7 +292,7 @@ const updateProfile = () =>{
                           {/* </div> */}
                           </div>
 
-                         ):(null)
+                         ):(null)):(null)
                        }
                     </div>
                     <form action="/">
