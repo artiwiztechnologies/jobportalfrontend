@@ -23,7 +23,7 @@ const DashboardJobs = () => {
             //handle error
             console.log("token expired");
           }else{
-            console.log(data)
+            // console.log(data)
             setJobs(data.Jobs);
             console.log(data.Jobs);
           }
@@ -105,7 +105,69 @@ const DashboardJobs = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border border-color-2">
+
+
+                      {/* {
+                        JSON.stringify(jobs[1].des)
+                      } */}
+
+                     
+
+                      {
+                        jobs.map((job) => (
+                          <tr className="border border-color-2">
+                        <th
+                          scope="row"
+                          className="pl-6 border-0 py-7 min-width-px-235"
+                        >
+                          <div className="">
+                            <Link href="/job-details">
+                              <a className="font-size-4 mb-0 font-weight-semibold text-black-2">
+                                {job.title}
+                              </a>
+                            </Link>
+                          </div>
+                        </th>
+                        <td className="table-y-middle py-7 min-width-px-135">
+                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                          {job.job_type}
+                          </h3>
+                        </td>
+                        <td className="table-y-middle py-7 min-width-px-125">
+                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                            New York
+                          </h3>
+                        </td>
+                        <td className="table-y-middle py-7 min-width-px-155">
+                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                            {job.date}
+                          </h3>
+                        </td>
+                        <td className="table-y-middle py-7 min-width-px-205">
+                          <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
+                            4{job.salary}
+                          </h3>
+                        </td>
+                        <td className="table-y-middle py-7 min-width-px-80">
+                          <a
+                            href="/#"
+                            className="font-size-3 font-weight-bold text-green text-uppercase"
+                          >
+                            Edit
+                          </a>
+                        </td>
+                        <td className="table-y-middle py-7 min-width-px-100">
+                          <a
+                            href="/#"
+                            className="font-size-3 font-weight-bold text-red-2 text-uppercase"
+                          >
+                            Delete
+                          </a>
+                        </td>
+                      </tr>
+                        ))
+                      }
+                      {/* <tr className="border border-color-2">
                         <th
                           scope="row"
                           className="pl-6 border-0 py-7 min-width-px-235"
@@ -304,7 +366,7 @@ const DashboardJobs = () => {
                             Delete
                           </a>
                         </td>
-                      </tr>
+                      </tr> */}
                     </tbody>
                   </table>
                 </div>
