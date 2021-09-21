@@ -214,7 +214,7 @@ const updateProfile = () =>{
                     
                       
                     {
-                         isAuthenticated().company_id ? (photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px"}} />):(null)):(null)
+                         isAuthenticated().company_id ? (photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px",height:"200px",width:"200px"}} />):(null)):(null)
                        }
 
                        {/* <label>

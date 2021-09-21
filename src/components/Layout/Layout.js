@@ -29,6 +29,7 @@ import { theme as baseTheme } from "../../utils";
 import ModalCompanySignUp from "../ModalCompanySignup/ModalCompanySignup";
 import ConfirmEmailModal from "../ConfirmEmailModal/ConfirmEmailModal";
 import NewHeader from "../NewHeader";
+import CompanyPostjobModal from "../CompanyPostjobModal/CompanyPostjobModal";
 
 
 
@@ -119,6 +120,8 @@ const Layout = ({ children, pageContext }) => {
           <ModalSignUp />
           
           <ModalSigninCompany />
+          <CompanyPostjobModal />
+
         </div>
       </ThemeProvider>
     );
@@ -146,8 +149,9 @@ const Layout = ({ children, pageContext }) => {
             className="site-wrapper overflow-hidden bg-default-2"
             ref={eleRef}
           >
-            <Header isDark={gContext.headerDark} />
-            {/* <NewHeader /> */}
+            {/* <Header isDark={gContext.headerDark} /> */}
+
+            <NewHeader />
             <SidebarDashboard />
             {children}
           </div>
@@ -158,6 +162,8 @@ const Layout = ({ children, pageContext }) => {
           <ModalSignUp />
           <ModalCompanySignUp />
           <ModalSigninCompany />
+          <CompanyPostjobModal />
+
         </div>
       </ThemeProvider>
     );
@@ -178,8 +184,8 @@ const Layout = ({ children, pageContext }) => {
           </Helmet>
           <Loader id="loading" className={visibleLoader ? "" : "inActive"} />
           <div className="site-wrapper overflow-hidden" ref={eleRef}>
-            <Header isDark={gContext.headerDark} />
-            {/* <NewHeader /> */}
+            {/* <Header isDark={gContext.headerDark} /> */}
+            <NewHeader />
             {children}
 
             <Footer isDark={gContext.footerDark} />
@@ -192,6 +198,7 @@ const Layout = ({ children, pageContext }) => {
           <ModalCompanySignUp />
           <ConfirmEmailModal />
           <ModalSigninCompany />
+          <CompanyPostjobModal />
 
         </div>
       </ThemeProvider>

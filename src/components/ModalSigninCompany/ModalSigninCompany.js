@@ -189,8 +189,11 @@ const ModalSigninCompany = (props) => {
                       e.preventDefault();
                       signinUser();
                     }}>
-                      Log in{" "}
+                      Log in{" "} as company
                     </button>
+                    <p className="text-center">(or)</p>
+                    
+                 
                   </div>
                   <p className="font-size-4 text-center heading-default-color">
                     Don’t have an account?{" "}
@@ -199,6 +202,12 @@ const ModalSigninCompany = (props) => {
                     </a>
                   </p>
                 </form>
+                <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
+                      e.preventDefault();
+                      gContext.toggleSignInModal();
+                      console.log(gContext.signinComp)
+                      gContext.toggleSigninCompany();
+                    }}>Login as individual</button>
               </div>
             </div>
           </div>

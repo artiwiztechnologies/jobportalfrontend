@@ -280,3 +280,41 @@ export const UserResumeUpload = (tkn,resume) =>{
     
 }
 
+export const postJob = (token,j_data) =>{
+    // console.log(j_data)
+
+
+    return fetch(`https://api.jobstextile.com/post-job`,{
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(j_data)
+    })
+    .then(res=>{
+        return res.json();
+    })
+
+    .catch(err=>{
+        console.log(err)
+    })
+}
+
+export const getPostedJobByCompanyFromId = (c_id,tkn) =>{
+    return fetch(`https://api.jobstextile.com/company-jobs/${c_id}`,{
+        method:"GET",
+        headers:{
+            
+            Authorization: `Bearer ${tkn}`
+        }
+    })
+    .then(res=>{
+        return res.json();
+    })
+
+    .catch(err=>{
+        console.log(err);
+    })
+}

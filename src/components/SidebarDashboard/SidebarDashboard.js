@@ -20,11 +20,11 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className="my-15 px-11">
-            <Link href="/#">
+            <div onClick={gContext.togglePostjobModal}>
               <a className="btn btn-primary btn-xl w-100 text-uppercase">
-                <span className="mr-5 d-inline-block">+</span>Post a new job
+                <span  className="mr-5 d-inline-block">+</span>Post a new job
               </a>
-            </Link>
+            </div>
           </div>
           <ul className="list-unstyled dashboard-layout-sidebar">
             <li className="">

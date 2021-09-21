@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
+import { getPostedJobByCompanyFromId,isAuthenticated } from "../helper";
 
 const defaultJobs = [
   { value: "pd", label: "Product Designer" },
@@ -12,6 +13,22 @@ const defaultJobs = [
 ];
 
 const DashboardJobs = () => {
+
+  const [jobs,setJobs] = useState([]);
+  useEffect(()=>{
+    getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
+        .then(data=>{
+          console.log(data);
+          if(data.error==="token_expired"){
+            //handle error
+            console.log("token expired");
+          }else{
+            console.log(data)
+            setJobs(data.Jobs);
+            console.log(data.Jobs);
+          }
+        })
+  },[])
   return (
     <>
       <PageWrapper

@@ -189,7 +189,7 @@ const ModalSignIn = (props) => {
                       e.preventDefault();
                       signinUser();
                     }}>
-                      Log in{" "}
+                      Log in as Individual
                     </button>
                     <p className="text-center">(or)</p>
                     
@@ -206,7 +206,7 @@ const ModalSignIn = (props) => {
                       gContext.toggleSignInModal();
                       console.log(gContext.signinComp)
                       gContext.toggleSigninCompany();
-                    }}>Signin as company</button>
+                    }}>Login as company</button>
               </div>
             </div>
           </div>
