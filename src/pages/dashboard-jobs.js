@@ -16,9 +16,11 @@ const DashboardJobs = () => {
 
   const [jobs,setJobs] = useState([]);
   useEffect(()=>{
+    if(isAuthenticated().company_id)
     getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
         .then(data=>{
           console.log(data);
+          console.log("getting jobs");
           if(data.error==="token_expired"){
             //handle error
             console.log("token expired");
@@ -28,6 +30,8 @@ const DashboardJobs = () => {
             console.log(data.Jobs);
           }
         })
+    else
+        console.log("not a company")
   },[])
   return (
     <>

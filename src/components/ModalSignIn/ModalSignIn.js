@@ -187,7 +187,14 @@ const ModalSignIn = (props) => {
                   <div className="form-group mb-8">
                     <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
-                      signinUser();
+                      console.log(phonenumber);
+                      console.log(password);
+                      if(password.length != 0 && phonenumber.length != 0){
+                        signinUser();
+                      }else{
+                        alert("please enter valid credentials");
+                      }
+                      
                     }}>
                       Log in as Individual
                     </button>

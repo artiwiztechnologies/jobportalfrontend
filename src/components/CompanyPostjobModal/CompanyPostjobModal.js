@@ -53,28 +53,31 @@ const CompanyPostjobModal = (props) => {
   const auth_data = isAuthenticated();
 
   useEffect(()=>{
-    getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
-        .then(data=>{
-          if(data.error==="token_expired"){
-            refreshToken(isAuthenticated().refresh_token)
-              .then(res=>{
-                console.log(res);
-                getCompanyWithId(isAuthenticated().company_id,res.access_token)
-                  .then(ress1=>{
-                    console.log(ress1);
+    if(isAuthenticated().company_id)
+      getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
+          .then(data=>{
+            if(data.error==="token_expired"){
+              refreshToken(isAuthenticated().refresh_token)
+                .then(res=>{
+                  console.log(res);
+                  getCompanyWithId(isAuthenticated().company_id,res.access_token)
+                    .then(ress1=>{
+                      console.log(ress1);
 
-                    //todo change in the local storage
-                    setValues({...values,c_addr:ress1.location,corp_type:ress1.companyType,comp_size:ress1.companySize});
+                      //todo change in the local storage
+                      setValues({...values,c_addr:ress1.location,corp_type:ress1.companyType,comp_size:ress1.companySize});
 
 
-                  })
-              })
-          }else{
-            console.log(data);
-            setValues({...values,c_addr:data.location,corp_type:data.companyType,comp_size:data.companySize});
+                    })
+                })
+            }else{
+              console.log(data);
+              setValues({...values,c_addr:data.location,corp_type:data.companyType,comp_size:data.companySize});
 
-          }
-        })
+            }
+          })
+    else
+          console.log("not a company")
   },[])
   
   

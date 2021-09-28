@@ -331,11 +331,21 @@ const Header = () => {
                             Settings
                           </a>
                         </Link>
-                        <Link href="/#">
+                        {
+                          isAuthenticated().company_id ? (
+                            <Link href="/dashboard-settings">
                           <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
                             Edit Profile
                           </a>
                         </Link>
+                          ):(
+                            <Link href="/dashboard-settings-user">
+                          <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
+                            Edit Profile
+                          </a>
+                        </Link>
+                          )
+                        }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
                               console.log("signout success");
@@ -355,11 +365,21 @@ const Header = () => {
                             Settings
                           </a>
                         </Link>
-                        <Link href="/#">
+                        {
+                          isAuthenticated().company_id ? (
+                            <Link href="/dashboard-settings">
                           <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
                             Edit Profile
                           </a>
                         </Link>
+                          ):(
+                            <Link href="/dashboard-settings-user">
+                          <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
+                            Edit Profile
+                          </a>
+                        </Link>
+                          )
+                        }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
                               console.log("signout success");
@@ -414,11 +434,21 @@ const Header = () => {
                             Settings
                           </a>
                         </Link>
-                        <Link href="/dashboard-settings-user">
+                        {
+                          isAuthenticated().company_id ? (
+                            <Link href="/dashboard-settings">
                           <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
                             Edit Profile
                           </a>
                         </Link>
+                          ):(
+                            <Link href="/dashboard-settings-user">
+                          <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
+                            Edit Profile
+                          </a>
+                        </Link>
+                          )
+                        }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
                               console.log("signout success");
@@ -439,11 +469,21 @@ const Header = () => {
                             Settings
                           </a>
                         </Link>
-                        <Link href="/dashboard-settings-user">
+                        {
+                          isAuthenticated().company_id ? (
+                            <Link href="/dashboard-settings">
                           <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
                             Edit Profile
                           </a>
                         </Link>
+                          ):(
+                            <Link href="/dashboard-settings-user">
+                          <a className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase">
+                            Edit Profile
+                          </a>
+                        </Link>
+                          )
+                        }
                         
                           <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
