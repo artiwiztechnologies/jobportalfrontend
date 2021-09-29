@@ -39,7 +39,7 @@ const ModalSignUp = (props) => {
   };
 
   const signUpUser = () =>{
-    if(confirmPass === password){
+    if(confirmPass === password && name.length != 0 && email && password ){
       // let user = {
       //   email:email,
       //   password:password,

@@ -318,3 +318,21 @@ export const getPostedJobByCompanyFromId = (c_id,tkn) =>{
         console.log(err);
     })
 }
+
+export const getAllJobs = (tkn) =>{
+    return fetch(`https://api.jobstextile.com/jobs-list`,{
+        method:"GET",
+        
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization:`Bearer ${tkn}`
+        }
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}

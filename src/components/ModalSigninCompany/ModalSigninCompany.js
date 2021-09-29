@@ -46,7 +46,11 @@ const ModalSigninCompany = (props) => {
               authenticate(data,()=>{
                 console.log("signed in and authenticated");
                 gContext.toggleSigninCompany();
+                // window.location.reload();
                 router.push("/dashboard-settings")
+                // .then(()=>{
+                //   window.location.reload()
+                // })
 
   
                 // console.log(data);

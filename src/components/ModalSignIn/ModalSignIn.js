@@ -48,6 +48,7 @@ const ModalSignIn = (props) => {
                 console.log("signed in and authenticated");
                 gContext.toggleSignInModal();
                 router.push("/dashboard-settings-user")
+                // window.location.reload();
   
                 // console.log(data);
   

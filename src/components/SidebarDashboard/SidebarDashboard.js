@@ -4,6 +4,7 @@ import { Collapse } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 // import imgL from "../../assets/image/logo-main-black.png";
 import Textilejobs2 from "../../assets/Textilejobs2.png";
+import { isAuthenticated } from "../../helper";
 
 const Sidebar = () => {
   const gContext = useContext(GlobalContext);
@@ -20,11 +21,26 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className="my-15 px-11">
-            <div onClick={gContext.togglePostjobModal}>
+            {/* <div onClick={gContext.togglePostjobModal}>
+              <a className="btn btn-primary btn-xl w-100 text-uppercase">
+                <span  className="mr-5 d-inline-block">+</span>Post a new job
+              </a>
+            </div> */}
+            {
+              isAuthenticated().company_id ? (
+                <div onClick={gContext.togglePostjobModal}>
               <a className="btn btn-primary btn-xl w-100 text-uppercase">
                 <span  className="mr-5 d-inline-block">+</span>Post a new job
               </a>
             </div>
+              ):(
+                <div>
+              <a className="btn btn-primary btn-xl w-100 text-uppercase">
+                <span  className="mr-5 d-inline-block">+</span>View Jobs Applied
+              </a>
+            </div>
+              )
+            }
           </div>
           <ul className="list-unstyled dashboard-layout-sidebar">
             <li className="">

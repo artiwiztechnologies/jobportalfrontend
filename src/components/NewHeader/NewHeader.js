@@ -207,7 +207,7 @@ const Header = () => {
                                                       {itemInner.label}
                                                     </a>
                                                   ) : (
-                                                   itemInner.name==="dashboard-settings" ?(
+                                                   itemInner.name==="dashboard-settings" && isAuthenticated()  ?(
                                                         isAuthenticated().company_id ?(
                                                           <Link
                                                       href={`/${itemInner.name}`}
@@ -222,11 +222,7 @@ const Header = () => {
                                                     </Link>
                                                         )
                                                    ):(
-                                                    <Link
-                                                      href={`/${itemInner.name}`}
-                                                    >
-                                                      <a>{itemInner.label}</a>
-                                                    </Link>
+                                                    null
                                                    )
                                                   )}
                                                 </li>
@@ -236,7 +232,7 @@ const Header = () => {
                                         </li>
                                       ) : (
                                         <li className="drop-menu-item">
-                                          {subItem.isExternal ? (
+                                          {subItem.isExternal && isAuthenticated() ? (
                                             <a
                                               href={`${subItem.name}`}
                                               target="_blank"

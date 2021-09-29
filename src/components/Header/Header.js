@@ -316,6 +316,7 @@ const Header = () => {
                             signout(()=>{
                               console.log("signout success");
                               router.push("/");
+                              // window.location.reload();
 
                             },isAuthenticated().access_token)
                           }}>
@@ -342,6 +343,7 @@ const Header = () => {
                             signout(()=>{
                               console.log("signout success");
                               router.push("/");
+                              // window.location.reload()
                             },isAuthenticated().access_token)
                           }}>
                             Log Out
