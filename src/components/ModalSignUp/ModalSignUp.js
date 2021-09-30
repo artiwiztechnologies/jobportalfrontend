@@ -55,7 +55,7 @@ const ModalSignUp = (props) => {
         "password": password,
         
         "active": true,
-        "status":2
+        "status":1//change to 1 on moving production 
     }
       signup(user)
         .then(data => {

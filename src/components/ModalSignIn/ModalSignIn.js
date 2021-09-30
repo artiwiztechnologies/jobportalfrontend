@@ -39,7 +39,10 @@ const ModalSignIn = (props) => {
         .then((data)=>{
           if(data.message==="Invalid Credentials!"){
               alert("enter valid credentials");
-          }else{
+          }else if(data.message==="User not found!"){
+            alert("User not found!")
+          }
+          else{
             setPhonenumber("");
             setPassword("");
             if(data.status==2){

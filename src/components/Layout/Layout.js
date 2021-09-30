@@ -30,6 +30,7 @@ import ModalCompanySignUp from "../ModalCompanySignup/ModalCompanySignup";
 import ConfirmEmailModal from "../ConfirmEmailModal/ConfirmEmailModal";
 import NewHeader from "../NewHeader";
 import CompanyPostjobModal from "../CompanyPostjobModal/CompanyPostjobModal";
+import { isAuthenticated } from "../../helper";
 
 
 
@@ -151,7 +152,10 @@ const Layout = ({ children, pageContext }) => {
           >
             {/* <Header isDark={gContext.headerDark} /> */}
 
-            <NewHeader />
+            {
+              isAuthenticated() ? <NewHeader /> : <Header />
+            }
+            {/* <NewHeader /> */}
             <SidebarDashboard />
             {children}
           </div>
@@ -185,7 +189,9 @@ const Layout = ({ children, pageContext }) => {
           <Loader id="loading" className={visibleLoader ? "" : "inActive"} />
           <div className="site-wrapper overflow-hidden" ref={eleRef}>
             {/* <Header isDark={gContext.headerDark} /> */}
-            <NewHeader />
+            {
+              isAuthenticated() ? <NewHeader /> : <Header />
+            }
             {children}
 
             <Footer isDark={gContext.footerDark} />

@@ -38,7 +38,10 @@ const ModalSigninCompany = (props) => {
         .then((data)=>{
           if(data.message || data.message==="Invalid Credentials!"){
               alert("enter valid credentials");
-          }else{
+          }else if(data.message==="Company not found!"){
+            alert("company not found!");
+          }
+          else{
             setPhonenumber("");
             setPassword("");
             // if(data.status==2){

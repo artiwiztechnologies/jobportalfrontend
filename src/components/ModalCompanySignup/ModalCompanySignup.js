@@ -53,7 +53,7 @@ const ModalCompanySignUp = (props) => {
         "password": password,
         
         "active": true,
-        "status":2
+        "status":1//in production 1 ,for test 2
     }
       signUpCompany(company)
         .then(data => {
@@ -70,6 +70,8 @@ const ModalCompanySignUp = (props) => {
               gContext.toggleSignInModal();
 
               
+          }else{
+            alert(data.message);
           }
         })
     }
