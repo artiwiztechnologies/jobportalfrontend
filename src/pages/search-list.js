@@ -1,8 +1,10 @@
-import React,{ useState, useEffect } from "react";
+import React,{ useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
 import Sidebar from "../components/Sidebar";
 import { Select } from "../components/Core";
+import searchliststyles from "../styles/Search-list.module.css";
+
 
 import { getAllJobs, getPostedJobByCompanyFromId,isAuthenticated, refreshToken } from "../helper";
 
@@ -16,6 +18,8 @@ import imgF from "../assets/image/svg/icon-fire-rounded.svg";
 import iconL from "../assets/image/svg/icon-loaction-pin-black.svg";
 import iconS from "../assets/image/svg/icon-suitecase.svg";
 import iconC from "../assets/image/svg/icon-clock.svg";
+import GlobalContext from "../context/GlobalContext";
+import { Button } from "react-bootstrap";
 
 const defaultCountries = [
   { value: "sp", label: "Singapore" },
@@ -26,6 +30,7 @@ const defaultCountries = [
 ];
 
 const SearchGrid = () => {
+  const gContext = useContext(GlobalContext);
   const [jobs,setJobs] = useState([]);
   useEffect(()=>{
     if(isAuthenticated())
@@ -134,18 +139,12 @@ const SearchGrid = () => {
                     </div>
                   </div>
                   
-                  {/* {
-                        JSON.stringify(jobs)
-                      }
-                 */}
-                  
-                  {/* <div className="mb-8"> */}
-                    {/* <!-- Single Featured Job --> */}
+                 
 
                     {
                       jobs.map((job) => (
-                        <div className="mb-8">
-<div className="pt-9 px-xl-9 px-lg-7 px-7 pb-7 light-mode-texts bg-white rounded hover-shadow-3 ">
+                        <div className="mb-8" >
+<div className="pt-9 px-xl-9 px-lg-7 px-7 pb-7 light-mode-texts bg-white rounded hover-shadow-3 " >
                       <div className="row">
                         <div className="col-md-6">
                           <div className="media align-items-center">
@@ -154,11 +153,12 @@ const SearchGrid = () => {
                             </div>
                             <div>
                               <h3 className="mb-0">
-                                <Link href="/#">
-                                  <a className="font-size-6 heading-default-color">
+                                <span className="font-size-6 heading-default-color">
+                                 
                                     {job.title}
-                                  </a>
-                                </Link>
+                                  
+                                  
+                                </span>
                               </h3>
                               <Link href="/#">
                                 <a className="font-size-3 text-default-color line-height-2">

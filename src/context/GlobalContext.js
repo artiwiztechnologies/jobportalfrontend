@@ -14,6 +14,7 @@ const GlobalProvider = ({ children }) => {
   const [showConfirmEmail,setShowConfirmEmail] = useState(false);
   const [signinComp,setSigninComp] = useState(false);
   const [showPostjobModal,setShowPostjobModal] = useState(false);
+  const [showJobDetails,setShowJobDetails] = useState(false);
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -33,6 +34,10 @@ const GlobalProvider = ({ children }) => {
   const toggleTheme = () => {
     setThemeDark(!themeDark);
   };
+
+  const toggleShowJobDetails = () => {
+    setShowJobDetails(!showJobDetails)
+  }
  
   const toggleSigninCompany = () =>{
     setSigninComp(!signinComp);
@@ -106,7 +111,9 @@ const GlobalProvider = ({ children }) => {
         signinComp,
         toggleSigninCompany,
         showPostjobModal,
-        togglePostjobModal
+        togglePostjobModal,
+        showJobDetails,
+        toggleShowJobDetails
       }}
     >
       {children}

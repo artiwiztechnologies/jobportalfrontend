@@ -392,7 +392,7 @@ const Header = () => {
             )}
 
             {gContext.header.button === "account" && (
-              <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
+              <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex" style={{padding:"10px"}}>
                 {
                   isAuthenticated() ? (null) : (
                     <a
@@ -403,7 +403,7 @@ const Header = () => {
                     gContext.toggleSignInModal();
                   }}
                 >
-                  Log In
+                  Log In 
                 </a>
                   ) 
                 }

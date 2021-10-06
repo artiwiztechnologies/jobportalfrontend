@@ -336,3 +336,76 @@ export const getAllJobs = (tkn) =>{
         console.log(err)
     })
 }
+
+//apply for job
+export const applyForJob = (user_id,job_id,tkn) =>{
+    return fetch(`https://api.jobstextile.com/apply/${job_id}`,{
+        method:"POST",
+        
+        headers:{
+            
+            
+            Authorization:`Bearer ${tkn}`
+        }
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}
+
+//application details
+export const getApplicationId = (application_id,tkn) =>{
+    console.log("to be continued...")
+}
+
+//delete appliaction id
+export const DelApplication = (application_id,tkn) =>{
+    return fetch(`${API}/${application_id}`,{
+        method:"DELETE",
+        headers:{
+            Authorization: `Bearer ${tkn}`
+        }
+    })
+    .then(res=>{
+        return res.json()
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}
+
+//get users applied for a particular job
+
+export const GetAppliedUsers = (job_id,tkn) =>{
+    return fetch(`${API}/get-users/${job_id}`,{
+        method:"GET",
+        headers:{
+            Authorization:`Bearer ${tkn}`
+        }
+    })
+    .then(res=>{
+        return res.json()
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}
+
+//get jobs a user applied for
+export const GetJobsApplied = (user_id,tkn) =>{
+    return fetch(`${API}/get-jobs/${user_id}`,{
+        method:"GET",
+        headers:{
+            Authorization:`Bearer ${tkn}`
+        }
+    })
+    .then(res=>{
+        return res.json()
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}
