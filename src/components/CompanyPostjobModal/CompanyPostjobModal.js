@@ -41,6 +41,8 @@ const CompanyPostjobModal = (props) => {
 
   })
 
+  // const [final_skills_req,setFinal_skills_req] = useState(""); 
+
 
   const {skills_required,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,post_title} = values;
 
@@ -80,9 +82,35 @@ const CompanyPostjobModal = (props) => {
           console.log("not a company")
   },[])
   
+const [skillsString,setSkillsString] = useState(""); 
+const addSkill = () =>{
+  // skillsString = skillsString + ", " + skills_required;
+  // console.log(skillsString)
+  if(skillsString.length === 0){
+    setSkillsString(skillsString+skills_required);
+    setValues({
+      ...values,
+      skills_required:""
+    })
+
+  }else{
+  setSkillsString(skillsString+", "+skills_required);
+  setValues({
+    ...values,
+    skills_required:""
+  })
+  }
+
+}
+
+const deleteSkill = (s) =>{
+  console.log(s);
+  setSkillsString(skillsString.replace(s,""))
+}
   
 
 const postanewJob = () =>{
+  console.log(skillsString)
     // console.log(values);
     // console.log(values.post_title);
     const j_data = {
@@ -94,7 +122,7 @@ const postanewJob = () =>{
       "salary": "",
       "career_level": values.career_level,
       "role": values.job_role,
-      "skills":values.skills_required 
+      "skills":skillsString
     }
     // console.log(j_data);
     
@@ -117,6 +145,7 @@ const postanewJob = () =>{
           job_role:""
       
         })
+        setSkillsString("");
         alert("job posted successfully");
         gContext.togglePostjobModal();
         router.push("/dashboard-jobs");
@@ -124,6 +153,7 @@ const postanewJob = () =>{
       })
       
 }
+
  
 
   return (
@@ -242,6 +272,33 @@ const postanewJob = () =>{
                       onChange={handleChange("skills_required")}
 
                     />
+                    <button className="btn btn-primary" onClick={(e)=>{
+                      e.preventDefault();
+                      addSkill()
+                    }}>
+                      Add skill
+                    </button>
+                    {
+                      skillsString ? (
+                        <span>
+                          {
+                            skillsString.split(", ").map(d=>(
+                              <span>
+                              <p>
+                                {d}
+                              </p>
+                              <p onClick={()=>{
+                                deleteSkill(d)
+                              }}>
+                              <i className="fas fa-times"></i>
+                              </p>
+                              </span>
+                              
+                            ))
+                          }
+                        </span>
+                      ):(null)
+                    }
                   </div>
 
                   <div className="form-group">
