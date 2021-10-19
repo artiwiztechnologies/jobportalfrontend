@@ -87,14 +87,14 @@ const addSkill = () =>{
   // skillsString = skillsString + ", " + skills_required;
   // console.log(skillsString)
   if(skillsString.length === 0){
-    setSkillsString(skillsString+skills_required);
+    setSkillsString(skillsString+skills_required+", ");
     setValues({
       ...values,
       skills_required:""
     })
 
   }else{
-  setSkillsString(skillsString+", "+skills_required);
+  setSkillsString(", "+skillsString+skills_required);
   setValues({
     ...values,
     skills_required:""
@@ -104,8 +104,10 @@ const addSkill = () =>{
 }
 
 const deleteSkill = (s) =>{
+  // hey, yov, none
   console.log(s);
-  setSkillsString(skillsString.replace(s,""))
+  let str = s;
+  setSkillsString(skillsString.replace(str,"").trim())
 }
   
 
@@ -278,6 +280,10 @@ const postanewJob = () =>{
                     }}>
                       Add skill
                     </button>
+
+                    <span onClick={()=>{
+                      console.log(skillsString)
+                    }}>check</span>
                     {
                       skillsString ? (
                         <span>

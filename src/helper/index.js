@@ -409,3 +409,108 @@ export const GetJobsApplied = (user_id,tkn) =>{
         console.log(err)
     })
 }
+
+
+// payment with razor pay
+const paymentServerUrl = 'https://api.jobstextile.com/new-order';
+
+export const fetchOrderData = (orderFetchData) =>{
+    return fetch('https://api.jobstextile.com/new-order',{
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(orderFetchData)
+      })
+      .then(res=>{
+        return res.json()
+        
+      })
+      
+  
+      .catch(err=>{
+        console.log(err)
+      })
+}
+
+
+
+
+
+// export async function displayRazorpay() {
+ 
+//     // const res = await init
+    
+
+    
+//     const data = await fetch(pay_url, {
+//       method: "POST",
+
+//     }).then((t) => t.json());
+  
+//     console.log(data);
+  
+//     const options = {
+//       key: process.env.RAZORPAY_KEY_ID,
+//       currency: data.currency,
+//       amount: data.amount,
+//       name: "Learn Code Online",
+//       description: "Wallet Transaction",
+//       image: "http://localhost:1337/logo.png",
+//       order_id: data.id,
+//       handler: function (response) {
+//         alert("PAYMENT ID ::" + response.razorpay_payment_id);
+//         alert("ORDER ID :: " + response.razorpay_order_id);
+//       },
+//       prefill: {
+//         name: "Anirudh Jwala",
+//         email: "anirudh@gmail.com",
+//         contact: "9999999999",
+//       },
+//     };
+  
+//     const paymentObject = new window.Razorpay(options);
+//     paymentObject.open();
+//   }
+
+
+//validate payment in the server
+
+export const ValidatePayment = (req_data) =>{
+
+    return fetch('https://api.jobstextile.com/new-payment',{
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json"
+            
+        },
+        body: JSON.stringify(req_data)
+
+      })
+      .then(res=>{
+        return res.json()
+        
+      })
+      
+  
+      .catch(err=>{
+        console.log(err)
+      })
+
+}
+
+
+export const getPlans = () =>{
+    return fetch(`${API}/plan-list`,{
+        method:"GET"
+        
+    })
+    .then(res=>{
+        return res.json()
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}

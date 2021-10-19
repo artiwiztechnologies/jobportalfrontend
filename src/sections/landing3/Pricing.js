@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 
 const Pricing = () => {
+  const initiatePayment = () =>{
+    console.log("initiatepayment")
+  }
   return (
     <>
       {/* <!-- Pricing Area -->  */}
@@ -74,16 +77,19 @@ const Pricing = () => {
                     {/* <!-- card-body end --> */}
                     {/* <!-- card-footer end --> */}
                     <div className="card-footer bg-transparent border-0 px-0 py-0">
-                      <Link href="/#">
-                        <a className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
+                      <button className="btn btn-primary" onClick={initiatePayment}>
+                        <span className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
                           Start with Basic
-                        </a>
-                      </Link>
+                        </span>
+                      </button>
                     </div>
                     {/* <!-- card-footer end --> */}
                   </div>
                   {/* <!-- card end --> */}
                 </div>
+
+
+                {/* ////////////////////////////////////////////////////// */}
                 <div
                   className="col-lg-4 col-md-6 col-xs-9 "
                   data-aos="fade-up"

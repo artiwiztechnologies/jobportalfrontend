@@ -126,40 +126,34 @@ const ModalViewJobDetails = ( {show,handleClose,handleShow,ModalJobData}) => {
                   {/* <!-- End Single Featured Job --> */}
                   <div className="job-details-content pt-8 pl-sm-9 pl-6 pr-sm-9 pr-6 pb-10 border-bottom border-width-1 border-default-color light-mode-texts">
                     <div className="row mb-7">
-                      <div className="col-md-4 mb-md-0 mb-6">
-                        <div className="media justify-content-md-start">
-                          <div className="image mr-5">
-                            {/* <img src={iconD} alt="" /> */}
-                            {/* <img src={ModalJobData.photoURL} alt="" /> */}
-
-                          </div>
-                          <p className="font-weight-semibold font-size-5 text-black-2 mb-0">
-                            {`Rs.${ModalJobData.salary}`}
-                          </p>
+                      <div className="col-md-4 mb-lg-0 mb-10">
+                        <div className="">
+                          <span className="font-size-4 d-block mb-4 text-gray">
+                            Salary
+                          </span>
+                          <h6 className="font-size-5 text-black-2 font-weight-semibold mb-9">
+                          {ModalJobData.salary ? `Rs.${ModalJobData.salary}` : "unavailable"}
+                          </h6>
                         </div>
                       </div>
-                      <div className="col-md-4 pr-lg-0 pl-lg-10 mb-md-0 mb-6">
-                        <div className="media justify-content-md-start">
-                          <div className="image mr-5">
-                          {/* <img src={ModalJobData.photoURL} alt="" /> */}
-                            
-                          </div>
-                          <p className="font-weight-semibold font-size-5 text-black-2 mb-0">
-                            {ModalJobData.job_type}
-                          </p>
+                      <div className="col-md-4 pr-lg-0 pl-lg-10 mb-lg-0 mb-8">
+                        <div className="">
+                          <span className="font-size-4 d-block mb-4 text-gray">
+                            Job Type
+                          </span>
+                          <h6 className="font-size-5 text-black-2 font-weight-semibold mb-9">
+                            {ModalJobData.job_type ? ModalJobData.job_type : "unavailable"}
+                          </h6>
                         </div>
                       </div>
-                      <div className="col-md-4 pl-lg-0">
-                        <div className="media justify-content-md-start">
-                          <div className="image mr-5">
-                            {/* <img src={ModalJobData.photoURL} alt="" /> */}
-                          </div>
-                          <p className="font-size-5 text-gray mb-0">
-                            {/* 777 Brockton Avenue,{" "}
-                            <br className="d-md-none d-lg-block d-block" />
-                            Abington MA 2351 */}
-                            {ModalJobData.location}
-                          </p>
+                      <div className="col-md-4 pr-lg-0 pl-lg-10 mb-lg-0 mb-8">
+                        <div className="">
+                          <span className="font-size-4 d-block mb-4 text-gray">
+                            Location
+                          </span>
+                          <h6 className="font-size-5 text-black-2 font-weight-semibold mb-9">
+                            {ModalJobData.location ? ModalJobData.location : "unavailable"}
+                          </h6>
                         </div>
                       </div>
                     </div>
@@ -170,42 +164,15 @@ const ModalViewJobDetails = ( {show,handleClose,handleShow,ModalJobData}) => {
                             Career Level
                           </span>
                           <h6 className="font-size-5 text-black-2 font-weight-semibold mb-9">
-                            {ModalJobData.career_level}
+                            {ModalJobData.career_level ? ModalJobData.career_level : "unavailable"}
                           </h6>
                         </div>
-                        {/* <div className="tags">
-                          <p className="font-size-4 text-gray mb-0">
-                            Soft Skill
-                          </p>
-                          <ul className="list-unstyled mr-n3 mb-0">
-                            <li className="d-block font-size-4 text-black-2 mt-2">
-                              <span className="d-inline-block mr-2">•</span>
-                              Slack
-                            </li>
-                            <li className="d-block font-size-4 text-black-2 mt-2">
-                              <span className="d-inline-block mr-2">•</span>
-                              Basic English
-                            </li>
-                            <li className="d-block font-size-4 text-black-2 mt-2">
-                              <span className="d-inline-block mr-2">•</span>Well
-                              Organized
-                            </li>
-                          </ul>
-                        </div> */}
-                      </div>
-                      <div className="col-md-4 pr-lg-0 pl-lg-10 mb-lg-0 mb-8">
                         <div className="">
                           <span className="font-size-4 d-block mb-4 text-gray">
-                            Type of corporation
+                          Technical Skill
                           </span>
                           <h6 className="font-size-5 text-black-2 font-weight-semibold mb-9">
-                            {ModalJobData.company_type}
-                          </h6>
-                        </div>
-                        <div className="tags">
-                          <p className="font-size-4 text-gray mb-3">
-                            Technical Skill
-                          </p>
+                          <div className="tags">
                           <ul className="d-flex list-unstyled flex-wrap pr-sm-25 pr-md-0">
                         {
                           ModalJobData.skills.split(', ').map(c=>(
@@ -217,6 +184,18 @@ const ModalViewJobDetails = ( {show,handleClose,handleShow,ModalJobData}) => {
                             
                           </ul>
                         </div>
+                          </h6>
+                        </div>
+                      </div>
+                      <div className="col-md-4 pr-lg-0 pl-lg-10 mb-lg-0 mb-8">
+                        <div className="">
+                          <span className="font-size-4 d-block mb-4 text-gray">
+                            Type of corporation
+                          </span>
+                          <h6 className="font-size-5 text-black-2 font-weight-semibold mb-9">
+                            {ModalJobData.company_type ? ModalJobData.company_type : "unavailable"} 
+                          </h6>
+                        </div>
                       </div>
                       <div className="col-md-4 pl-lg-0">
                         <div className="">
@@ -224,12 +203,14 @@ const ModalViewJobDetails = ( {show,handleClose,handleShow,ModalJobData}) => {
                             Company size
                           </span>
                           <h6 className="font-size-5 text-black-2 font-weight-semibold mb-0">
-                            {`${ModalJobData.company_size} employees`}
+                            {ModalJobData.company_size ?  `${ModalJobData.company_size} employees` : "unavailable"}
                           </h6>
                         </div>
                       </div>
+                      
                     </div>
                   </div>
+                  
                   <div className="job-details-content pt-8 pl-sm-9 pl-6 pr-sm-9 pr-6 pb-10 light-mode-texts">
                     <div className="row">
                       <div className="col-xl-11 col-md-12 pr-xxl-9 pr-xl-10 pr-lg-20">
@@ -445,7 +426,7 @@ const SearchGrid = () => {
                               <Link href="/#">
                                 <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
                                   <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
-                                  {job.job_type}
+                                  {job.job_type ? job.job_type : "unavailable"}
                                 </a>
                               </Link>
                             </li>
@@ -502,3 +483,5 @@ const SearchGrid = () => {
   );
 };
 export default SearchGrid;
+
+

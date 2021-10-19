@@ -1,8 +1,128 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
+import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPlans } from "../helper";
+import logo from "../assets/Textilejobs2.png";
+import { v4 as uuidv4 } from 'uuid';
 
 const Pricing = () => {
+  const [plans,setPlans] = useState();
+  useEffect(()=>{
+    getPlans()
+      .then(data=>{
+        console.log(data);
+        setPlans(data.plans)
+      })
+  },[])
+  const [orderId,setOrderId] = useState('');
+  
+  const initiatePayment = () =>{
+    
+      
+    
+    console.log("initiatepayment")
+    return new Promise((resolve)=>{
+      const script = document.createElement('script');
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      document.body.appendChild(script)
+      script.onload = () =>{
+          resolve(true)
+          
+      } 
+      script.onerror = () =>{
+          resolve(false)
+      }
+    })
+   
+  }
+
+const Razor_pay_key_id = "rzp_test_V7OA6RGtfz7ILD";
+const Razor_pay_key_secret = "7DQCW16JtDmORBaSxLrwArPh";
+
+const [amount,setAmount] = useState();
+
+
+
+async function displayRazorpay(plan_id) {
+ 
+    const res = await initiatePayment()
+
+    const orderFetchData = {
+      "plan_id": plan_id,
+      "user_id": isAuthenticated().user_id,
+      "email": isAuthenticated().email,
+      "user_type": isAuthenticated().user_id ? "user" : "company"
+  }
+
+    const data = await  fetchOrderData(orderFetchData)
+      // .then(data=>{
+      //   console.log(data)
+      //   setOrderId(data.id)
+      //   setAmount(data.amount)
+      // })
+
+    // console.log(data)
+
+
+
+
+    if(!res){
+      alert("razor pay SDK failed");
+      return
+    }
+
+    if(!data){
+      alert("cant get payment data from the server!");
+      return
+    }
+
+    console.log(data)
+    
+
+    
+    
+    const options = {
+      key: "rzp_test_V7OA6RGtfz7ILD",
+      
+      currency: 'INR',
+      amount: data.amount,
+      name: "basic plan",
+      description: "you have opted for the basic plan",
+      image: logo ,
+      // id: uuidv4(),
+      // order_id: "order_I8VB1HVFciWXC5",
+      order_id: data.id,
+
+      
+      
+      handler: function (response) {
+        console.log(response)
+        const req_data = {
+          
+            "razorpay_payment_id": response.razorpay_payment_id,
+            "razorpay_order_id": response.razorpay_order_id,
+            "razorpay_signature": response.razorpay_signature
+        
+        }
+        console.log(req_data)
+        ValidatePayment(req_data)
+          .then(d1=>{
+            console.log(d1);
+            alert(d1.message);
+          })
+        // alert("PAYMENT ID ::" + response.razorpay_payment_id);
+        // alert("ORDER ID :: " + response.razorpay_order_id);
+      },
+      prefill: {
+        name: "chand",
+        email: "chandtest@gmail.com",
+        contact: "1010101010",
+      },
+    };
+  
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
   return (
     <>
       <PageWrapper>
@@ -34,7 +154,10 @@ const Pricing = () => {
               <div className="row justify-content-center">
                 <div className="col-xxl-10 col-xl-11">
                   <div className="row justify-content-center">
-                    <div
+                   {
+                     plans?.map((plan)=>(
+                      <div
+                      key={plan.id}
                       className="col-lg-4 col-md-6 col-xs-9"
                       data-aos="fade-right"
                       data-aos-duration="1000"
@@ -46,16 +169,16 @@ const Pricing = () => {
                         <div className="card-header bg-transparent border-hit-gray-opacity-5 text-center pt-11 pb-8">
                           <div className="pricing-title text-center">
                             <h5 className="font-weight-semibold font-size-6 text-black-2">
-                              Basic Plan
+                              {plan.plan_name}
                             </h5>
                             <h6 className="font-size-4 text-gray font-weight-normal">
                               For single person only
                             </h6>
                           </div>
                           <h2 className="mt-11 text-dodger">
-                            $199
+                          {`₹${plan.plan_rate}`}
                             <span className="font-size-4 text-smoke font-weight-normal">
-                              /month
+                              {`/${plan.duration} days`}
                             </span>{" "}
                           </h2>
                         </div>
@@ -80,139 +203,22 @@ const Pricing = () => {
                         {/* <!-- card-body end --> */}
                         {/* <!-- card-footer end --> */}
                         <div className="card-footer bg-transparent border-0 px-0 py-0">
-                          <Link href="/#">
-                            <a className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
-                              Start with Basic
-                            </a>
-                          </Link>
+                          
+                            <button onClick={()=>{
+                              displayRazorpay(plan.id)
+                            }} className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
+                              {`Start with ${plan.plan_name}`}
+                            </button>
+                          
                         </div>
                         {/* <!-- card-footer end --> */}
                       </div>
                       {/* <!-- card end --> */}
                     </div>
-                    <div
-                      className="col-lg-4 col-md-6 col-xs-9"
-                      data-aos="fade-up"
-                      data-aos-duration="1000"
-                      data-aos-delay="500"
-                    >
-                      {/* <!-- card start --> */}
-                      <div className="card border-mercury recomended-pricing rounded-8 mb-lg-3 mb-9 px-xl-12 px-lg-8 px-12 pb-12 mt-lg-n13 hover-shadow-hitgray">
-                        {/* <!-- card-header start --> */}
-                        <div className="card-header bg-transparent border-hit-gray-opacity-5 text-center pt-10 pb-8">
-                          <div className="pricing-title text-center">
-                            <span className="font-size-3 font-weight-bold text-uppercase text-dodger mb-9 d-inline-block">
-                              RECOMMENDED
-                            </span>
-                            <h5 className="font-weight-semibold font-size-6 text-black-2">
-                              Business Plan
-                            </h5>
-                            <h6 className="font-size-4 text-gray font-weight-normal">
-                              For small companies
-                            </h6>
-                          </div>
-                          <h2 className="mt-11 text-dodger">
-                            $499
-                            <span className="font-size-4 text-smoke font-weight-normal">
-                              /month
-                            </span>{" "}
-                          </h2>
-                        </div>
-                        {/* <!-- card-header end --> */}
-                        {/* <!-- card-body start --> */}
-                        <div className="card-body px-0 pt-11 pb-6">
-                          <ul className="list-unstyled">
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              5 Job Postings
-                            </li>
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              90 Days Duration Each
-                            </li>
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              Job Alert Emails
-                            </li>
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              Candidates Database
-                            </li>
-                          </ul>
-                        </div>
-                        {/* <!-- card-body end --> */}
-                        {/* <!-- card-footer end --> */}
-                        <div className="card-footer bg-transparent border-0 px-0 py-0">
-                          <Link href="/#">
-                            <a className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
-                              Start with Business
-                            </a>
-                          </Link>
-                        </div>
-                        {/* <!-- card-footer end --> */}
-                      </div>
-                      {/* <!-- card end --> */}
-                    </div>
-                    <div
-                      className="col-lg-4 col-md-6 col-xs-9"
-                      data-aos="fade-left"
-                      data-aos-duration="1000"
-                      data-aos-delay="500"
-                    >
-                      {/* <!-- card start --> */}
-                      <div className="card border-mercury rounded-8 mb-3 px-xl-12 px-lg-8 px-12 pb-12 hover-shadow-hitgray">
-                        {/* <!-- card-header start --> */}
-                        <div className="card-header bg-transparent border-hit-gray-opacity-5 text-center pt-11 pb-8">
-                          <div className="pricing-title text-center">
-                            <h5 className="font-weight-semibold font-size-6 text-black-2">
-                              Premium Plan
-                            </h5>
-                            <h6 className="font-size-4 text-gray font-weight-normal">
-                              For bigger companies
-                            </h6>
-                          </div>
-                          <h2 className="mt-11 text-dodger">
-                            $999{" "}
-                            <span className="font-size-4 text-smoke font-weight-normal">
-                              /month
-                            </span>{" "}
-                          </h2>
-                        </div>
-                        {/* <!-- card-header end --> */}
-                        {/* <!-- card-body start --> */}
-                        <div className="card-body px-0 pt-11 pb-6">
-                          <ul className="list-unstyled">
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              5 Job Postings
-                            </li>
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              90 Days Duration Each
-                            </li>
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              Job Alert Emails
-                            </li>
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              Candidates Database
-                            </li>
-                          </ul>
-                        </div>
-                        {/* <!-- card-body end --> */}
-                        {/* <!-- card-footer end --> */}
-                        <div className="card-footer bg-transparent border-0 px-0 py-0">
-                          <Link href="/#">
-                            <a className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
-                              Start with Premium{" "}
-                            </a>
-                          </Link>
-                        </div>
-                        {/* <!-- card-footer end --> */}
-                      </div>
-                      {/* <!-- card end --> */}
-                    </div>
+                     ))
+                   }
+                    
+                    
                   </div>
                 </div>
               </div>
