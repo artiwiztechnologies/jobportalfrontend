@@ -135,7 +135,7 @@ const Header = () => {
           fluid={gContext.header.isFluid}
           className={gContext.header.isFluid ? "pr-lg-9 pl-lg-9" : ""}
         >
-          <nav className="navbar site-navbar offcanvas-active navbar-expand-lg px-0 py-0">
+          <nav className="navbar site-navbar offcanvas-active navbar-expand-lg px-0 py-3">
             {/* <!-- Brand Logo--> */}
             <div className="brand-logo">
               <Logo white={gContext.header.theme === "dark"} />

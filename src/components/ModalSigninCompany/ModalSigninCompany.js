@@ -32,8 +32,7 @@ const ModalSigninCompany = (props) => {
       "phonenumber": phonenumber,
       "password": password
   }
-  //console.log
-      // console.log(user)
+  
       SigninCompany(user)
         .then((data)=>{
           if(data.message || data.message==="Invalid Credentials!"){
@@ -51,24 +50,18 @@ const ModalSigninCompany = (props) => {
                 gContext.toggleSigninCompany();
                 // window.location.reload();
                 router.push("/dashboard-settings")
-                // .then(()=>{
-                //   window.location.reload()
-                // })
-
-  
-                // console.log(data);
+                
   
                
               })
 
-            // }else{
-            //   gContext.toggleSigninCompany();
-
-            //   gContext.toggleConfirmEmail();
-            // }
+            
             
            
           }
+        })
+        .catch(err=>{
+          alert("server error")
         })
 
   }
@@ -208,9 +201,14 @@ const ModalSigninCompany = (props) => {
                   </div>
                   <p className="font-size-4 text-center heading-default-color">
                     Don’t have an account?{" "}
-                    <a href="/#" className="text-primary">
+                    <button onClick={(e)=>{
+                      e.preventDefault();
+                      gContext.toggleSignupCompanyModal();
+                      gContext.toggleSigninCompany();
+                      
+                    }} className="text-primary border-0">
                       Create a free account
-                    </a>
+                    </button>
                   </p>
                 </form>
                 <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{

@@ -18,6 +18,8 @@ const ModalSignIn = (props) => {
   const gContext = useContext(GlobalContext);
   const [phonenumber,setPhonenumber] = useState("");
   const [password,setPassword] = useState("");
+  const [errorSgn,setErrorSgn] = useState(false);
+  const [errormsg,setErrormsg] = useState("");
 
   const handleClose = () => {
     gContext.toggleSignInModal();
@@ -37,38 +39,48 @@ const ModalSignIn = (props) => {
       // console.log(user)
       SigninUser(user)
         .then((data)=>{
-          if(data.message==="Invalid Credentials!"){
-              alert("enter valid credentials");
-          }else if(data.message==="User not found!"){
-            alert("User not found!")
+          if(data.message==="Invalid Credentials!" || data.message==="User not found!"){
+              // alert(data.message);
+              setErrorSgn(true);
+              setErrormsg(data.message);
+              
           }
           else{
+            
             setPhonenumber("");
             setPassword("");
             if(data.status==2){
+              
 
               authenticate(data,()=>{
                 console.log("signed in and authenticated");
                 gContext.toggleSignInModal();
                 router.push("/dashboard-settings-user")
-                // window.location.reload();
-  
-                // console.log(data);
+                
   
                
               })
 
             }else{
               gContext.toggleSignInModal();
-              router.push("/dashboard-settings-user")
+              // router.push("/dashboard-settings-user")
               gContext.toggleConfirmEmail();
             }
             
            
           }
         })
+        .catch(err=>{
+          alert("server error")
+        })
 
   }
+
+  const ErrorMessage = () =>(
+    <span className="text-danger mb-2 ">
+      {errormsg}
+    </span>
+  )
 
   return (
     <ModalStyled
@@ -119,9 +131,12 @@ const ModalSignIn = (props) => {
             <div className="col-lg-7 col-md-6">
               <div className="bg-white-2 h-100 px-11 pt-11 pb-7">
                 
-                
+              {
+                      errorSgn && <ErrorMessage />
+                    }
                 <form action="/">
                   <div className="form-group">
+                  
                     <label
                       htmlFor="phone"
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
@@ -145,6 +160,7 @@ const ModalSignIn = (props) => {
                     >
                       Password
                     </label>
+                   
                     <div className="position-relative">
                       <input
                         type={showPass ? "password" : "text"}
@@ -163,7 +179,9 @@ const ModalSignIn = (props) => {
                         }}
                       >
                         <span className="d-none">none</span>
+                        
                       </a>
+                      
                     </div>
                   </div>
                   <div className="form-group d-flex flex-wrap justify-content-between">
@@ -177,6 +195,7 @@ const ModalSignIn = (props) => {
                         id="terms-check"
                       />
                       <span className="checkbox mr-5"></span>
+                      
                       <span className="font-size-3 mb-0 line-height-reset mb-1 d-block">
                         Remember password
                       </span>
@@ -187,6 +206,8 @@ const ModalSignIn = (props) => {
                     >
                       Forget Password
                     </a>
+                    
+                    
                   </div>
                   <div className="form-group mb-8">
                     <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
@@ -207,9 +228,14 @@ const ModalSignIn = (props) => {
                   </div>
                   <p className="font-size-4 text-center heading-default-color">
                     Don’t have an account?{" "}
-                    <a href="/#" className="text-primary">
+                    <button onClick={(e)=>{
+                      e.preventDefault();
+                      gContext.toggleSignUpModal();
+                      gContext.toggleSignInModal();
+                      
+                    }} className="text-primary border-0">
                       Create a free account
-                    </a>
+                    </button>
                   </p>
                 </form>
                 <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
