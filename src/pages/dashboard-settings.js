@@ -35,7 +35,9 @@ const DashboardSettings = () => {
 
 
   const router = useRouter();
-  const [imgfile,setImgfile] = useState(false);
+  
+  const [localimg,setLocalimg] = useState();
+  const [imguploading,setImguploading] = useState(false);
   const [showUploadbtn,setShowUploadbtn] = useState();
   const [generatedImgurl,setGeneratedImgurl] = useState("");
   const uId = isAuthenticated().company_id;
@@ -216,6 +218,9 @@ const updateProfile = () =>{
                     {
                          isAuthenticated().company_id ? (photourl.length !=0 ? (<img src={photourl} alt="" style={{display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"50%",marginBottom:"20px",height:"200px",width:"200px"}} />):(null)):(null)
                        }
+                       
+                         {/* <p>{photourl}</p> */}
+                       
 
                        {/* <label>
                          Change your profile pic
@@ -231,16 +236,10 @@ const updateProfile = () =>{
                             
                             if(e.target.files){
                               console.log(e.target.files[0]);
-                              setImgfile(e.target.files[0]);
+                              
                               setShowUploadbtn(!showUploadbtn);
                               if(e.target.files[0] ){
-                                imageUpload(isAuthenticated().access_token,e.target.files[0])
-                                  .then(res=>{
-                                    console.log(res)
-                                    setUserData({
-                                      ...userData,photourl:res.photoURL
-                                    })
-                                  })
+                                setLocalimg(e.target.files[0]);
                               }
                               
                             }
@@ -249,6 +248,26 @@ const updateProfile = () =>{
                           }}
                           // className="sr-only"
                         />
+                        {
+                          imguploading && <p>uploading......</p>
+                        }
+
+                        <button disabled={localimg ? false : true } onClick={()=>{
+                          setImguploading(true);
+                          imageUpload(isAuthenticated().access_token,localimg)
+                                  .then(res=>{
+                                    console.log(res)
+                                    if(res.message="Success"){
+                                      setImguploading(false)
+                                      setUserData({
+                                      ...userData,photourl:res.photoURL
+                                    })
+                                    }else{
+                                      alert("something went wrong!")
+                                    }
+                                    
+                                  })
+                        }}>Upload Image</button>
                        
                         
                       

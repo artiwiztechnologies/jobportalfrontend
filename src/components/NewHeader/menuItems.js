@@ -22,9 +22,9 @@ export const menuItems = [
   },
   
   {
-    name: "https://uxtheme.net/product-support/",
+    name: "",
     label: "Support",
-    isExternal: true,
+    // isExternal: true,
   },
 ];
 

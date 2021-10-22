@@ -477,12 +477,13 @@ export const fetchOrderData = (orderFetchData) =>{
 
 //validate payment in the server
 
-export const ValidatePayment = (req_data) =>{
+export const ValidatePayment = (req_data,tkn) =>{
 
     return fetch('https://api.jobstextile.com/new-payment',{
         method:"POST",
         headers:{
             Accept:"application/json",
+            Authorization:`Bearer ${tkn}`,
             "Content-Type":"application/json"
             
         },
@@ -514,3 +515,51 @@ export const getPlans = () =>{
         console.log(err)
     })
 }
+
+
+export const addToFav = (user_id, job_id, tkn) => {
+    return fetch(`${API}/add-favorite/${job_id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  export const getFav = (tkn) => {
+    return fetch(`${API}/get-favorites`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+  
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  export const getJobFromId = (j_id, tkn) => {
+    return fetch(`${API}/job/${j_id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+  
+      .catch((err) => {
+        console.log(err);
+      });
+  };

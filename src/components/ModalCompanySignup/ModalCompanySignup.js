@@ -290,7 +290,7 @@ const ModalCompanySignUp = (props) => {
                       
                       
                     }}>
-                      Sign Up{" "}
+                      Sign Up{" "}as Company
                     </button>
                   </div>
                   <p className="text-center">(or)</p>

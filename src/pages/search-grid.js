@@ -378,6 +378,11 @@ const SearchGrid = () => {
                           <i className="fa fa-th-large"></i>
                         </a>
                       </Link>
+                      <Link href="/search-favourite">
+                        <a className="heading-default-color pl-5 font-size-6 hover-text-hitgray">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                      </Link>
                     </div>
                   </div>
                   

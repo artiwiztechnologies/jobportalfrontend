@@ -1,18 +1,51 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
-import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPlans } from "../helper";
+import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPlans, getUserWithId, getCompanyWithId } from "../helper";
 import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
 
 const Pricing = () => {
   const [plans,setPlans] = useState();
+  const [username,setUsername] = useState();
+  const [phnnum,setPhnnum] = useState();
+  const [disabled,setDisabled] = useState(true);
+  
   useEffect(()=>{
     getPlans()
       .then(data=>{
         console.log(data);
         setPlans(data.plans)
       })
+      if(isAuthenticated()){
+        setDisabled(false);
+
+      if(isAuthenticated().user_id){
+        getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
+          .then(d1=>{
+            console.log(d1)
+            setPhnnum(d1.phonenumber);
+            setUsername(d1.name);
+          })
+          .catch(err=>{
+            alert(err)
+          })
+      }else if(isAuthenticated().company_id){
+          getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
+            .then(d2=>{
+              console.log(d2);
+              setPhnnum(d2.phonenumber)
+              setUsername(d2.name);
+            })
+            .catch(err=>{
+              alert(err);
+            })
+      }
+    }
+    else{
+      alert("you are not signed in,please do signin to access our plans!")
+    }
+    //get the  user info with user id
   },[])
   const [orderId,setOrderId] = useState('');
   
@@ -36,8 +69,7 @@ const Pricing = () => {
    
   }
 
-const Razor_pay_key_id = "rzp_test_V7OA6RGtfz7ILD";
-const Razor_pay_key_secret = "7DQCW16JtDmORBaSxLrwArPh";
+
 
 const [amount,setAmount] = useState();
 
@@ -51,7 +83,7 @@ async function displayRazorpay(plan_id) {
       "plan_id": plan_id,
       "user_id": isAuthenticated().user_id,
       "email": isAuthenticated().email,
-      "user_type": isAuthenticated().user_id ? "user" : "company"
+      "user_type": isAuthenticated().type
   }
 
     const data = await  fetchOrderData(orderFetchData)
@@ -101,11 +133,13 @@ async function displayRazorpay(plan_id) {
           
             "razorpay_payment_id": response.razorpay_payment_id,
             "razorpay_order_id": response.razorpay_order_id,
-            "razorpay_signature": response.razorpay_signature
+            "razorpay_signature": response.razorpay_signature,
+            "plan_id":plan_id,
+            "type":isAuthenticated().type
         
         }
         console.log(req_data)
-        ValidatePayment(req_data)
+        ValidatePayment(req_data,isAuthenticated().access_token)
           .then(d1=>{
             console.log(d1);
             alert(d1.message);
@@ -114,9 +148,9 @@ async function displayRazorpay(plan_id) {
         // alert("ORDER ID :: " + response.razorpay_order_id);
       },
       prefill: {
-        name: "chand",
-        email: "chandtest@gmail.com",
-        contact: "1010101010",
+        name: username,
+        email: isAuthenticated().email,
+        contact: phnnum,
       },
     };
   
@@ -204,7 +238,7 @@ async function displayRazorpay(plan_id) {
                         {/* <!-- card-footer end --> */}
                         <div className="card-footer bg-transparent border-0 px-0 py-0">
                           
-                            <button onClick={()=>{
+                            <button disabled={disabled} onClick={()=>{
                               displayRazorpay(plan.id)
                             }} className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
                               {`Start with ${plan.plan_name}`}

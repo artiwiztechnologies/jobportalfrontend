@@ -347,7 +347,7 @@ const ModalSignUp = (props) => {
                       
                       
                     }}>
-                      Sign Up{" "}
+                      Sign Up{" "}as User
                     </button>
                   </div>
                   <p className="text-center">(or)</p>
