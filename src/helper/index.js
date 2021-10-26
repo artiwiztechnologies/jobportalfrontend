@@ -131,6 +131,7 @@ export const getUserWithId = (uid,token) =>{
     })
     .catch(err =>{
         console.log(err)
+        alert("server error",err)
     })
 }
 
@@ -171,6 +172,27 @@ export const refreshToken = (ref_token) => {
         return res.json()
     })
     .catch(err => console.log(err));
+}
+
+export const updateAuthData = (authdata) =>{
+    console.log(authdata);
+    refreshToken(isAuthenticated().refresh_token)
+        .then(d=>{
+            console.log(d);
+            authdata.access_token=d.access_token;
+            
+            if(typeof window !== "undefined"){
+
+                localStorage.setItem("jwt",JSON.stringify(authdata))
+            }
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+   
+    
+
+   
 }
 
 
@@ -363,7 +385,7 @@ export const getApplicationId = (application_id,tkn) =>{
 
 //delete appliaction id
 export const DelApplication = (application_id,tkn) =>{
-    return fetch(`${API}/${application_id}`,{
+    return fetch(`${API}${application_id}`,{
         method:"DELETE",
         headers:{
             Authorization: `Bearer ${tkn}`
@@ -380,7 +402,7 @@ export const DelApplication = (application_id,tkn) =>{
 //get users applied for a particular job
 
 export const GetAppliedUsers = (job_id,tkn) =>{
-    return fetch(`${API}/get-users/${job_id}`,{
+    return fetch(`${API}get-users/${job_id}`,{
         method:"GET",
         headers:{
             Authorization:`Bearer ${tkn}`
@@ -396,7 +418,7 @@ export const GetAppliedUsers = (job_id,tkn) =>{
 
 //get jobs a user applied for
 export const GetJobsApplied = (user_id,tkn) =>{
-    return fetch(`${API}/get-jobs/${user_id}`,{
+    return fetch(`${API}get-jobs/${user_id}`,{
         method:"GET",
         headers:{
             Authorization:`Bearer ${tkn}`
@@ -504,7 +526,7 @@ export const ValidatePayment = (req_data,tkn) =>{
 
 
 export const getPlans = () =>{
-    return fetch(`${API}/plan-list`,{
+    return fetch(`${API}plan-list`,{
         method:"GET"
         
     })
@@ -518,7 +540,7 @@ export const getPlans = () =>{
 
 
 export const addToFav = (user_id, job_id, tkn) => {
-    return fetch(`${API}/add-favorite/${job_id}`, {
+    return fetch(`${API}add-favorite/${job_id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${tkn}`,
@@ -533,7 +555,7 @@ export const addToFav = (user_id, job_id, tkn) => {
   };
   
   export const getFav = (tkn) => {
-    return fetch(`${API}/get-favorites`, {
+    return fetch(`${API}get-favorites`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${tkn}`,
@@ -549,7 +571,7 @@ export const addToFav = (user_id, job_id, tkn) => {
   };
   
   export const getJobFromId = (j_id, tkn) => {
-    return fetch(`${API}/job/${j_id}`, {
+    return fetch(`https://api.jobstextile.com/job/${j_id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${tkn}`,
@@ -563,3 +585,42 @@ export const addToFav = (user_id, job_id, tkn) => {
         console.log(err);
       });
   };
+
+
+
+  export const delJobsByJobId = (j_id, tkn) => {
+    return fetch(`https://api.jobstextile.com/job/${j_id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      }
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
+  export const editJobPosted = (tkn,j_id,j_data) =>{
+    
+    return fetch(`${API}job/${j_id}`, {
+        method: "PUT",
+        headers: {
+            Accept:"application/json",
+            Authorization:`Bearer ${tkn}`,
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(j_data)
+      })
+        .then((res) => {
+          return res.json();
+        })
+    
+        .catch((err) => {
+          console.log(err);
+        });
+  }
+
+

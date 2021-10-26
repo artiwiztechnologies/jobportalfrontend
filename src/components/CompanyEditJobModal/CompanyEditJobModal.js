@@ -3,7 +3,7 @@ import {useRouter} from "next/router"
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
-import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData } from "../../helper";
+import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData, getJobFromId, editJobPosted } from "../../helper";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -11,29 +11,28 @@ const ModalStyled = styled(Modal)`
   } */
 `;
 
-const CompanyPostjobModal = (props) => {
+const CompanyEditJobModal = ({jedit_data}) => {
   const router = useRouter();
+  
   
   // console.log(window.location.pathname)
   
   const gContext = useContext(GlobalContext);
 
   const handleClose = () => {
-    gContext.togglePostjobModal();
+    gContext.toggleShowEditJobModal();
   };
 
   const [c_name,setC_name] = useState("");
 
   const [values,setValues]=useState({
-    post_title:"",
-    job_type:"",
+    title:jedit_data.title,job_type:jedit_data.job_type,career_level:jedit_data.career_level,skills_required:jedit_data.skills,job_desc:jedit_data.description,job_role:jedit_data.role,
+    
     c_addr:"",//from getcompany
     career_level:"",
     corp_type:"",//from get company
     comp_size:"",//from getcompany
-    skills_required:"",
-    job_desc:"",
-    job_role:""
+    
 
 
 
@@ -41,10 +40,12 @@ const CompanyPostjobModal = (props) => {
 
   })
 
+
+
   // const [final_skills_req,setFinal_skills_req] = useState(""); 
 
 
-  const {skills_required,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,post_title} = values;
+  const {skills_required,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,title} = values;
 
   const handleChange = name => event =>{
     setValues({
@@ -74,6 +75,8 @@ const CompanyPostjobModal = (props) => {
 
                     })
                 })
+    
+                
             }else{
               console.log(data);
               setValues({...values,c_addr:data.location,corp_type:data.companyType,comp_size:data.companySize});
@@ -83,7 +86,12 @@ const CompanyPostjobModal = (props) => {
     else
           console.log("not a company")
   },[])
+
+ 
   
+
+//   console.log(gContext.editjid)
+
 const [skillsString,setSkillsString] = useState(""); 
 const addSkill = () =>{
   // skillsString = skillsString + ", " + skills_required;
@@ -128,13 +136,12 @@ const deleteSkill = (s) =>{
   }
 }
   
-
-const postanewJob = () =>{
-  console.log(skillsString)
-    // console.log(values);
-    // console.log(values.post_title);
-    const j_data = {
-      "title": values.post_title,
+//changes to be made for edit jobs
+const editTheJob = () =>{
+    console.log("edit the job");
+    // console.log(values)
+    const jjj_data = {
+      "title": values.title,
       "description": values.job_desc,
       "applicants": "",
       "available": true,
@@ -142,94 +149,140 @@ const postanewJob = () =>{
       "salary": "",
       "career_level": values.career_level,
       "role": values.job_role,
-      "skills":skillsString
+      "skills": values.skills_required
     }
-    // console.log(j_data);
-    
-    postJob(isAuthenticated().access_token,j_data)
-      .then(data=>{
 
-        if(data.error==="token_expired"){
-          //handle expired token
-          console.log("token expired");
-          refreshToken(isAuthenticated().refresh_token)
-                .then(r=>{
-                  console.log(r);
-                  postJob(isAuthenticated().company_id,r.access_token)
-                    .then(ress2=>{
-                      console.log(ress2);
-
-                      //todo change in the local storage
-                      setValues({...values,
-          post_title:"",
-          job_type:"",
-          
-          career_level:"",
-      
-          skills_required:"",
-          job_desc:"",
-          job_role:""
-      
-        })
-        setSkillsString("");
-        alert("job posted successfully");
-        gContext.togglePostjobModal();
-        if(window.location.pathname==="/dashboard-jobs"){
-            window.location.reload()
+  //   const jjjjj_data = {
+  //     "title": "new2222",
+  //     "description": "new new2222",
+  //     "applicants": "[1,2,3]",
+  //     "available": true,
+  //     "job_type": "part time222",
+  //     "salary": "10000222",
+  //     "career_level": "abcde22",
+  //     "role": "wwwwww222",
+  //     "skills": "react,dev,node"
+  // }
+    console.log(jjj_data);
+    editJobPosted(isAuthenticated().access_token,jedit_data.id,jjj_data)
+      .then(d1=>{
+        console.log(d1);
+        if(d1.error){
+          if(d1.error==="token_expired"){
+              updateAuthData(isAuthenticated())
+              editTheJob()
+          }else{
+          alert(d1.error)
+          }
+        }else{
+          alert(d1.message)
         }
-        router.push("/dashboard-jobs");
+      })
+      .catch(err=>{
+        alert(err)
+      })
+}
+// const postanewJob = () =>{
+//   console.log(skillsString)
+//     // console.log(values);
+//     // console.log(values.title);
+//     const j_data = {
+//       "title": values.title,
+//       "description": values.job_desc,
+//       "applicants": "",
+//       "available": true,
+//       "job_type": values.job_type,
+//       "salary": "",
+//       "career_level": values.career_level,
+//       "role": values.job_role,
+//       "skills":skillsString
+//     }
+//     // console.log(j_data);
+    
+//     postJob(isAuthenticated().access_token,j_data)
+//       .then(data=>{
+
+//         if(data.error==="token_expired"){
+//           //handle expired token
+//           console.log("token expired");
+//           refreshToken(isAuthenticated().refresh_token)
+//                 .then(r=>{
+//                   console.log(r);
+//                   postJob(isAuthenticated().company_id,r.access_token)
+//                     .then(ress2=>{
+//                       console.log(ress2);
+
+//                       //todo change in the local storage
+//                       setValues({...values,
+//           title:"",
+//           job_type:"",
+          
+//           career_level:"",
+      
+//           skills_required:"",
+//           job_desc:"",
+//           job_role:""
+      
+//         })
+//         setSkillsString("");
+//         alert("job posted successfully");
+//         gContext.togglePostjobModal();
+//         if(window.location.pathname==="/dashboard-jobs"){
+//             window.location.reload()
+//         }
+//         router.push("/dashboard-jobs");
                       
 
 
-                    })
-                })
-                ///////////////////////////
+//                     })
+//                 })
+//                 ///////////////////////////
 
-        }else{
-        console.log(data);
-        setValues({...values,
-          post_title:"",
-          job_type:"",
+//         }else{
+//         console.log(data);
+//         setValues({...values,
+//           title:"",
+//           job_type:"",
           
-          career_level:"",
+//           career_level:"",
       
-          skills_required:"",
-          job_desc:"",
-          job_role:""
+//           skills_required:"",
+//           job_desc:"",
+//           job_role:""
       
-        })
-        setSkillsString("");
+//         })
+//         setSkillsString("");
         
-        alert("job posted successfully");
-        console.log(window.location.pathname)
+//         alert("job posted successfully");
+//         console.log(window.location.pathname)
 
-        if(window.location.pathname==="/dashboard-jobs"){
-          console.log(window.location.pathname)
-          window.location.reload()
-          console.log("reload")
-      }
-      router.push("/dashboard-jobs");
+//         if(window.location.pathname==="/dashboard-jobs"){
+//           console.log(window.location.pathname)
+//           window.location.reload()
+//           console.log("reload")
+//       }
+//       router.push("/dashboard-jobs");
 
 
-        gContext.togglePostjobModal();
-        // router.push("/dashboard-jobs");
-      }
-      })
+//         gContext.togglePostjobModal();
+//         // router.push("/dashboard-jobs");
+//       }
+//       })
       
-}
+// }
 
  
 
   return (
     <ModalStyled
-      {...props}
+     
       size="lg"
       centered
-      show={gContext.showPostjobModal}
-      onHide={gContext.togglePostjobModal}
+      show={gContext.showEditJobModal}
+      onHide={gContext.toggleShowEditJobModal}
     >
     <Modal.Header>
-      <p>Post a new Job as {isAuthenticated().email}</p>
+      <p>Edit the Job as {isAuthenticated().email}</p>
       <button
           type="button"
           className="circle-32 btn-reset bg-white pos-abs-tr mt-md-n6 mr-lg-n6 focus-reset z-index-supper"
@@ -253,9 +306,9 @@ const postanewJob = () =>{
                       type="text"
                       className="form-control"
                       placeholder="enter the job title"
-                      id="post_title"
-                      value={post_title}
-                      onChange={handleChange("post_title")}
+                      id="title"
+                      value={title}
+                      onChange={handleChange("title")}
 
                     />
                   </div>
@@ -405,8 +458,9 @@ const postanewJob = () =>{
 
                   <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
-                      postanewJob();
-                  }}>POST</button>
+                    //   postanewJob();
+                    editTheJob();
+                  }}>Save Changes</button>
 
                   
                  
@@ -420,4 +474,4 @@ const postanewJob = () =>{
   );
 };
 
-export default CompanyPostjobModal;
+export default CompanyEditJobModal;

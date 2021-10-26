@@ -15,6 +15,8 @@ const GlobalProvider = ({ children }) => {
   const [signinComp,setSigninComp] = useState(false);
   const [showPostjobModal,setShowPostjobModal] = useState(false);
   const [showJobDetails,setShowJobDetails] = useState(false);
+  const [showEditJobModal,setShowEditJobModal] = useState(false);
+  const [editjid,setEditjid] = useState(1);
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -30,6 +32,10 @@ const GlobalProvider = ({ children }) => {
     theme: "dark",
     style: "style1", //style1, style2
   });
+   
+  const changeEditJid = (jid) =>{
+    setEditjid(jid);
+  }
 
   const toggleTheme = () => {
     setThemeDark(!themeDark);
@@ -46,7 +52,9 @@ const GlobalProvider = ({ children }) => {
   const togglePostjobModal = () =>{
     setShowPostjobModal(!showPostjobModal);
   }
-
+  const toggleShowEditJobModal = () =>{
+    setShowEditJobModal(!showEditJobModal)
+  }
   const toggleConfirmEmail = () =>{
     setShowConfirmEmail(!showConfirmEmail);
   }
@@ -113,7 +121,11 @@ const GlobalProvider = ({ children }) => {
         showPostjobModal,
         togglePostjobModal,
         showJobDetails,
-        toggleShowJobDetails
+        toggleShowJobDetails,
+        showEditJobModal,
+        toggleShowEditJobModal,
+        editjid,
+        changeEditJid
       }}
     >
       {children}

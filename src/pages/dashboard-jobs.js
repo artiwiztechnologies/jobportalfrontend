@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
-import { getPostedJobByCompanyFromId,isAuthenticated } from "../helper";
+import { delJobsByJobId, getJobFromId, getPostedJobByCompanyFromId,isAuthenticated, updateAuthData } from "../helper";
+import GlobalContext from "../context/GlobalContext";
+import CompanyEditJobModal from "../components/CompanyEditJobModal/CompanyEditJobModal";
 
 const defaultJobs = [
   { value: "pd", label: "Product Designer" },
@@ -13,23 +15,31 @@ const defaultJobs = [
 ];
 
 const DashboardJobs = () => {
+  const gContext = useContext(GlobalContext);
 
   const [jobs,setJobs] = useState([]);
+  const [jeditData,setJeditData] = useState();
+  const getCompanyPostedJobsClient = () =>{
+    getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
+    .then(data=>{
+      console.log(data);
+      console.log("getting jobs");
+      if(data.error==="token_expired"){
+        //handle error
+        console.log("token expired");
+        updateAuthData(isAuthenticated())
+        getCompanyPostedJobsClient()
+        
+      }else{
+        // console.log(data)
+        setJobs(data.Jobs);
+        console.log(data.Jobs);
+      }
+    })
+  }
   useEffect(()=>{
     if(isAuthenticated().company_id)
-    getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
-        .then(data=>{
-          console.log(data);
-          console.log("getting jobs");
-          if(data.error==="token_expired"){
-            //handle error
-            console.log("token expired");
-          }else{
-            // console.log(data)
-            setJobs(data.Jobs);
-            console.log(data.Jobs);
-          }
-        })
+      getCompanyPostedJobsClient()
     else
         console.log("not a company")
   },[])
@@ -48,7 +58,7 @@ const DashboardJobs = () => {
             <div className="mb-18">
               <div className="row mb-11 align-items-center">
                 <div className="col-lg-6 mb-lg-0 mb-4">
-                  <h3 className="font-size-6 mb-0">Posted Jobs (4)</h3>
+                  <h3 className="font-size-6 mb-0">Posted Jobs ({jobs.length})</h3>
                 </div>
                 <div className="col-lg-6">
                   <div className="d-flex flex-wrap align-items-center justify-content-lg-end">
@@ -110,6 +120,8 @@ const DashboardJobs = () => {
                     </thead>
                     <tbody>
 
+                    
+
 
                       {/* {
                         JSON.stringify(jobs[1].des)
@@ -153,230 +165,60 @@ const DashboardJobs = () => {
                           </h3>
                         </td>
                         <td className="table-y-middle py-7 min-width-px-80">
-                          <a
-                            href="/#"
+                          <button
+                            onClick={()=>{
+                              // console.log(gContext.editjid)
+                              gContext.changeEditJid(job.id);
+                              gContext.toggleShowEditJobModal();
+                              getJobFromId(job.id,isAuthenticated().access_token)
+                                .then(d=>{
+                                  console.log(d);
+                                  setJeditData(d);
+
+                                })
+                            }}
                             className="font-size-3 font-weight-bold text-green text-uppercase"
                           >
                             Edit
-                          </a>
+                          </button>
                         </td>
                         <td className="table-y-middle py-7 min-width-px-100">
-                          <a
-                            href="/#"
+                          <button
+                          onClick={()=>{
+                            delJobsByJobId(job.id,isAuthenticated().access_token) 
+                              .then(d=>{
+                                console.log(d);
+                                if(d.message==="Job deleted."){
+                                  alert(d.message);
+                                  window.location.reload()
+                                }else{
+                                  alert("something went wrong!")
+                                }
+
+                              })
+                          }}
+                            
                             className="font-size-3 font-weight-bold text-red-2 text-uppercase"
                           >
                             Delete
-                          </a>
+                          </button>
                         </td>
                       </tr>
                         ))
                       }
-                      {/* <tr className="border border-color-2">
-                        <th
-                          scope="row"
-                          className="pl-6 border-0 py-7 min-width-px-235"
-                        >
-                          <div className="">
-                            <Link href="/job-details">
-                              <a className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                Senior Project Manager
-                              </a>
-                            </Link>
-                          </div>
-                        </th>
-                        <td className="table-y-middle py-7 min-width-px-135">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            Full-Time
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-125">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            New York
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-155">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            12 July, 2020
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-205">
-                          <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
-                            47
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-80">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-green text-uppercase"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-100">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      </tr>
-                      <tr className="border border-color-2">
-                        <th
-                          scope="row"
-                          className="pl-6 border-0 py-7 min-width-px-235"
-                        >
-                          <div className="">
-                            <Link href="/job-details">
-                              <a className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                UI Designer
-                              </a>
-                            </Link>
-                          </div>
-                        </th>
-                        <td className="table-y-middle py-7 min-width-px-135">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            Full-Time
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-125">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            Remote
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-155">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            24 June, 2020
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-205">
-                          <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
-                            145
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-80">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-green text-uppercase"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-100">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      </tr>
-                      <tr className="border border-color-2">
-                        <th
-                          scope="row"
-                          className="pl-6 border-0 py-7 min-width-px-235"
-                        >
-                          <div className="">
-                            <Link href="/job-details">
-                              <a className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                Head of Marketing
-                              </a>
-                            </Link>
-                          </div>
-                        </th>
-                        <td className="table-y-middle py-7 min-width-px-135">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            Full-Time
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-125">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            London
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-155">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            15 June, 2020
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-205">
-                          <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
-                            62
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-80">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-green text-uppercase"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-100">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      </tr>
-                      <tr className="border border-color-2">
-                        <th
-                          scope="row"
-                          className="pl-6 border-0 py-7 min-width-px-235"
-                        >
-                          <div className="">
-                            <Link href="/job-details">
-                              <a className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                Full-Stack Developer
-                              </a>
-                            </Link>
-                          </div>
-                        </th>
-                        <td className="table-y-middle py-7 min-width-px-135">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            Part-Time
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-125">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            California
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-155">
-                          <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                            29 May, 2020
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-205">
-                          <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
-                            184
-                          </h3>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-80">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-green text-uppercase"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                        <td className="table-y-middle py-7 min-width-px-100">
-                          <a
-                            href="/#"
-                            className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      </tr> */}
+                     
                     </tbody>
                   </table>
                 </div>
+               {
+
+                 jeditData &&  <CompanyEditJobModal jedit_data={jeditData} />
+               }
               </div>
             </div>
           </div>
+          
+
         </div>
       </PageWrapper>
     </>
