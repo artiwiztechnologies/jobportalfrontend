@@ -67,7 +67,9 @@ const ModalCompanySignUp = (props) => {
               setEmail("");
               setPhonenumber("");
               gContext.toggleSignupCompanyModal();
-              gContext.toggleSignInModal();
+              gContext.toggleConfirmEmail()
+
+              // gContext.toggleSignInModal();
 
               
           }else{

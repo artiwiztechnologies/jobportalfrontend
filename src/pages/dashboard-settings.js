@@ -99,7 +99,15 @@ const DashboardSettings = () => {
   // }
 
   useEffect(() => {
-    if (isAuthenticated()) console.log(uId);
+    if(!isAuthenticated().company_id && isAuthenticated().user_id){
+    
+      router.push("/dashboard-settings-user");
+    
+  }else if(!isAuthenticated()){
+    router.push("/");
+    alert("please login!")
+  }
+    if (isAuthenticated().company_id) console.log(uId);
     getCompanyWithId(uId, isAuthenticated().access_token).then((data) => {
       console.log(data);
       if (data.error === "token_expired") {
@@ -168,12 +176,12 @@ const DashboardSettings = () => {
           updateCompanyDetails(data.access_token, uid, userData).then((res) => {
             console.log(res);
             alert("successfully updated");
-            router.push("/");
+            
           });
         });
       } else {
         alert("successfully updated");
-        router.push("/");
+        // router.push("/");
       }
     });
   };
@@ -203,7 +211,7 @@ const DashboardSettings = () => {
                   {/* <div className="mb-16"> */}
                       <div className="text-center mb-16">
                       {isAuthenticated().company_id ? (
-                        photourl.length != 0 ? (
+                        photourl?.length != 0 ? (
                           <div className="text-center">
                             <img
                               src={photourl}
@@ -216,7 +224,16 @@ const DashboardSettings = () => {
                               }}
                             />
                           </div>
-                        ) : null
+                        ) : <div className="text-center"><img
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4wLEoiR0baQCYjpHMu_DEsv6qmGkXs99lvRRxAnhZj3_pM_qsIRdYFnjZ5Lozl4q2KNg&usqp=CAU"
+                              alt=""
+                              style={{
+                                borderRadius: "12px",
+                                marginBottom: "20px",
+                                height: "200px",
+                                width: "200px",
+                              }}
+                            /></div>
                       ) : null}
 
                       {/* <p>{photourl}</p> */}
@@ -309,10 +326,18 @@ const DashboardSettings = () => {
                               >
                                 Company Type
                               </label>
-                              <Select
+                              {/* <Select
                                 options={defaultTypes}
                                 className="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100 "
                                 border={false}
+                              /> */}
+                              <input
+                                type="text"
+                                className="form-control h-px-48"
+                                id="namedash"
+                                placeholder="company Type"
+                                value={companyType}
+                                onChange={handleChange("companyType")}
                               />
                             </div>
                           </div>
@@ -342,13 +367,24 @@ const DashboardSettings = () => {
                                 htmlFor="address"
                                 className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
                               >
-                                Location or (Remote)
+                                Address
                               </label>
-                              <Select
+                              {/* <Select
                                 options={defaultLocations}
                                 className="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100 "
                                 border={false}
-                              />
+                              /> */}
+                              <textarea
+                                name="textarea"
+                                id="aboutTextarea"
+                                cols="30"
+                                rows="7"
+                                value={location}
+                                onChange={handleChange("location")}
+                                className="border border-mercury text-gray w-100 pt-4 pl-6"
+                                placeholder="current location/address"
+                              ></textarea>
+
                               <span className="h-100 w-px-50 pos-abs-tl d-flex align-items-center justify-content-center font-size-6"></span>
                             </div>
                           </div>

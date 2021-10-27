@@ -64,6 +64,14 @@ const DashboardSettings = () => {
   const { about, name, location, links, email, profession } = userData;
 
   useEffect(() => {
+    if(!isAuthenticated().user_id && isAuthenticated().company_id){
+    
+      router.push("/dashboard-settings");
+    
+  }else if(!isAuthenticated()){
+    router.push("/");
+    alert("please login!")
+  }
     if (isAuthenticated() && isAuthenticated().user_id) {
       getUserWithId(uId, isAuthenticated().access_token).then((data) => {
         if (data.error === "token_expired") {
@@ -118,7 +126,7 @@ const DashboardSettings = () => {
         }
       });
     } else {
-      if (isAuthenticated()) {
+      if (isAuthenticated().user_id) {
         router.push("/dashboard-settings");
       }
     }
@@ -156,6 +164,8 @@ const DashboardSettings = () => {
       // }
     });
   };
+
+
 
   return (
     <>
@@ -414,11 +424,16 @@ const DashboardSettings = () => {
                               >
                                 Location or (Remote)
                               </label>
-                              <Select
-                                options={defaultLocations}
-                                className="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100 "
-                                border={false}
-                              />
+                              <textarea
+                                name="textarea"
+                                id="aboutTextarea"
+                                cols="30"
+                                rows="7"
+                                value={location}
+                                onChange={handleChange("location")}
+                                className="border border-mercury text-gray w-100 pt-4 pl-6"
+                                placeholder="current location/address"
+                              ></textarea>
                               <span className="h-100 w-px-50 pos-abs-tl d-flex align-items-center justify-content-center font-size-6"></span>
                             </div>
                           </div>

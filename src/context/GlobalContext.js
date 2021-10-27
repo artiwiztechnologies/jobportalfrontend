@@ -17,6 +17,9 @@ const GlobalProvider = ({ children }) => {
   const [showJobDetails,setShowJobDetails] = useState(false);
   const [showEditJobModal,setShowEditJobModal] = useState(false);
   const [editjid,setEditjid] = useState(1);
+  const [alertinfo,setAlertinfo] = useState("hey");
+  const [showalertBox,setShowalertBox] = useState(false);
+
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -90,6 +93,12 @@ const GlobalProvider = ({ children }) => {
     setVisibleOffCanvas(false);
   };
 
+  const toggleAlertBox = () =>{
+    setShowalertBox(!showalertBox);
+  }
+
+  
+
   return (
     <GlobalContext.Provider
       value={{
@@ -125,7 +134,13 @@ const GlobalProvider = ({ children }) => {
         showEditJobModal,
         toggleShowEditJobModal,
         editjid,
-        changeEditJid
+        changeEditJid,
+        alertinfo,
+        setAlertinfo,
+        showalertBox,
+        toggleAlertBox
+
+
       }}
     >
       {children}

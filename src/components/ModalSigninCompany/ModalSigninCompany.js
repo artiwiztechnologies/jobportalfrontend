@@ -17,6 +17,9 @@ const ModalSigninCompany = (props) => {
   const gContext = useContext(GlobalContext);
   const [phonenumber,setPhonenumber] = useState("");
   const [password,setPassword] = useState("");
+  const [errorSgn,setErrorSgn] = useState(false);
+
+  const [errormsg,setErrormsg] = useState("");
 
   const handleClose = () => {
     gContext.toggleSigninCompany();
@@ -35,10 +38,14 @@ const ModalSigninCompany = (props) => {
   
       SigninCompany(user)
         .then((data)=>{
-          if(data.message || data.message==="Invalid Credentials!"){
-              alert("enter valid credentials");
+          if(data.message==="Invalid Credentials!"){
+              // alert("enter valid credentials");
+              setErrorSgn(true);
+              setErrormsg(data.message);
           }else if(data.message==="Company not found!"){
-            alert("company not found!");
+            // alert("company not found!");
+            setErrorSgn(true);
+            setErrormsg(data.message);
           }
           else{
             setPhonenumber("");
@@ -65,6 +72,12 @@ const ModalSigninCompany = (props) => {
         })
 
   }
+
+  const ErrorMessage = () =>(
+    <span className="text-danger mb-2 ">
+      {errormsg}
+    </span>
+  )
 
   return (
     <ModalStyled
@@ -114,7 +127,9 @@ const ModalSigninCompany = (props) => {
             </div>
             <div className="col-lg-7 col-md-6">
               <div className="bg-white-2 h-100 px-11 pt-11 pb-7">
-                
+              {
+                      errorSgn && <ErrorMessage />
+                    }
                 
                 <form action="/">
                   <div className="form-group">
@@ -190,7 +205,9 @@ const ModalSigninCompany = (props) => {
                       if(password.length != 0 && phonenumber.length != 0){
                         signinUser();
                       }else{
-                        alert("please enter valid credentials");
+                        // alert("please enter valid credentials");
+                        setErrorSgn(true)
+                        setErrormsg("please enter valid credentials");
                       }
                     }}>
                       Log in{" "} as company

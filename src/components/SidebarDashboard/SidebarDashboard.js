@@ -44,20 +44,36 @@ const Sidebar = () => {
           </div>
           <ul className="list-unstyled dashboard-layout-sidebar">
             <li className="">
-              <Link href="/dashboard-main">
+              {
+                isAuthenticated().user_id ? (
+                  <Link href="/dashboard-settings-user">
                 <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
                   <i className="icon icon-layout-11 mr-7"></i>Dashboard
                 </a>
               </Link>
+                ):(
+                  <Link href="/dashboard-settings">
+                <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
+                  <i className="icon icon-layout-11 mr-7"></i>Dashboard
+                </a>
+              </Link>
+                )
+              }
             </li>
-            <li className="">
+            {
+              isAuthenticated().company_id && (
+                <li className="">
               <Link href="/dashboard-jobs">
                 <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
                   <i className="fas fa-briefcase mr-7"></i>Posted Jobs
                 </a>
               </Link>
             </li>
-            <li className="">
+              ) 
+            }
+            {
+              isAuthenticated().company_id && (
+                <li className="">
               <Link href="/dashboard-applicants">
                 <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
                   <i className="fas fa-user mr-7"></i>Applicants{" "}
@@ -67,6 +83,9 @@ const Sidebar = () => {
                 </a>
               </Link>
             </li>
+              )
+            }
+            
             <li className="">
               <Link href="/dashboard-settings">
                 <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">

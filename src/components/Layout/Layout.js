@@ -31,7 +31,7 @@ import ConfirmEmailModal from "../ConfirmEmailModal/ConfirmEmailModal";
 import NewHeader from "../NewHeader";
 import CompanyPostjobModal from "../CompanyPostjobModal/CompanyPostjobModal";
 import { isAuthenticated } from "../../helper";
-import CompanyEditJobModal from "../CompanyEditJobModal/CompanyEditJobModal";
+
 // import JobDetailsModal from "../JobDetailsModal/JobDetailsModal";
 // import NewJobApplyModal from "../NewJobApplyModal";
 
@@ -126,6 +126,7 @@ const Layout = ({ children, pageContext }) => {
           
           <ModalSigninCompany />
           <CompanyPostjobModal />
+          
           {/* <CompanyEditJobModal /> */}
 
         </div>
@@ -172,6 +173,8 @@ const Layout = ({ children, pageContext }) => {
           <ModalCompanySignUp />
           <ModalSigninCompany />
           <CompanyPostjobModal />
+      
+
           {/* <CompanyEditJobModal /> */}
 
           
@@ -213,6 +216,10 @@ const Layout = ({ children, pageContext }) => {
           <ConfirmEmailModal />
           <ModalSigninCompany />
           <CompanyPostjobModal />
+       
+
+          
+
           {/* <CompanyEditJobModal /> */}
 
           {/* <JobDetailsModal /> */}

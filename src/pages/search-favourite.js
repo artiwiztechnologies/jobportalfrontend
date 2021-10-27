@@ -25,6 +25,7 @@ import imgB3 from "../assets/image/l1/png/feature-brand-3.png";
 import imgB4 from "../assets/image/l1/png/feature-brand-4.png";
 import imgB5 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB6 from "../assets/image/l1/png/feature-brand-6.png";
+import router from "next/router";
 
 const defaultCountries = [
   { value: "sp", label: "Singapore" },
@@ -394,7 +395,7 @@ const SearchFavorites = () => {
   const gContext = useContext(GlobalContext);
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    if (isAuthenticated() && isAuthenticated().active==true) {
       getAllJobs(isAuthenticated().access_token).then((data) => {
         if (data?.error) {
           console.log("error:", data.error);
@@ -419,7 +420,8 @@ const SearchFavorites = () => {
         setJobsSavedData(d1.Favorites);
       });
     } else {
-      console.log("not a company");
+      router.push("/pricing");
+      alert("please subscribe to a plan!");
     }
   }, []);
 

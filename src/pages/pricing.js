@@ -1,51 +1,69 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
-import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPlans, getUserWithId, getCompanyWithId } from "../helper";
+import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPlans, getUserWithId, getCompanyWithId, updateAuthData } from "../helper";
 import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
+import router from "next/router";
+
 
 const Pricing = () => {
   const [plans,setPlans] = useState();
   const [username,setUsername] = useState();
   const [phnnum,setPhnnum] = useState();
   const [disabled,setDisabled] = useState(true);
-  
-  useEffect(()=>{
-    getPlans()
-      .then(data=>{
-        console.log(data);
-        setPlans(data.plans)
-      })
-      if(isAuthenticated()){
-        setDisabled(false);
 
-      if(isAuthenticated().user_id){
-        getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
-          .then(d1=>{
-            console.log(d1)
-            setPhnnum(d1.phonenumber);
-            setUsername(d1.name);
+  // if(d2.error === 'token_expired'){
+  //   updateAuthData(isAuthenticated())
+
+  // }
+
+  const getDataRequired = () =>{
+  getPlans()
+    .then(data=>{
+      console.log(data);
+      setPlans(data.plans)
+      if(data.error==="token_expired"){
+        updateAuthData(isAuthenticated())
+        getDataRequired();
+      }
+    })
+    if(isAuthenticated()){
+      setDisabled(false);
+
+    if(isAuthenticated().user_id){
+      getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
+        .then(d1=>{
+          console.log(d1)
+          setPhnnum(d1.phonenumber);
+          setUsername(d1.name);
+        })
+        .catch(err=>{
+          alert(err)
+        })
+    }else if(isAuthenticated().company_id){
+        getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
+          .then(d2=>{
+            console.log(d2);
+            setPhnnum(d2.phonenumber)
+            setUsername(d2.name);
+            
+            
           })
           .catch(err=>{
-            alert(err)
+            alert(err);
           })
-      }else if(isAuthenticated().company_id){
-          getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
-            .then(d2=>{
-              console.log(d2);
-              setPhnnum(d2.phonenumber)
-              setUsername(d2.name);
-            })
-            .catch(err=>{
-              alert(err);
-            })
-      }
     }
-    else{
-      alert("you are not signed in,please do signin to access our plans!")
-    }
+  }
+  else{
+    alert("you are not signed in,please do signin to access our plans!")
+  }
+  }
+  
+  useEffect(()=>{
+
     //get the  user info with user id
+    getDataRequired()
   },[])
   const [orderId,setOrderId] = useState('');
   
@@ -81,7 +99,7 @@ async function displayRazorpay(plan_id) {
 
     const orderFetchData = {
       "plan_id": plan_id,
-      "user_id": isAuthenticated().user_id,
+      "user_id": isAuthenticated().user_id ? isAuthenticated().user_id : isAuthenticated().company_id,
       "email": isAuthenticated().email,
       "user_type": isAuthenticated().type
   }
@@ -143,6 +161,13 @@ async function displayRazorpay(plan_id) {
           .then(d1=>{
             console.log(d1);
             alert(d1.message);
+            if(d1.message==="Valid payment."){
+            let authdata = isAuthenticated();
+            authdata.active = true
+            updateAuthData(authdata)
+            router.push("/search-grid");
+            
+            }
           })
         // alert("PAYMENT ID ::" + response.razorpay_payment_id);
         // alert("ORDER ID :: " + response.razorpay_order_id);

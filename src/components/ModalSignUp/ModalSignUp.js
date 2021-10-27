@@ -5,6 +5,8 @@ import ModalSignIn from "../ModalSignIn/ModalSignIn";
 import GlobalContext from "../../context/GlobalContext";
 // 211
 import {signup} from "../../helper/index.js";
+import AlertModal from "../AlertModal/AlertModal";
+
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -62,6 +64,8 @@ const ModalSignUp = (props) => {
           if(data.message==="User created successfully."){
           console.log(data);
           alert("success")
+          // <AlertModal info={data.message} show={true}   />
+
           setName("");
           setEmail("");
           setAddress("");
@@ -73,6 +77,8 @@ const ModalSignUp = (props) => {
           gContext.toggleConfirmEmail()
           }else{
             alert(data.message)
+            // <AlertModal info={data.message} show={true}   />
+            // alertInfo(data.message)
           }
           
         })

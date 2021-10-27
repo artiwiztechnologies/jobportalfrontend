@@ -12,7 +12,7 @@ export const menuItems = [
       label: "Dashboard"
     },
     {
-      name:"search-list",
+      name:"search-grid",
       label:"Find Jobs"
     },
 

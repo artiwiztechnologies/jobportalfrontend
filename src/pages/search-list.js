@@ -20,6 +20,7 @@ import iconS from "../assets/image/svg/icon-suitecase.svg";
 import iconC from "../assets/image/svg/icon-clock.svg";
 import GlobalContext from "../context/GlobalContext";
 import { Button } from "react-bootstrap";
+import router from "next/router";
 
 const defaultCountries = [
   { value: "sp", label: "Singapore" },
@@ -33,7 +34,8 @@ const SearchGrid = () => {
   const gContext = useContext(GlobalContext);
   const [jobs,setJobs] = useState([]);
   useEffect(()=>{
-    if(isAuthenticated())
+    
+    if(isAuthenticated() && isAuthenticated().active===true){
       getAllJobs(isAuthenticated().access_token)
         .then(data=>{
           if(data.error){
@@ -56,21 +58,12 @@ const SearchGrid = () => {
           setJobs(data.Jobs)
           }
         })
-    // getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
-    //     .then(data=>{
-    //       console.log(data);
-    //       console.log("getting jobs");
-    //       if(data.error==="token_expired"){
-    //         //handle error
-    //         console.log("token expired");
-    //       }else{
-    //         // console.log(data)
-    //         setJobs(data.Jobs);
-    //         console.log(data.Jobs);
-    //       }
-    //     })
-    else
-        console.log("not a company")
+      }
+
+    else{
+        router.push("/pricing");
+        alert("please subscribe to a plan!")
+    }
   },[])
   return (
     <>
