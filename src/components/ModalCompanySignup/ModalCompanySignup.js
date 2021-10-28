@@ -52,7 +52,7 @@ const ModalCompanySignUp = (props) => {
         
         "password": password,
         
-        "active": true,
+        "active": false,
         "status":1//in production 1 ,for test 2
     }
       signUpCompany(company)
