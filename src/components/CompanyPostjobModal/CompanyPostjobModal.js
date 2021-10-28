@@ -33,7 +33,8 @@ const CompanyPostjobModal = (props) => {
     comp_size:"",//from getcompany
     skills_required:"",
     job_desc:"",
-    job_role:""
+    job_role:"",
+    salary:""
 
 
 
@@ -44,7 +45,7 @@ const CompanyPostjobModal = (props) => {
   // const [final_skills_req,setFinal_skills_req] = useState(""); 
 
 
-  const {skills_required,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,post_title} = values;
+  const {skills_required,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,post_title,salary} = values;
 
   const handleChange = name => event =>{
     setValues({
@@ -139,10 +140,11 @@ const postanewJob = () =>{
       "applicants": "",
       "available": true,
       "job_type": values.job_type,
-      "salary": "",
+      "salary": values.salary,
       "career_level": values.career_level,
       "role": values.job_role,
       "skills":skillsString
+      
     }
     // console.log(j_data);
     
@@ -163,6 +165,7 @@ const postanewJob = () =>{
                       setValues({...values,
           post_title:"",
           job_type:"",
+          salary:"",
           
           career_level:"",
       
@@ -192,7 +195,7 @@ const postanewJob = () =>{
           job_type:"",
           
           career_level:"",
-      
+          salary:"",
           skills_required:"",
           job_desc:"",
           job_role:""
@@ -363,7 +366,17 @@ const postanewJob = () =>{
               ) : // </span>
               null}
             </div>
-                  
+            <label className="font-size-4 text-black-2 font-weight-semibold line-height-reset">
+                Salary
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="enter the salary you provide in Rupees"
+                id="none"
+                value={salary}
+                onChange={handleChange("salary")}
+              />
 
                   <div className="form-group">
                     <label

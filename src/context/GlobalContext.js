@@ -19,6 +19,8 @@ const GlobalProvider = ({ children }) => {
   const [editjid,setEditjid] = useState(1);
   const [alertinfo,setAlertinfo] = useState("hey");
   const [showalertBox,setShowalertBox] = useState(false);
+  const [editJobData,setEditJobData] = useState();
+  const [savedJobs,setSavedJobs] = useState();
 
 
   const [header, setHeader] = useState({
@@ -138,7 +140,11 @@ const GlobalProvider = ({ children }) => {
         alertinfo,
         setAlertinfo,
         showalertBox,
-        toggleAlertBox
+        toggleAlertBox,
+        editJobData,
+        setEditJobData,
+        savedJobs,
+        setSavedJobs
 
 
       }}

@@ -543,8 +543,11 @@ export const addToFav = (user_id, job_id, tkn) => {
     return fetch(`${API}add-favorite/${job_id}`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${tkn}`,
-      },
+        Accept:"application/json",
+        Authorization:`Bearer ${tkn}`,
+        "Content-Type":"application/json"
+        
+      }
     })
       .then((res) => {
         return res.json();
@@ -558,7 +561,9 @@ export const addToFav = (user_id, job_id, tkn) => {
     return fetch(`${API}get-favorites`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${tkn}`,
+        Accept:"application/json",
+        Authorization:`Bearer ${tkn}`,
+        "Content-Type":"application/json"
       },
     })
       .then((res) => {

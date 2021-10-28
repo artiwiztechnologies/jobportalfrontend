@@ -18,7 +18,7 @@ const DashboardJobs = () => {
   const gContext = useContext(GlobalContext);
 
   const [jobs,setJobs] = useState([]);
-  const [jeditData,setJeditData] = useState();
+  const [jeditData,setJeditData] = useState({});
   const getCompanyPostedJobsClient = () =>{
     getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
     .then(data=>{
@@ -172,8 +172,22 @@ const DashboardJobs = () => {
                               gContext.toggleShowEditJobModal();
                               getJobFromId(job.id,isAuthenticated().access_token)
                                 .then(d=>{
+                                  if(d.error==="token_expired"){
+                                      updateAuthData(isAuthenticated())
+                                      getJobFromId(job.id,isAuthenticated().access_token)
+                                        .then(d1=>{
+                                          console.log(d1);
+                                          setJeditData(d1);
+                                          gContext.setEditJobData(d1);
+                                        })
+
+
+                                  }else{
                                   console.log(d);
                                   setJeditData(d);
+                                  gContext.setEditJobData(d);
+
+                                  }
 
                                 })
                             }}
@@ -210,10 +224,7 @@ const DashboardJobs = () => {
                     </tbody>
                   </table>
                 </div>
-               {
-
-                 jeditData &&  <CompanyEditJobModal jedit_data={jeditData} />
-               }
+                { gContext.editJobData  && <CompanyEditJobModal  />}
               </div>
             </div>
           </div>

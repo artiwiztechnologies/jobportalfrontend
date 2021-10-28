@@ -11,23 +11,22 @@ const ModalStyled = styled(Modal)`
   } */
 `;
 
-const CompanyEditJobModal = ({jedit_data}) => {
+const CompanyEditJobModal = () => {
   const router = useRouter();
   
   
-  // console.log(window.location.pathname)
+  // console.log(jedit_data);
+  
   
   const gContext = useContext(GlobalContext);
 
-  const handleClose = () => {
-    gContext.toggleShowEditJobModal();
-  };
+ 
 
   const [c_name,setC_name] = useState("");
 
   const [values,setValues]=useState({
-    title:jedit_data.title,job_type:jedit_data.job_type,career_level:jedit_data.career_level,skills_required:jedit_data.skills,job_desc:jedit_data.description,job_role:jedit_data.role,
-    
+    title:gContext.editJobData.title,job_type:gContext.editJobData.job_type,career_level:gContext.editJobData.career_level,skills_required:gContext.editJobData.skills,job_desc:gContext.editJobData.description,job_role:gContext.editJobData.role,
+    salary:"",
     c_addr:"",//from getcompany
     career_level:"",
     corp_type:"",//from get company
@@ -42,10 +41,27 @@ const CompanyEditJobModal = ({jedit_data}) => {
 
 
 
+  const handleClose = () => {
+    gContext.toggleShowEditJobModal();
+    // setValues({
+    //   ...values,
+    //   title:jedit_data.title,job_type:jedit_data.job_type,career_level:jedit_data.career_level,skills_required:jedit_data.skills,job_desc:jedit_data.description,job_role:jedit_data.role,
+    //   salary:"",
+    //   c_addr:"",//from getcompany
+    //   career_level:"",
+    //   corp_type:"",//from get company
+    //   comp_size:"",//from getcompany
+    
+    // })
+    gContext.setEditJobData();
+  };
+
+  
+
   // const [final_skills_req,setFinal_skills_req] = useState(""); 
 
 
-  const {skills_required,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,title} = values;
+  const {skills_required,salary,c_addr,career_level,comp_size,corp_type,job_desc,job_role,job_type,title} = values;
 
   const handleChange = name => event =>{
     setValues({
@@ -71,8 +87,8 @@ const CompanyEditJobModal = ({jedit_data}) => {
                       //todo change in the local storage
                       
                       setValues({...values,c_addr:ress1.location,corp_type:ress1.companyType,comp_size:ress1.companySize});
-
-
+                      
+                      
                     })
                 })
     
@@ -122,6 +138,7 @@ const deleteSkill = (s) =>{
  
   // hey, yov, none
   
+  
   console.log(s);
   let str = ","+s;
   let newstr = s+",";
@@ -139,6 +156,7 @@ const deleteSkill = (s) =>{
 //changes to be made for edit jobs
 const editTheJob = () =>{
     console.log("edit the job");
+
     // console.log(values)
     const jjj_data = {
       "title": values.title,
@@ -146,25 +164,15 @@ const editTheJob = () =>{
       "applicants": "",
       "available": true,
       "job_type": values.job_type,
-      "salary": "",
+      "salary": values.salary,
       "career_level": values.career_level,
       "role": values.job_role,
-      "skills": values.skills_required
+      "skills": skillsString
     }
 
-  //   const jjjjj_data = {
-  //     "title": "new2222",
-  //     "description": "new new2222",
-  //     "applicants": "[1,2,3]",
-  //     "available": true,
-  //     "job_type": "part time222",
-  //     "salary": "10000222",
-  //     "career_level": "abcde22",
-  //     "role": "wwwwww222",
-  //     "skills": "react,dev,node"
-  // }
+ 
     console.log(jjj_data);
-    editJobPosted(isAuthenticated().access_token,jedit_data.id,jjj_data)
+    editJobPosted(isAuthenticated().access_token,gContext.editJobData.id,jjj_data)
       .then(d1=>{
         console.log(d1);
         if(d1.error){
@@ -182,95 +190,6 @@ const editTheJob = () =>{
         alert(err)
       })
 }
-// const postanewJob = () =>{
-//   console.log(skillsString)
-//     // console.log(values);
-//     // console.log(values.title);
-//     const j_data = {
-//       "title": values.title,
-//       "description": values.job_desc,
-//       "applicants": "",
-//       "available": true,
-//       "job_type": values.job_type,
-//       "salary": "",
-//       "career_level": values.career_level,
-//       "role": values.job_role,
-//       "skills":skillsString
-//     }
-//     // console.log(j_data);
-    
-//     postJob(isAuthenticated().access_token,j_data)
-//       .then(data=>{
-
-//         if(data.error==="token_expired"){
-//           //handle expired token
-//           console.log("token expired");
-//           refreshToken(isAuthenticated().refresh_token)
-//                 .then(r=>{
-//                   console.log(r);
-//                   postJob(isAuthenticated().company_id,r.access_token)
-//                     .then(ress2=>{
-//                       console.log(ress2);
-
-//                       //todo change in the local storage
-//                       setValues({...values,
-//           title:"",
-//           job_type:"",
-          
-//           career_level:"",
-      
-//           skills_required:"",
-//           job_desc:"",
-//           job_role:""
-      
-//         })
-//         setSkillsString("");
-//         alert("job posted successfully");
-//         gContext.togglePostjobModal();
-//         if(window.location.pathname==="/dashboard-jobs"){
-//             window.location.reload()
-//         }
-//         router.push("/dashboard-jobs");
-                      
-
-
-//                     })
-//                 })
-//                 ///////////////////////////
-
-//         }else{
-//         console.log(data);
-//         setValues({...values,
-//           title:"",
-//           job_type:"",
-          
-//           career_level:"",
-      
-//           skills_required:"",
-//           job_desc:"",
-//           job_role:""
-      
-//         })
-//         setSkillsString("");
-        
-//         alert("job posted successfully");
-//         console.log(window.location.pathname)
-
-//         if(window.location.pathname==="/dashboard-jobs"){
-//           console.log(window.location.pathname)
-//           window.location.reload()
-//           console.log("reload")
-//       }
-//       router.push("/dashboard-jobs");
-
-
-//         gContext.togglePostjobModal();
-//         // router.push("/dashboard-jobs");
-//       }
-//       })
-      
-// }
-
  
 
   return (
@@ -279,7 +198,7 @@ const editTheJob = () =>{
       size="lg"
       centered
       show={gContext.showEditJobModal}
-      onHide={gContext.toggleShowEditJobModal}
+      onHide={handleClose}
     >
     <Modal.Header>
       <p>Edit the Job as {isAuthenticated().email}</p>
@@ -416,6 +335,18 @@ const editTheJob = () =>{
               ) : // </span>
               null}
             </div>
+
+            <label className="font-size-4 text-black-2 font-weight-semibold line-height-reset">
+                Salary in Rupees
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="enter the skills you expect from the applicants"
+                id="none"
+                value={salary}
+                onChange={handleChange("salary")}
+              />
                   
 
                   <div className="form-group">

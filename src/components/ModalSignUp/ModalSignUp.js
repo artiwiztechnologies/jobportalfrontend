@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import ModalSignIn from "../ModalSignIn/ModalSignIn";
 import GlobalContext from "../../context/GlobalContext";
 // 211
 import {signup} from "../../helper/index.js";
-import AlertModal from "../AlertModal/AlertModal";
+// import AlertModal from "../AlertModal/AlertModal";
+
+import {totalCompanies,totalJobs} from "../../helper2/index.js";
 
 
 const ModalStyled = styled(Modal)`
@@ -89,6 +91,17 @@ const ModalSignUp = (props) => {
     
   }
 
+  const [totalJob , setTotalJob] = useState();
+  const [totalComp , setTotalComp] = useState();
+
+  
+
+  useEffect(() => {
+    totalJobs().then(data => setTotalJob(data.total));
+    totalCompanies().then(data => setTotalComp(data.total));
+
+  }, [])
+
   return (
     <ModalStyled
       {...props}
@@ -120,13 +133,13 @@ const ModalSignUp = (props) => {
                 <div className="border-top border-default-color-2 mt-auto">
                   <div className="d-flex mx-n9 pt-6 flex-xs-row flex-column">
                     <div className="pt-5 px-9">
-                      <h3 className="font-size-7 text-white">295</h3>
+                      <h3 className="font-size-7 text-white">{totalJob}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
                         New jobs posted today
                       </p>
                     </div>
                     <div className="pt-5 px-9">
-                      <h3 className="font-size-7 text-white">14</h3>
+                      <h3 className="font-size-7 text-white">{totalComp}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
                         New companies registered
                       </p>

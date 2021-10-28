@@ -228,7 +228,16 @@ const DashboardSettings = () => {
                               />
                             </div>
                           ) : (
-                            <Avatar />
+                            <div className="text-center"><img
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4wLEoiR0baQCYjpHMu_DEsv6qmGkXs99lvRRxAnhZj3_pM_qsIRdYFnjZ5Lozl4q2KNg&usqp=CAU"
+                              alt=""
+                              style={{
+                                borderRadius: "12px",
+                                marginBottom: "20px",
+                                height: "200px",
+                                width: "200px",
+                              }}
+                            /></div>
                           )
                         ) : null}
 
