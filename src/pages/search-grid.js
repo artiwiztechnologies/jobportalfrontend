@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { Range, getTrackBackground } from "react-range";
 import search from "../assets/search.gif";
 
+
+
 const STEP = 1;
 const MIN = 50;
 const MAX = 180;
@@ -31,6 +33,7 @@ import imgB4 from "../assets/image/l1/png/feature-brand-4.png";
 import imgB5 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB6 from "../assets/image/l1/png/feature-brand-6.png";
 import { marginRight } from "styled-system";
+import router from "next/router";
 
 const defaultCountries = [
   { value: "sp", label: "Dubai" },
@@ -411,12 +414,18 @@ const SearchGrid = () => {
                                 }
                               })
   }
+  useEffect(()=>{
+    if(isAuthenticated() && isAuthenticated().active===true){
+        getAllJobs();
 
-  useEffect(() => {
-    if (isAuthenticated())
-      getjobs();
-    else console.log("not a company");
-  }, []);
+         
+      
+    }
+    else{
+          router.push("/pricing");
+          alert("please subscribe to a plan!");
+    }
+  },[])
 
   return (
     <>

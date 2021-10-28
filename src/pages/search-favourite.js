@@ -37,6 +37,7 @@ import imgB4 from "../assets/image/l1/png/feature-brand-4.png";
 import imgB5 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB6 from "../assets/image/l1/png/feature-brand-6.png";
 import { marginRight } from "styled-system";
+import router from "next/router";
 
 const defaultCountries = [
   { value: "sp", label: "Dubai" },
@@ -422,6 +423,7 @@ const SearchGrid = () => {
     else{
           router.push("/pricing");
           alert("please subscribe to a plan!");
+         
     }
   },[])
 
