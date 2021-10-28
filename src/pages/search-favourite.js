@@ -398,6 +398,24 @@ const SearchGrid = () => {
 
   };
 
+  const getjobs = () =>{
+    getAllJobs(isAuthenticated().access_token)
+        .then(data=>{
+          if(data.error==="token_expired"){
+            console.log("error:",data.error)
+            updateAuthData(isAuthenticated())
+            getjobs();
+            
+            
+
+          }else{
+          console.log(data);
+          console.log("hey")
+          setJobs(data.Jobs)
+          }
+        })
+  }
+
   const savetheJob = (jid) =>{
     addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
                               .then(dt1=>{

@@ -372,6 +372,7 @@ const SearchGrid = () => {
 
           }else{
           console.log(data);
+          console.log("hey")
           setJobs(data.Jobs)
           }
         })
@@ -416,14 +417,13 @@ const SearchGrid = () => {
   }
   useEffect(()=>{
     if(isAuthenticated() && isAuthenticated().active===true){
-        getAllJobs();
-
-         
+      getjobs();
       
     }
     else{
           router.push("/pricing");
           alert("please subscribe to a plan!");
+         
     }
   },[])
 
