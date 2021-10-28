@@ -22,6 +22,9 @@ const GlobalProvider = ({ children }) => {
   const [editJobData,setEditJobData] = useState();
   const [savedJobs,setSavedJobs] = useState();
 
+  const [filterJobType1, setFilterJobType1] = useState("");
+  const [filterJobType2, setFilterJobType2] = useState("");
+  const [filterJobType3, setFilterJobType3] = useState("");
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -99,6 +102,18 @@ const GlobalProvider = ({ children }) => {
     setShowalertBox(!showalertBox);
   }
 
+  const toggleFilterJobType1 = (j_type) => {
+    setFilterJobType1(j_type);
+  };
+
+  const toggleFilterJobType2 = (j_type) => {
+    setFilterJobType2(j_type);
+  };
+
+  const toggleFilterJobType3 = (j_type) => {
+    setFilterJobType3(j_type);
+  };
+
   
 
   return (
@@ -144,7 +159,13 @@ const GlobalProvider = ({ children }) => {
         editJobData,
         setEditJobData,
         savedJobs,
-        setSavedJobs
+        setSavedJobs,
+        filterJobType1,
+        toggleFilterJobType1,
+        filterJobType2,
+        toggleFilterJobType2,
+        filterJobType3,
+        toggleFilterJobType3
 
 
       }}

@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Range, getTrackBackground } from "react-range";
+import Checkbox from "../../../node_modules/@material-ui/core/Checkbox";
+import { FormGroup } from "@material-ui/core";
+import { FormControlLabel } from "@material-ui/core";
+import GlobalContext from "../../context/GlobalContext";
 
 const STEP = 1;
 const MIN = 50;
@@ -50,6 +54,58 @@ const Check = ({ children }) => {
 
 const Sidebar = () => {
   const [rangeValues, setRangeValues] = useState([70, 150]);
+
+  const [val, setVal] = useState("");
+  const gContext = useContext(GlobalContext);
+
+  const [checked1, setChecked1] = useState(false);
+  const [checked2, setChecked2] = useState(false);
+  const [checked3, setChecked3] = useState(false);
+
+  const [fullTime, setFullTime] = useState("");
+  const [partTime, setPartTime] = useState("");
+  const [intern, setIntern] = useState("");
+  const [arr, setArr] = useState([]);
+
+  const handleChange = (e) => {
+    // setVal(e.target.val);
+    // gContext.toggleFilterJobType1(e.target.value);
+  };
+
+  const handleFull = (e) => {
+    setChecked1(e.target.checked);
+    if (!checked1) {
+      setFullTime(e.target.value);
+      gContext.toggleFilterJobType1(e.target.value);
+    } else {
+      setFullTime("");
+      gContext.toggleFilterJobType1("");
+    }
+  };
+  const handlePart = (e) => {
+    setChecked2(e.target.checked);
+    if (!checked2) {
+      gContext.toggleFilterJobType2(e.target.value);
+      setPartTime(e.target.value);
+    } else {
+      gContext.toggleFilterJobType2("");
+      setPartTime("");
+    }
+  };
+  const handleIntern = (e) => {
+    setChecked3(e.target.checked);
+    if (!checked3) {
+      gContext.toggleFilterJobType3(e.target.value);
+      setIntern(e.target.value);
+    } else {
+      gContext.toggleFilterJobType3("");
+      setIntern("");
+    }
+  };
+  // console.log(
+  //   `${gContext.filterJobType1} ${gContext.filterJobType2} ${gContext.filterJobType3}`
+  // );
+
   return (
     <>
       {/* <!-- Sidebar Start --> */}
@@ -57,19 +113,92 @@ const Sidebar = () => {
         <h4 className="font-size-6 font-weight-semibold mb-6">Job Type</h4>
         <ul className="list-unstyled filter-check-list">
           <li className="mb-2">
-            <Check>Full Time</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Part Time</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Contract</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Internship</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Temporary</Check>
+            <div style={{}} class="form-check">
+              <input
+                style={{ transform: "scale(1.5)" }}
+                class="form-check-input"
+                type="checkbox"
+                value="Full Time"
+                checked={checked1}
+                onChange={handleFull}
+                id="flexCheckDefault"
+              />
+              <label
+                style={{ marginTop: "-5px" }}
+                class="form-check-label"
+                for="flexCheckDefault"
+              >
+                Full Time
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                style={{ transform: "scale(1.5)" }}
+                class="form-check-input"
+                type="checkbox"
+                value="Part Time"
+                checked={checked2}
+                onChange={handlePart}
+                id="flexCheckChecked"
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                Part Time
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                style={{ transform: "scale(1.5)" }}
+                class="form-check-input"
+                type="checkbox"
+                value="Intern"
+                checked={checked3}
+                onChange={handleIntern}
+                id="flexCheckChecked"
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                Intern
+              </label>
+            </div>
+            {/* <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name={gContext.filterJobType}
+                onChange={handleChange}
+                value="Full Time"
+                checked={gContext.filterJobType == "Full Time"}
+                // checked
+              />
+              <label class="form-check-label" for="exampleRadios1">
+                Full Time
+              </label>
+            </div> */}
+            {/* <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name={gContext.filterJobType}
+                onChange={handleChange}
+                value="Part Time"
+                checked={gContext.filterJobType == "Part Time"}
+              />
+              <label class="form-check-label" for="exampleRadios2">
+                Part Time
+              </label>
+            </div> */}
+            {/* <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name={gContext.filterJobType}
+                onChange={handleChange}
+                value="Intern"
+                checked={gContext.filterJobType == "Intern"}
+              />
+              <label class="form-check-label" for="exampleRadios2">
+                Intern
+              </label>
+            </div> */}
           </li>
         </ul>
       </div>
@@ -176,43 +305,7 @@ const Sidebar = () => {
           </>
         </div>
       </div>
-      <div className="widgets mb-11">
-        <h4 className="font-size-6 font-weight-semibold mb-6">
-          Experience Level{" "}
-        </h4>
-        <ul className="list-unstyled filter-check-list">
-          <li className="mb-2">
-            <Check>All</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Senior</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Mid</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Junior</Check>
-          </li>
-        </ul>
-      </div>
-      <div className="widgets mb-11">
-        <h4 className="font-size-6 font-weight-semibold mb-6">Posted Time</h4>
-        <ul className="list-unstyled filter-check-list">
-          <li className="mb-2">
-            <Check>Anytime</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Last day</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Last 3 days</Check>
-          </li>
-          <li className="mb-2">
-            <Check>Last week</Check>
-          </li>
-        </ul>
-      </div>
-      {/* <!-- Sidebar End --> */}
+      
     </>
   );
 };

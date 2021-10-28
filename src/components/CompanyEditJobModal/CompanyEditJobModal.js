@@ -183,7 +183,10 @@ const editTheJob = () =>{
           alert(d1.error)
           }
         }else{
-          alert(d1.message)
+          alert(d1.message);
+          if(d1.message==="Updated successfuly!"){
+            window.location.reload();
+          }
         }
       })
       .catch(err=>{

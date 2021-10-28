@@ -558,7 +558,7 @@ export const addToFav = (user_id, job_id, tkn) => {
   };
   
   export const getFav = (tkn) => {
-    return fetch(`${API}get-favorites`, {
+    return fetch(`https://api.jobstextile.com/user/favorites`, {
       method: "GET",
       headers: {
         Accept:"application/json",
