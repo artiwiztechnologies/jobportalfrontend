@@ -12,7 +12,7 @@ import NestedMenu from "../NestedMenu";
 import { device } from "../../utils";
 import Logo from "../Logo";
 import { menuItems } from "./menuItems";
-
+import {printRes} from "../../helper2/index.js";
 
 import imgP from "../../assets/image/header-profile.png";
 import { getCompanyWithId, isAuthenticated, refreshToken, signout } from "../../helper";
@@ -88,7 +88,7 @@ const Header = () => {
                 localStorage.setItem("jwt",JSON.stringify(authdata))
                 getCompanyWithId(authdata.company_id,res.access_token)
                   .then(respo=>{
-                    console.log(respo)
+                    printRes(respo)
               setImg_url(respo.photoURL)
 
 
@@ -99,7 +99,7 @@ const Header = () => {
             }
                 })
             }else{
-              console.log(data)
+              printRes(data)
               setImg_url(data.photoURL)
             }
               
@@ -344,7 +344,7 @@ const Header = () => {
                         }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -378,7 +378,7 @@ const Header = () => {
                         }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -447,7 +447,7 @@ const Header = () => {
                         }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
 
                             },isAuthenticated().access_token)
@@ -483,7 +483,7 @@ const Header = () => {
                         
                           <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -624,7 +624,7 @@ export default Header;
 //                 localStorage.setItem("jwt",JSON.stringify(authdata))
 //                 getCompanyWithId(authdata.company_id,res.access_token)
 //                   .then(respo=>{
-//                     console.log(respo)
+//                     printRes(respo)
 //               setImg_url(respo.photoURL)
 
 
@@ -635,7 +635,7 @@ export default Header;
 //             }
 //                 })
 //             }else{
-//               console.log(data)
+//               printRes(data)
 //               setImg_url(data.photoURL)
 //             }
               
@@ -853,7 +853,7 @@ export default Header;
 //                         </Link>
 //                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
 //                             signout(()=>{
-//                               console.log("signout success");
+//                               printRes("signout success");
 //                               router.push("/");
 //                               // window.location.reload();
 
@@ -880,7 +880,7 @@ export default Header;
                         
 //                           <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
 //                             signout(()=>{
-//                               console.log("signout success");
+//                               printRes("signout success");
 //                               router.push("/");
 //                               // window.location.reload()
 //                             },isAuthenticated().access_token)

@@ -10,16 +10,17 @@ import imgB3 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB4 from "../assets/image/l3/png/github-mark.png";
 import imgB5 from "../assets/image/l3/png/universal.png";
 import { isAuthenticated,getUserWithId, getCompanyWithId, refreshToken } from "../helper";
+import { printRes } from "../helper2";
 
 
 const CandidateProfile = () => {
-  // console.log(isAuthenticated());
+  // printRes(isAuthenticated());
   // getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
   //   .then(data =>{
-  //     console.log(data)
+  //     printRes(data)
   //   })
   //   .catch((err)=>{
-  //     console.log(err);
+  //     printRes(err);
   //   })
   let c_id=isAuthenticated().company_id;
   let tkn = isAuthenticated().access_token;
@@ -35,7 +36,7 @@ const CandidateProfile = () => {
     if(isAuthenticated()){
       getCompanyWithId(c_id,tkn)
        .then(data=>{
-         console.log(data);
+         printRes(data);
          if(data.error==="token_expired"){
            refreshToken(r_tkn)
             .then(data=>{
@@ -45,7 +46,7 @@ const CandidateProfile = () => {
                 localStorage.setItem("jwt",JSON.stringify(auth_data))
                 getCompanyWithId(c_id,data.access_token)
                   .then(res=>{
-                    console.log(res)
+                    printRes(res)
                   })
                 
                 

@@ -5,6 +5,7 @@ import { Select } from "../components/Core";
 import { delJobsByJobId, getJobFromId, getPostedJobByCompanyFromId,isAuthenticated, updateAuthData } from "../helper";
 import GlobalContext from "../context/GlobalContext";
 import CompanyEditJobModal from "../components/CompanyEditJobModal/CompanyEditJobModal";
+import { printRes } from "../helper2";
 
 const defaultJobs = [
   { value: "pd", label: "Product Designer" },
@@ -22,18 +23,18 @@ const DashboardJobs = () => {
   const getCompanyPostedJobsClient = () =>{
     getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
     .then(data=>{
-      console.log(data);
-      console.log("getting jobs");
+      printRes(data);
+      printRes("getting jobs");
       if(data.error==="token_expired"){
         //handle error
-        console.log("token expired");
+        printRes("token expired");
         updateAuthData(isAuthenticated())
         getCompanyPostedJobsClient()
         
       }else{
-        // console.log(data)
+        // printRes(data)
         setJobs(data.Jobs);
-        console.log(data.Jobs);
+        printRes(data.Jobs);
       }
     })
   }
@@ -41,7 +42,7 @@ const DashboardJobs = () => {
     if(isAuthenticated().company_id)
       getCompanyPostedJobsClient()
     else
-        console.log("not a company")
+        printRes("not a company")
   },[])
   return (
     <>
@@ -167,7 +168,7 @@ const DashboardJobs = () => {
                         <td className="table-y-middle py-7 min-width-px-80">
                           <button
                             onClick={()=>{
-                              // console.log(gContext.editjid)
+                              // printRes(gContext.editjid)
                               gContext.changeEditJid(job.id);
                               gContext.toggleShowEditJobModal();
                               getJobFromId(job.id,isAuthenticated().access_token)
@@ -176,14 +177,14 @@ const DashboardJobs = () => {
                                       updateAuthData(isAuthenticated())
                                       getJobFromId(job.id,isAuthenticated().access_token)
                                         .then(d1=>{
-                                          console.log(d1);
+                                          printRes(d1);
                                           setJeditData(d1);
                                           gContext.setEditJobData(d1);
                                         })
 
 
                                   }else{
-                                  console.log(d);
+                                  printRes(d);
                                   setJeditData(d);
                                   gContext.setEditJobData(d);
 
@@ -201,7 +202,7 @@ const DashboardJobs = () => {
                           onClick={()=>{
                             delJobsByJobId(job.id,isAuthenticated().access_token) 
                               .then(d=>{
-                                console.log(d);
+                                printRes(d);
                                 if(d.message==="Job deleted."){
                                   alert(d.message);
                                   window.location.reload()

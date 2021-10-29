@@ -14,9 +14,11 @@ import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 
 
+
 import imgP from "../../assets/image/header-profile.png";
 import { getCompanyWithId, isAuthenticated, refreshToken, signout } from "../../helper";
 import {useRouter} from "next/router";
+import { printRes } from "../../helper2";
 
 const SiteHeader = styled.header`
   .dropdown-toggle::after {
@@ -88,7 +90,7 @@ const Header = () => {
                 localStorage.setItem("jwt",JSON.stringify(authdata))
                 getCompanyWithId(authdata.company_id,res.access_token)
                   .then(respo=>{
-                    console.log(respo)
+                    printRes(respo)
               setImg_url(respo.photoURL)
 
 
@@ -99,7 +101,7 @@ const Header = () => {
             }
                 })
             }else{
-              console.log(data)
+              printRes(data)
               setImg_url(data.photoURL)
             }
               
@@ -344,7 +346,7 @@ const Header = () => {
                         }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -378,7 +380,7 @@ const Header = () => {
                         }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -447,7 +449,7 @@ const Header = () => {
                         }
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
 
                             },isAuthenticated().access_token)
@@ -483,7 +485,7 @@ const Header = () => {
                         
                           <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
-                              console.log("signout success");
+                              printRes("signout success");
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>

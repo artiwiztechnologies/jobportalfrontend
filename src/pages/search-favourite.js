@@ -13,6 +13,8 @@ import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import { Range, getTrackBackground } from "react-range";
 import search from "../assets/search.gif";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import Notiflix from 'notiflix';
 
 const STEP = 1;
 const MIN = 50;
@@ -27,8 +29,11 @@ import {
   refreshToken,
   updateAuthData,
   addToFav,
-  getFav
+  getFav,
+  
 } from "../helper";
+
+import {alertInfo, printRes,alertWarning,alertSuccess} from "../helper2"
 
 import imgB1 from "../assets/image/l1/png/feature-brand-1.png";
 import imgB2 from "../assets/image/l1/png/feature-brand-2.png";
@@ -57,15 +62,21 @@ const ModalViewJobDetails = ({
       j_id,
       isAuthenticated().access_token
     ).then((data) => {
-      console.log(data);
+      
       if(data.error==="token_expired"){
         updateAuthData(isAuthenticated())
         jobApply(j_id);
       }
       if (data.message === "Applied successfuly!!") {
-        alert(data.message);
+        // alert(data.message);
+        alertSuccess(data.message);
+
       } else {
-        alert(data.message);
+        // alert(data.message);
+        // Notiflix.Notify.info(data.message,{
+        //   position: "center-top"
+        // });
+        alertWarning(data.message)
         //then do error handling stuff here
       }
     });
@@ -75,21 +86,25 @@ const ModalViewJobDetails = ({
   const savetheJob = (jid) =>{
     addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
                               .then(dt1=>{
-                                console.log(dt1);
+                                printRes(dt1);
                                 if(dt1.error==="token_expired"){
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)
                                 }
                                 if (dt1.message === "Applied successfuly!!") {
-                                  alert(dt1.message);
+                                  // alert(dt1.message);
+                                  Notiflix.Notify.success(dt1.message);
+                                    
                                 } else {
-                                  alert(dt1.message);
+                                  // alert(dt1.message);
+                                  Notiflix.Notify.failure(dt1.message);
+
                                   //then do error handling stuff here
                                 }
                               })
   }
   if (ModalJobData) {
-    console.log(ModalJobData);
+    printRes(ModalJobData);
 
     return (
       <Modal size="lg" show={show} onHide={handleClose}>
@@ -146,7 +161,7 @@ const ModalViewJobDetails = ({
                     <button
                       className="btn btn-green text-uppercase btn-medium rounded-3 w-180 mr-4 mb-5"
                       onClick={() => {
-                        console.log(ModalJobData.id);
+                        printRes(ModalJobData.id);
                         jobApply(ModalJobData.id);
                         
                       }}
@@ -155,7 +170,7 @@ const ModalViewJobDetails = ({
                     </button>
 
                     <span onClick={()=>{
-                      console.log("save job!")
+                      printRes("save job!")
                       //addToFav function
                       savetheJob(ModalJobData.id);
 
@@ -360,14 +375,14 @@ const SearchGrid = () => {
 
   const [query, setQuery] = useState("");
 
-  console.log(gContext.filterJobType1);
-  console.log(gContext.filterJobType2);
-  console.log(gContext.filterJobType3);
+  printRes(gContext.filterJobType1);
+  printRes(gContext.filterJobType2);
+  printRes(gContext.filterJobType3);
 
   const getSavedJobs = () =>{
     getFav(isAuthenticated().access_token)
       .then(data=>{
-        console.log(data);
+        printRes(data);
         if(data.error==="token_expired"){
           updateAuthData(isAuthenticated())
           getSavedJobs()
@@ -383,7 +398,7 @@ const SearchGrid = () => {
       j_id,
       isAuthenticated().access_token
     ).then((data) => {
-      console.log(data);
+      printRes(data);
       if(data.error==="token_expired"){
         updateAuthData(isAuthenticated())
         jobApply(j_id);
@@ -402,15 +417,15 @@ const SearchGrid = () => {
     getAllJobs(isAuthenticated().access_token)
         .then(data=>{
           if(data.error==="token_expired"){
-            console.log("error:",data.error)
+            printRes("error:",data.error)
             updateAuthData(isAuthenticated())
             getjobs();
             
             
 
           }else{
-          console.log(data);
-          console.log("hey")
+          printRes(data);
+          printRes("hey")
           setJobs(data.Jobs)
           }
         })
@@ -419,7 +434,7 @@ const SearchGrid = () => {
   const savetheJob = (jid) =>{
     addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
                               .then(dt1=>{
-                                console.log(dt1);
+                                printRes(dt1);
                                 if(dt1.error==="token_expired"){
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)

@@ -4,6 +4,8 @@ import { Avatar } from "@material-ui/core";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 
+
+
 import {
   getUserWithId,
   getCompanyWithId,
@@ -13,6 +15,8 @@ import {
   UserImageUpload,
   UserResumeUpload,
 } from "../helper/index";
+import Notiflix from "notiflix";
+import { printRes } from "../helper2";
 
 const defaultTypes = [
   { value: "b2b", label: "B2B" },
@@ -75,10 +79,10 @@ const DashboardSettings = () => {
     if (isAuthenticated() && isAuthenticated().user_id) {
       getUserWithId(uId, isAuthenticated().access_token).then((data) => {
         if (data.error === "token_expired") {
-          console.log("token expired refreshing please wait");
+          printRes("token expired refreshing please wait");
           let ref_tkn = isAuthenticated().refresh_token;
           refreshToken(ref_tkn).then((data) => {
-            console.log(data);
+            printRes(data);
             let new_tkn = data.access_token;
 
             auth_data.access_token = data.access_token;
@@ -100,13 +104,13 @@ const DashboardSettings = () => {
                 });
                 setImgfile(res.photoURL);
                 setResfile(res.resume);
-                // console.log(resfile)
+                // printRes(resfile)
               });
             }
           });
         } else {
-          //   console.log(data)
-          //   console.log(userData)
+          //   printRes(data)
+          //   printRes(userData)
           setUserData({
             ...userData,
             // photourl: data.photoURL,
@@ -122,7 +126,7 @@ const DashboardSettings = () => {
           setImgfile(data.photoURL);
           setResfile(data.resume);
 
-          console.log(data);
+          printRes(data);
         }
       });
     } else {
@@ -140,15 +144,15 @@ const DashboardSettings = () => {
   };
 
   const updateProfile = () => {
-    console.log(userData);
+    printRes(userData);
     let tkn = isAuthenticated().access_token;
     let uid = isAuthenticated().user_id;
     updateUserDetails(tkn, uid, userData).then((data) => {
-      //console.log(data)
+      //printRes(data)
       if (data.error === "token_expired") {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
           updateUserDetails(data.access_token, uid, userData).then((res) => {
-            console.log(res);
+            printRes(res);
             alert("successfully updated");
             router.push("/");
           });
@@ -252,7 +256,7 @@ const DashboardSettings = () => {
                           id="fileUpload"
                           onChange={(e) => {
                             if (e.target.files) {
-                              console.log(e.target.files[0]);
+                              printRes(e.target.files[0]);
                               setShowUploadbtn(!showUploadbtn);
                               if (e.target.files[0]) {
                                 setLocalimg(e.target.files[0]);
@@ -261,24 +265,31 @@ const DashboardSettings = () => {
                           }}
                         />
 
-                        <span>{uploadingimg && <p>uploading....</p>}</span>
+                        {/* <span>{uploadingimg && <p>uploading...</p>}</span> */}
+
+                        {
+                          uploadingimg && Notiflix.Loading.hourglass()
+                            
+                     
+                        }
 
                         <button
                           className="btn btn-success"
                           disabled={localimg ? false : true}
                           onClick={() => {
-                            console.log(localimg);
+                            printRes(localimg);
                             if (localimg) {
                               setUploadingimg(true);
                               UserImageUpload(
                                 isAuthenticated().access_token,
                                 localimg
                               ).then((res) => {
-                                console.log(res);
+                                printRes(res);
 
                                 if (res.message === "Success") {
                                   setUploadingimg(false);
-                                  alert("image upload sucess!");
+                                  Notiflix.Loading.remove();
+                                  // alert("image upload sucess!");
                                 }
                                 
                                 // setUserData({
@@ -331,7 +342,7 @@ const DashboardSettings = () => {
                           id="fileUpload"
                           onChange={(e) => {
                             if (e.target.files) {
-                              console.log(e.target.files[0]);
+                              printRes(e.target.files[0]);
 
                               // setResfilename(e.target.value[0].name)
                               // setShowUploadbtn(!showUploadbtn);
@@ -340,7 +351,7 @@ const DashboardSettings = () => {
                                 
                                 // UserResumeUpload(isAuthenticated().access_token,e.target.files[0])
                                 //   .then(res=>{
-                                //     console.log(res);
+                                //     printRes(res);
                                 //     setResfile(res.resume);
                                 //   })
                               }
@@ -348,7 +359,7 @@ const DashboardSettings = () => {
                           }}
                         />
                         {
-                          uploadingRes && <p>Uploading...</p>
+                          uploadingRes && Notiflix.Loading.hourglass()
                         }
 
                         <button
@@ -356,16 +367,17 @@ const DashboardSettings = () => {
                           disabled={!localRes  ? true : false}
                           onClick={() => {
                             if (localRes) {
-                              console.log(localRes);
+                              printRes(localRes);
                               setUploadingRes(true);
                               UserResumeUpload(
                                 isAuthenticated().access_token,
                                 localRes
                               ).then((res) => {
-                                console.log(res);
+                                printRes(res);
                                 setResfile(res.resume);
                                 if (res.message === "success") {
-                                  alert("successfully uploaded!");
+                                  Notiflix.Loading.remove();
+                                  // alert("successfully uploaded!");
                                   // setUploadingRes(false);
 
                                 } else {
@@ -490,14 +502,14 @@ const DashboardSettings = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 updateProfile()
-                                console.log(userData.name);
+                                printRes(userData.name);
                                 // updateUserDetails(
                                 //   isAuthenticated().access_token,
                                 //   isAuthenticated().user_id,
                                 //   userData
                                 // )
                                 //   .then((d1) => {
-                                //     console.log(d1);
+                                //     printRes(d1);
                                 //   })
                                 //   .catch((err) => {
                                 //     alert(err);

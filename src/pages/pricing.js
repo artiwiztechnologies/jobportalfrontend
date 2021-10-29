@@ -5,6 +5,8 @@ import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPl
 import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
 import router from "next/router";
+import { printRes } from "../helper2";
+
 
 
 const Pricing = () => {
@@ -21,7 +23,7 @@ const Pricing = () => {
   const getDataRequired = () =>{
   getPlans()
     .then(data=>{
-      console.log(data);
+      printRes(data);
       setPlans(data.plans)
       if(data.error==="token_expired"){
         updateAuthData(isAuthenticated())
@@ -34,7 +36,7 @@ const Pricing = () => {
     if(isAuthenticated().user_id){
       getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
         .then(d1=>{
-          console.log(d1)
+          printRes(d1)
           setPhnnum(d1.phonenumber);
           setUsername(d1.name);
         })
@@ -44,7 +46,7 @@ const Pricing = () => {
     }else if(isAuthenticated().company_id){
         getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
           .then(d2=>{
-            console.log(d2);
+            printRes(d2);
             setPhnnum(d2.phonenumber)
             setUsername(d2.name);
             
@@ -71,7 +73,7 @@ const Pricing = () => {
     
       
     
-    console.log("initiatepayment")
+    printRes("initiatepayment")
     return new Promise((resolve)=>{
       const script = document.createElement('script');
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -106,12 +108,12 @@ async function displayRazorpay(plan_id) {
 
     const data = await  fetchOrderData(orderFetchData)
       // .then(data=>{
-      //   console.log(data)
+      //   printRes(data)
       //   setOrderId(data.id)
       //   setAmount(data.amount)
       // })
 
-    // console.log(data)
+    // printRes(data)
 
 
 
@@ -126,7 +128,7 @@ async function displayRazorpay(plan_id) {
       return
     }
 
-    console.log(data)
+    printRes(data)
     
 
     
@@ -146,7 +148,7 @@ async function displayRazorpay(plan_id) {
       
       
       handler: function (response) {
-        console.log(response)
+        printRes(response)
         const req_data = {
           
             "razorpay_payment_id": response.razorpay_payment_id,
@@ -156,10 +158,10 @@ async function displayRazorpay(plan_id) {
             "type":isAuthenticated().type
         
         }
-        console.log(req_data)
+        printRes(req_data)
         ValidatePayment(req_data,isAuthenticated().access_token)
           .then(d1=>{
-            console.log(d1);
+            printRes(d1);
             alert(d1.message);
             if(d1.message==="Valid payment."){
             let authdata = isAuthenticated();

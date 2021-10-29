@@ -11,6 +11,7 @@ import search from "../assets/search.gif";
 
 
 
+
 const STEP = 1;
 const MIN = 50;
 const MAX = 180;
@@ -34,6 +35,7 @@ import imgB5 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB6 from "../assets/image/l1/png/feature-brand-6.png";
 import { marginRight } from "styled-system";
 import router from "next/router";
+import { printRes } from "../helper2";
 
 const defaultCountries = [
   { value: "sp", label: "Dubai" },
@@ -53,7 +55,7 @@ const ModalViewJobDetails = ({
       j_id,
       isAuthenticated().access_token
     ).then((data) => {
-      console.log(data);
+      printRes(data);
       if(data.error==="token_expired"){
         updateAuthData(isAuthenticated())
         jobApply(j_id);
@@ -71,7 +73,7 @@ const ModalViewJobDetails = ({
   const savetheJob = (jid) =>{
     addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
                               .then(dt1=>{
-                                console.log(dt1);
+                                printRes(dt1);
                                 if(dt1.error==="token_expired"){
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)
@@ -85,7 +87,7 @@ const ModalViewJobDetails = ({
                               })
   }
   if (ModalJobData) {
-    console.log(ModalJobData);
+    printRes(ModalJobData);
 
     return (
       <Modal size="lg" show={show} onHide={handleClose}>
@@ -142,7 +144,7 @@ const ModalViewJobDetails = ({
                     <button
                       className="btn btn-green text-uppercase btn-medium rounded-3 w-180 mr-4 mb-5"
                       onClick={() => {
-                        console.log(ModalJobData.id);
+                        printRes(ModalJobData.id);
                         jobApply(ModalJobData.id);
                         
                       }}
@@ -151,7 +153,7 @@ const ModalViewJobDetails = ({
                     </button>
 
                     <span onClick={()=>{
-                      console.log("save job!")
+                      printRes("save job!")
                       //addToFav function
                       savetheJob(ModalJobData.id);
 
@@ -356,23 +358,23 @@ const SearchGrid = () => {
 
   const [query, setQuery] = useState("");
 
-  console.log(gContext.filterJobType1);
-  console.log(gContext.filterJobType2);
-  console.log(gContext.filterJobType3);
+  printRes(gContext.filterJobType1);
+  printRes(gContext.filterJobType2);
+  printRes(gContext.filterJobType3);
 
   const getjobs = () =>{
     getAllJobs(isAuthenticated().access_token)
         .then(data=>{
           if(data.error==="token_expired"){
-            console.log("error:",data.error)
+            printRes("error:",data.error)
             updateAuthData(isAuthenticated())
             getjobs();
             
             
 
           }else{
-          console.log(data);
-          console.log("hey")
+          printRes(data);
+          printRes("hey")
           setJobs(data.Jobs)
           }
         })
@@ -384,7 +386,7 @@ const SearchGrid = () => {
       j_id,
       isAuthenticated().access_token
     ).then((data) => {
-      console.log(data);
+      printRes(data);
       if(data.error==="token_expired"){
         updateAuthData(isAuthenticated())
         jobApply(j_id);
@@ -402,7 +404,7 @@ const SearchGrid = () => {
   const savetheJob = (jid) =>{
     addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
                               .then(dt1=>{
-                                console.log(dt1);
+                                printRes(dt1);
                                 if(dt1.error==="token_expired"){
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)

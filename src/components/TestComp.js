@@ -3,7 +3,7 @@
 import React,{useState,useEffect} from 'react';
 import { imageUpload, isAuthenticated } from '../helper';
 
-
+import {printRes} from "../helper2/index.js";
 
 
 
@@ -38,7 +38,7 @@ function TestComp() {
     event.preventDefault();
     imageUpload(isAuthenticated().company_id,isAuthenticated().access_token,formData)
         .then(res=>{
-            console.log(res);
+            printRes(res);
         })
     // setValues({...values,error:"",loading: true});
     // let obj = {
@@ -48,7 +48,7 @@ function TestComp() {
     // createImage(user._id,token,formData)
     //    .then(data => {
     //      setValues({...values,name:"",photo:"",loading:false,createdImage:name});
-    //      console.log(data)
+    //      printRes(data)
          
          
     //    })

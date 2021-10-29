@@ -21,6 +21,7 @@ import iconC from "../assets/image/svg/icon-clock.svg";
 import GlobalContext from "../context/GlobalContext";
 import { Button } from "react-bootstrap";
 import router from "next/router";
+import { printRes } from "../helper2";
 
 const defaultCountries = [
   { value: "sp", label: "Singapore" },
@@ -39,22 +40,22 @@ const SearchGrid = () => {
       getAllJobs(isAuthenticated().access_token)
         .then(data=>{
           if(data.error){
-            console.log("error:",data.error)
+            printRes("error:",data.error)
             let auth_data = isAuthenticated();
             refreshToken(auth_data.refresh_token)
               .then(d=>{
-                console.log(d);
+                printRes(d);
                 auth_data.access_token=d.access_token;
                 localStorage.setItem("jwt",JSON.stringify(auth_data))
                 getAllJobs(auth_data.access_token)
                   .then(d1=>{
-                    console.log(d1)
+                    printRes(d1)
                     setJobs(d1.Jobs)
                   })
               })
 
           }else{
-          console.log(data);
+          printRes(data);
           setJobs(data.Jobs)
           }
         })

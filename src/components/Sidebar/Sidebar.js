@@ -5,6 +5,8 @@ import Checkbox from "../../../node_modules/@material-ui/core/Checkbox";
 import { FormGroup } from "@material-ui/core";
 import { FormControlLabel } from "@material-ui/core";
 import GlobalContext from "../../context/GlobalContext";
+import { printRes } from "../../helper2";
+
 
 const STEP = 1;
 const MIN = 50;
@@ -102,7 +104,7 @@ const Sidebar = () => {
       setIntern("");
     }
   };
-  // console.log(
+  // printRes(
   //   `${gContext.filterJobType1} ${gContext.filterJobType2} ${gContext.filterJobType3}`
   // );
 

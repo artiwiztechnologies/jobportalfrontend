@@ -1,9 +1,10 @@
 import React from "react";
 import Link from "next/link";
+import { printRes } from "../../helper2";
 
 const Pricing = () => {
   const initiatePayment = () =>{
-    console.log("initiatepayment")
+    printRes("initiatepayment")
   }
   return (
     <>

@@ -5,6 +5,8 @@ import GlobalContext from "../../context/GlobalContext";
 // 211
 import signUpStyles from "../../styles/SignupCompany.module.css";
 import {signup, signUpCompany} from "../../helper/index.js";
+import { printRes } from "../../helper2";
+
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -57,7 +59,7 @@ const ModalCompanySignUp = (props) => {
     }
       signUpCompany(company)
         .then(data => {
-          console.log(data);
+          printRes(data);
           if(data.message === "Company created successfully."){
               alert("signup success");
               setCompanyname("");
@@ -287,7 +289,7 @@ const ModalCompanySignUp = (props) => {
                   <div className="form-group mb-8">
                     <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
-                      console.log("signup");
+                      printRes("signup");
                       signUpUser();
                       
                       
@@ -302,7 +304,7 @@ const ModalCompanySignUp = (props) => {
                       gContext.toggleSignUpModal();
 
                       
-                    //   console.log(gContext.signupCompanyModal);
+                    //   printRes(gContext.signupCompanyModal);
                       
                   }}>Signup as a user</div>
                   

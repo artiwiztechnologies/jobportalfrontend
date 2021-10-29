@@ -5,6 +5,8 @@ import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninUser } from "../../helper";
 import { useRouter } from "next/router";
+import {toast,ToastContainer} from "react-nextjs-toast";
+import { printRes } from "../../helper2";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -35,12 +37,13 @@ const ModalSignIn = (props) => {
       "phonenumber": phonenumber,
       "password": password
   }
-  //console.log
-      // console.log(user)
+  //printRes
+      // printRes(user)
       SigninUser(user)
         .then((data)=>{
           if(data.message==="Invalid Credentials!" || data.message==="User not found!"){
               // alert(data.message);
+              // toast.notify(data.message)
               setErrorSgn(true);
               setErrormsg(data.message);
               
@@ -53,7 +56,10 @@ const ModalSignIn = (props) => {
               
 
               authenticate(data,()=>{
-                console.log("signed in and authenticated");
+                // printRes("signed in and authenticated");
+                printRes("signed in and authenticated")
+                
+                
                 gContext.toggleSignInModal();
                 router.push("/dashboard-settings-user")
                 
@@ -212,8 +218,8 @@ const ModalSignIn = (props) => {
                   <div className="form-group mb-8">
                     <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
-                      console.log(phonenumber);
-                      console.log(password);
+                      printRes(phonenumber);
+                      printRes(password);
                       if(password.length != 0 && phonenumber.length != 0){
                         signinUser();
                       }else{
@@ -241,7 +247,7 @@ const ModalSignIn = (props) => {
                 <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
                       gContext.toggleSignInModal();
-                      console.log(gContext.signinComp)
+                      printRes(gContext.signinComp)
                       gContext.toggleSigninCompany();
                     }}>Login as company</button>
               </div>

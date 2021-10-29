@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany } from "../../helper";
+import { printRes } from "../../helper2";
+
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -53,7 +55,7 @@ const ModalSigninCompany = (props) => {
             // if(data.status==2){
 
               authenticate(data,()=>{
-                console.log("signed in and authenticated");
+                printRes("signed in and authenticated");
                 gContext.toggleSigninCompany();
                 // window.location.reload();
                 router.push("/dashboard-settings")
@@ -231,7 +233,7 @@ const ModalSigninCompany = (props) => {
                 <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
                       gContext.toggleSignInModal();
-                      console.log(gContext.signinComp)
+                      printRes(gContext.signinComp)
                       gContext.toggleSigninCompany();
                     }}>Login as individual</button>
               </div>

@@ -1,5 +1,7 @@
 // import { useContext } from "react"
 
+import Notiflix from "notiflix";
+
 // import GlobalContext from "../context/GlobalContext"
 
 // const gContext = useContext(GlobalContext);
@@ -20,7 +22,7 @@ export const totalJobs = () => {
       })
   
       .catch((err) => {
-        console.log(err);
+        printRes(err);
       });
   }
 
@@ -33,9 +35,41 @@ export const totalJobs = () => {
       })
   
       .catch((err) => {
-        console.log(err);
+        printRes(err);
       });
   }
+let dev = false;
+  export const printRes = (res) =>{
+    if(dev){
+    console.log(res)
+    }
+  }
+
+
+  // export const alertDetails = (info) =>{
+  //   Notiflix.Notify.info(info,{
+  //     position: "center-top"
+  //   })
+  // }
+
+  export const alertSuccess = (info) =>{
+    Notiflix.Notify.success(info,{
+      position: "center-top"
+    })
+  }
+
+  export const alertInfo = (info) =>{
+    Notiflix.Notify.info(info,{
+      position: "center-top"
+    })
+  }
+
+  export const alertWarning = (info) =>{
+    Notiflix.Notify.warning(info,{
+      position: "center-top"
+    })
+  }
+
 
 
   // https://github.com/Chandra-mohan31/jobportalfrontend

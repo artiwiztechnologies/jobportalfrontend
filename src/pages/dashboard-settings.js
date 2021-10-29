@@ -12,6 +12,8 @@ import {
   imageUpload,
 } from "../helper/index";
 import { useRouter } from "next/router";
+import Notiflix from "notiflix";
+import { printRes } from "../helper2";
 
 // import dashboardstyles from "../styles/Dashboard-settings.module.css";
 
@@ -94,7 +96,7 @@ const DashboardSettings = () => {
 
   //   imageUpload(tkn,imgfile)
   //     .then(data=>{
-  //       console.log(data)
+  //       printRes(data)
   //     })
   // }
 
@@ -107,14 +109,14 @@ const DashboardSettings = () => {
     router.push("/");
     alert("please login!")
   }
-    if (isAuthenticated().company_id) console.log(uId);
+    if (isAuthenticated().company_id) printRes(uId);
     getCompanyWithId(uId, isAuthenticated().access_token).then((data) => {
-      console.log(data);
+      printRes(data);
       if (data.error === "token_expired") {
-        console.log("token expired refreshing please wait");
+        printRes("token expired refreshing please wait");
         let ref_tkn = isAuthenticated().refresh_token;
         refreshToken(ref_tkn).then((data) => {
-          console.log(data);
+          printRes(data);
           let new_tkn = data.access_token;
 
           auth_data.access_token = data.access_token;
@@ -153,7 +155,7 @@ const DashboardSettings = () => {
           companyType: data.companyType,
           links: data.links,
         });
-        console.log(data);
+        printRes(data);
       }
     });
   }, []);
@@ -166,15 +168,15 @@ const DashboardSettings = () => {
   };
 
   const updateProfile = () => {
-    console.log(userData);
+    printRes(userData);
     let tkn = isAuthenticated().access_token;
     let uid = isAuthenticated().company_id;
     updateCompanyDetails(tkn, uid, userData).then((data) => {
-      // console.log(data)
+      // printRes(data)
       if (data.error === "token_expired") {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
           updateCompanyDetails(data.access_token, uid, userData).then((res) => {
-            console.log(res);
+            printRes(res);
             alert("successfully updated");
             
           });
@@ -251,7 +253,7 @@ const DashboardSettings = () => {
                         style={{ border: "none" }}
                         onChange={(e) => {
                           if (e.target.files) {
-                            console.log(e.target.files[0]);
+                            printRes(e.target.files[0]);
 
                             setShowUploadbtn(!showUploadbtn);
                             if (e.target.files[0]) {
@@ -261,15 +263,16 @@ const DashboardSettings = () => {
                         }}
                         // className="sr-only"
                       />
-                      {imguploading && <p>uploading......</p>}
+                      {imguploading && Notiflix.Loading.hourglass()}
 
                       <button className="btn btn-success" disabled={localimg ? false : true } onClick={()=>{
                           setImguploading(true);
                           imageUpload(isAuthenticated().access_token,localimg)
                                   .then(res=>{
-                                    console.log(res)
+                                    printRes(res)
                                     if(res.message==="Success"){
                                       setImguploading(false)
+                                      Notiflix.Loading.remove()
                                       setUserData({
                                       ...userData,photourl:res.photoURL
                                     })
@@ -277,9 +280,10 @@ const DashboardSettings = () => {
                                     {
                                       updateAuthData(isAuthenticated())
                                       imageUpload(isAuthenticated().access_token,localimg).then(d1=>{
-                                        console.log(d1);
+                                        printRes(d1);
                                         if(d1.message==="Success"){
                                         setImguploading(false)
+                                        Notiflix.Loading.remove();
                                         setUserData({
                                         ...userData,photourl:d1.photoURL
                                       })
@@ -539,22 +543,22 @@ export default DashboardSettings
     
 //   //   imageUpload(tkn,imgfile)
 //   //     .then(data=>{
-//   //       console.log(data)
+//   //       printRes(data)
 //   //     })
 //   // }
   
 //   useEffect(()=>{
 //     if(isAuthenticated())
-//     console.log(uId);
+//     printRes(uId);
 //     getCompanyWithId(uId,isAuthenticated().access_token)
 //       .then(data =>{
-//         console.log(data);
+//         printRes(data);
 //         if(data.error==="token_expired"){
-//           console.log("token expired refreshing please wait");
+//           printRes("token expired refreshing please wait");
 //           let ref_tkn = isAuthenticated().refresh_token;
 //           refreshToken(ref_tkn)
 //             .then(data=>{
-//               console.log(data);
+//               printRes(data);
 //               let new_tkn = data.access_token;
               
 //                 auth_data.access_token=data.access_token;
@@ -602,7 +606,7 @@ export default DashboardSettings
 
 
 //           })
-//           console.log(data)
+//           printRes(data)
           
 //         }
 //       })
@@ -615,18 +619,18 @@ export default DashboardSettings
 // }
 
 // const updateProfile = () =>{
-//   console.log(userData)
+//   printRes(userData)
 //   let tkn = isAuthenticated().access_token;
 //   let uid = isAuthenticated().company_id;
 //   updateCompanyDetails(tkn,uid,userData)
 //     .then((data)=>{
-//       // console.log(data)
+//       // printRes(data)
 //       if(data.error==="token_expired"){
 //         refreshToken(isAuthenticated().refresh_token)
 //           .then(data=>{
 //             updateCompanyDetails(data.access_token,uid,userData)
 //               .then(res=>{
-//                 console.log(res);
+//                 printRes(res);
 //                 alert("successfully updated");
 //                 router.push("/");
                 
@@ -688,7 +692,7 @@ export default DashboardSettings
 //                           onChange={(e)=>{
                             
 //                             if(e.target.files){
-//                               console.log(e.target.files[0]);
+//                               printRes(e.target.files[0]);
                               
 //                               setShowUploadbtn(!showUploadbtn);
 //                               if(e.target.files[0] ){
@@ -709,7 +713,7 @@ export default DashboardSettings
                         //   setImguploading(true);
                         //   imageUpload(isAuthenticated().access_token,localimg)
                         //           .then(res=>{
-                        //             console.log(res)
+                        //             printRes(res)
                         //             if(res.message==="Success"){
                         //               setImguploading(false)
                         //               setUserData({
@@ -719,7 +723,7 @@ export default DashboardSettings
                         //             {
                         //               updateAuthData(isAuthenticated())
                         //               imageUpload(isAuthenticated().access_token,localimg).then(d1=>{
-                        //                 console.log(d1);
+                        //                 printRes(d1);
                         //                 if(d1.message==="Success"){
                         //                 setImguploading(false)
                         //                 setUserData({

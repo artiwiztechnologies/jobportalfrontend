@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData } from "../../helper";
+import { printRes } from "../../helper2";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -14,7 +15,7 @@ const ModalStyled = styled(Modal)`
 const CompanyPostjobModal = (props) => {
   const router = useRouter();
   
-  // console.log(window.location.pathname)
+  // printRes(window.location.pathname)
   
   const gContext = useContext(GlobalContext);
 
@@ -63,10 +64,10 @@ const CompanyPostjobModal = (props) => {
             if(data.error==="token_expired"){
               refreshToken(isAuthenticated().refresh_token)
                 .then(res=>{
-                  console.log(res);
+                  printRes(res);
                   getCompanyWithId(isAuthenticated().company_id,res.access_token)
                     .then(ress1=>{
-                      console.log(ress1);
+                      printRes(ress1);
 
                       //todo change in the local storage
                       
@@ -76,19 +77,19 @@ const CompanyPostjobModal = (props) => {
                     })
                 })
             }else{
-              console.log(data);
+              printRes(data);
               setValues({...values,c_addr:data.location,corp_type:data.companyType,comp_size:data.companySize});
 
             }
           })
     else
-          console.log("not a company")
+          printRes("not a company")
   },[])
   
 const [skillsString,setSkillsString] = useState(""); 
 const addSkill = () =>{
   // skillsString = skillsString + ", " + skills_required;
-  // console.log(skillsString)
+  // printRes(skillsString)
   if(skillsString.length === 0){
     setSkillsString(skillsString+skills_required);
     setValues({
@@ -115,7 +116,7 @@ const deleteSkill = (s) =>{
  
   // hey, yov, none
   
-  console.log(s);
+  printRes(s);
   let str = ","+s;
   let newstr = s+",";
   if(skillsString.includes(str)){
@@ -131,9 +132,9 @@ const deleteSkill = (s) =>{
   
 
 const postanewJob = () =>{
-  console.log(skillsString)
-    // console.log(values);
-    // console.log(values.post_title);
+  printRes(skillsString)
+    // printRes(values);
+    // printRes(values.post_title);
     const j_data = {
       "title": values.post_title,
       "description": values.job_desc,
@@ -146,20 +147,20 @@ const postanewJob = () =>{
       "skills":skillsString
       
     }
-    // console.log(j_data);
+    // printRes(j_data);
     
     postJob(isAuthenticated().access_token,j_data)
       .then(data=>{
 
         if(data.error==="token_expired"){
           //handle expired token
-          console.log("token expired");
+          printRes("token expired");
           refreshToken(isAuthenticated().refresh_token)
                 .then(r=>{
-                  console.log(r);
+                  printRes(r);
                   postJob(isAuthenticated().company_id,r.access_token)
                     .then(ress2=>{
-                      console.log(ress2);
+                      printRes(ress2);
 
                       //todo change in the local storage
                       setValues({...values,
@@ -189,7 +190,7 @@ const postanewJob = () =>{
                 ///////////////////////////
 
         }else{
-        console.log(data);
+        printRes(data);
         setValues({...values,
           post_title:"",
           job_type:"",
@@ -204,12 +205,12 @@ const postanewJob = () =>{
         setSkillsString("");
         
         alert("job posted successfully");
-        console.log(window.location.pathname)
+        printRes(window.location.pathname)
 
         if(window.location.pathname==="/dashboard-jobs"){
-          console.log(window.location.pathname)
+          printRes(window.location.pathname)
           window.location.reload()
-          console.log("reload")
+          printRes("reload")
       }
       router.push("/dashboard-jobs");
 

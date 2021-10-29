@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import ModalSignIn from "../ModalSignIn/ModalSignIn";
 import GlobalContext from "../../context/GlobalContext";
+
 // 211
 import {signup} from "../../helper/index.js";
 // import AlertModal from "../AlertModal/AlertModal";
 
-import {totalCompanies,totalJobs} from "../../helper2/index.js";
+import {printRes, totalCompanies,totalJobs} from "../../helper2/index.js";
 
 
 const ModalStyled = styled(Modal)`
@@ -64,7 +65,7 @@ const ModalSignUp = (props) => {
       signup(user)
         .then(data => {
           if(data.message==="User created successfully."){
-          console.log(data);
+          printRes(data);
           alert("success")
           // <AlertModal info={data.message} show={true}   />
 
@@ -350,7 +351,7 @@ const ModalSignUp = (props) => {
                   {/* <div className="form-group mb-8">
                     <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
-                      console.log("signup");
+                      printRes("signup");
                       signUpUser();
                       
                       
@@ -361,7 +362,7 @@ const ModalSignUp = (props) => {
                   <div className="form-group mb-8">
                     <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
-                      console.log("signup");
+                      printRes("signup");
                       signUpUser();
                       
                       
@@ -376,7 +377,7 @@ const ModalSignUp = (props) => {
                       gContext.toggleSignUpModal();
 
                       
-                      console.log(gContext.signupCompanyModal);
+                      printRes(gContext.signupCompanyModal);
                       
                   }}>Signup as a Company</button>
                   

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData, getJobFromId, editJobPosted } from "../../helper";
+import {printRes} from "../../helper2/index.js";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -15,7 +16,7 @@ const CompanyEditJobModal = () => {
   const router = useRouter();
   
   
-  // console.log(jedit_data);
+  // printRes(jedit_data);
   
   
   const gContext = useContext(GlobalContext);
@@ -79,10 +80,10 @@ const CompanyEditJobModal = () => {
             if(data.error==="token_expired"){
               refreshToken(isAuthenticated().refresh_token)
                 .then(res=>{
-                  console.log(res);
+                  printRes(res);
                   getCompanyWithId(isAuthenticated().company_id,res.access_token)
                     .then(ress1=>{
-                      console.log(ress1);
+                      printRes(ress1);
 
                       //todo change in the local storage
                       
@@ -94,24 +95,24 @@ const CompanyEditJobModal = () => {
     
                 
             }else{
-              console.log(data);
+              printRes(data);
               setValues({...values,c_addr:data.location,corp_type:data.companyType,comp_size:data.companySize});
 
             }
           })
     else
-          console.log("not a company")
+          printRes("not a company")
   },[])
 
  
   
 
-//   console.log(gContext.editjid)
+//   printRes(gContext.editjid)
 
 const [skillsString,setSkillsString] = useState(""); 
 const addSkill = () =>{
   // skillsString = skillsString + ", " + skills_required;
-  // console.log(skillsString)
+  // printRes(skillsString)
   if(skillsString.length === 0){
     setSkillsString(skillsString+skills_required);
     setValues({
@@ -139,7 +140,7 @@ const deleteSkill = (s) =>{
   // hey, yov, none
   
   
-  console.log(s);
+  printRes(s);
   let str = ","+s;
   let newstr = s+",";
   if(skillsString.includes(str)){
@@ -155,9 +156,9 @@ const deleteSkill = (s) =>{
   
 //changes to be made for edit jobs
 const editTheJob = () =>{
-    console.log("edit the job");
+    printRes("edit the job");
 
-    // console.log(values)
+    // printRes(values)
     const jjj_data = {
       "title": values.title,
       "description": values.job_desc,
@@ -171,10 +172,10 @@ const editTheJob = () =>{
     }
 
  
-    console.log(jjj_data);
+    printRes(jjj_data);
     editJobPosted(isAuthenticated().access_token,gContext.editJobData.id,jjj_data)
       .then(d1=>{
-        console.log(d1);
+        printRes(d1);
         if(d1.error){
           if(d1.error==="token_expired"){
               updateAuthData(isAuthenticated())

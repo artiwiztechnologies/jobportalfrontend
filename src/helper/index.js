@@ -1,3 +1,7 @@
+import { printRes } from "../helper2";
+
+
+
 // let API = "https://menubackend9.herokuapp.com/";
 let API = "https://api.jobstextile.com/";
 export const signup = (user) => {
@@ -13,7 +17,7 @@ export const signup = (user) => {
     .then(response => {
         return response.json();
     })
-    .catch(err => console.log(err))
+    .catch(err => printRes(err))
 }
 
 
@@ -30,7 +34,7 @@ export const signUpCompany = (company) => {
     .then(response => {
         return response.json();
     })
-    .catch(err => console.log(err))
+    .catch(err => printRes(err))
     
 }
 
@@ -47,7 +51,7 @@ export const SigninUser = (user) => {
     .then(response => {
         return response.json();
     })
-    .catch(err => console.log(err))
+    .catch(err => printRes(err))
 }
 
 export const SigninCompany = (user) => {
@@ -63,14 +67,14 @@ export const SigninCompany = (user) => {
     .then(response => {
         return response.json();
     })
-    .catch(err => console.log(err))
+    .catch(err => printRes(err))
 }
 
 
 export const authenticate = (data,next) =>{
     if(typeof window !== "undefined"){
         localStorage.setItem("jwt",JSON.stringify(data))
-        // console.log(data.access_token);
+        // printRes(data.access_token);
         next();
     }
 }
@@ -101,19 +105,19 @@ export const signout = (next,token) => {
             
         })
         .then(response=>{
-            console.log("signout success");
+            printRes("signout success");
             //return response.json();
         })
-        .catch(err=>console.log(err))
+        .catch(err=>printRes(err))
         // return fetch(`${API}signout`,{
         //     method:"GET"
             
         // })
         // .then(response=>{
-        //     console.log("signout success");
+        //     printRes("signout success");
         //     //return response.json();
         // })
-        // .catch(err=>console.log(err))
+        // .catch(err=>printRes(err))
     }
 }
 
@@ -130,7 +134,7 @@ export const getUserWithId = (uid,token) =>{
         return res.json();
     })
     .catch(err =>{
-        console.log(err)
+        printRes(err)
         alert("server error",err)
     })
 }
@@ -149,7 +153,7 @@ export const getCompanyWithId = (uid,token) =>{
         return res.json();
     })
     .catch(err =>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -165,20 +169,20 @@ export const refreshToken = (ref_token) => {
     })
     .then(res =>{
         // let data = isAuthenticated();
-        // console.log(data);
+        // printRes(data);
         
         // data.access_token=res.access_token;
-        // console.log(data)
+        // printRes(data)
         return res.json()
     })
-    .catch(err => console.log(err));
+    .catch(err => printRes(err));
 }
 
 export const updateAuthData = (authdata) =>{
-    console.log(authdata);
+    printRes(authdata);
     refreshToken(isAuthenticated().refresh_token)
         .then(d=>{
-            console.log(d);
+            printRes(d);
             authdata.access_token=d.access_token;
             
             if(typeof window !== "undefined"){
@@ -187,7 +191,7 @@ export const updateAuthData = (authdata) =>{
             }
         })
         .catch(err=>{
-            console.log(err)
+            printRes(err)
         })
    
     
@@ -211,7 +215,7 @@ export const updateCompanyDetails = (token,uid,edited_data) => {
     .then(response => {
         return response.json();
     })
-    .catch(err => console.log(err))
+    .catch(err => printRes(err))
 }
 
 export const updateUserDetails = (token,uid,edited_data) => {
@@ -228,7 +232,7 @@ export const updateUserDetails = (token,uid,edited_data) => {
     .then(response => {
         return response.json();
     })
-    .catch(err => console.log(err))
+    .catch(err => printRes(err))
 }
 
 
@@ -250,7 +254,7 @@ export const imageUpload = (tkn,imgfile) =>{
         return res.json();
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
     
 }
@@ -274,7 +278,7 @@ export const UserImageUpload = (tkn,imgfile) =>{
         return res.json();
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
     
 }
@@ -297,13 +301,13 @@ export const UserResumeUpload = (tkn,resume) =>{
         return res.json();
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
     
 }
 
 export const postJob = (token,j_data) =>{
-    // console.log(j_data)
+    // printRes(j_data)
 
 
     return fetch(`https://api.jobstextile.com/post-job`,{
@@ -320,7 +324,7 @@ export const postJob = (token,j_data) =>{
     })
 
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -337,7 +341,7 @@ export const getPostedJobByCompanyFromId = (c_id,tkn) =>{
     })
 
     .catch(err=>{
-        console.log(err);
+        printRes(err);
     })
 }
 
@@ -355,7 +359,7 @@ export const getAllJobs = (tkn) =>{
         return res.json();
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -374,13 +378,13 @@ export const applyForJob = (user_id,job_id,tkn) =>{
         return res.json();
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
 //application details
 export const getApplicationId = (application_id,tkn) =>{
-    console.log("to be continued...")
+    printRes("to be continued...")
 }
 
 //delete appliaction id
@@ -395,7 +399,7 @@ export const DelApplication = (application_id,tkn) =>{
         return res.json()
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -412,7 +416,7 @@ export const GetAppliedUsers = (job_id,tkn) =>{
         return res.json()
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -428,7 +432,7 @@ export const GetJobsApplied = (user_id,tkn) =>{
         return res.json()
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -452,7 +456,7 @@ export const fetchOrderData = (orderFetchData) =>{
       
   
       .catch(err=>{
-        console.log(err)
+        printRes(err)
       })
 }
 
@@ -471,7 +475,7 @@ export const fetchOrderData = (orderFetchData) =>{
 
 //     }).then((t) => t.json());
   
-//     console.log(data);
+//     printRes(data);
   
 //     const options = {
 //       key: process.env.RAZORPAY_KEY_ID,
@@ -519,7 +523,7 @@ export const ValidatePayment = (req_data,tkn) =>{
       
   
       .catch(err=>{
-        console.log(err)
+        printRes(err)
       })
 
 }
@@ -534,7 +538,7 @@ export const getPlans = () =>{
         return res.json()
     })
     .catch(err=>{
-        console.log(err)
+        printRes(err)
     })
 }
 
@@ -553,7 +557,7 @@ export const addToFav = (user_id, job_id, tkn) => {
         return res.json();
       })
       .catch((err) => {
-        console.log(err);
+        printRes(err);
       });
   };
   
@@ -571,7 +575,7 @@ export const addToFav = (user_id, job_id, tkn) => {
       })
   
       .catch((err) => {
-        console.log(err);
+        printRes(err);
       });
   };
   
@@ -587,7 +591,7 @@ export const addToFav = (user_id, job_id, tkn) => {
       })
   
       .catch((err) => {
-        console.log(err);
+        printRes(err);
       });
   };
 
@@ -604,7 +608,7 @@ export const addToFav = (user_id, job_id, tkn) => {
       return res.json();
     })
     .catch((err) => {
-      console.log(err);
+      printRes(err);
     });
   };
 
@@ -624,7 +628,7 @@ export const addToFav = (user_id, job_id, tkn) => {
         })
     
         .catch((err) => {
-          console.log(err);
+          printRes(err);
         });
   }
 
