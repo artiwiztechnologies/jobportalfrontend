@@ -21,7 +21,7 @@ import iconC from "../assets/image/svg/icon-clock.svg";
 import GlobalContext from "../context/GlobalContext";
 import { Button } from "react-bootstrap";
 import router from "next/router";
-import { printRes } from "../helper2";
+import { printRes ,alertInfo,alertSuccess,alertWarning} from "../helper2";
 
 const defaultCountries = [
   { value: "sp", label: "Singapore" },
@@ -63,7 +63,7 @@ const SearchGrid = () => {
 
     else{
         router.push("/pricing");
-        alert("please subscribe to a plan!")
+        alertInfo("please subscribe to a plan!")
     }
   },[])
   return (

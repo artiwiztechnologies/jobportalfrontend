@@ -6,7 +6,7 @@ import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninUser } from "../../helper";
 import { useRouter } from "next/router";
 import {toast,ToastContainer} from "react-nextjs-toast";
-import { printRes } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../../helper2";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -42,7 +42,7 @@ const ModalSignIn = (props) => {
       SigninUser(user)
         .then((data)=>{
           if(data.message==="Invalid Credentials!" || data.message==="User not found!"){
-              // alert(data.message);
+              // alertInfo(data.message);
               // toast.notify(data.message)
               setErrorSgn(true);
               setErrormsg(data.message);
@@ -77,7 +77,7 @@ const ModalSignIn = (props) => {
           }
         })
         .catch(err=>{
-          alert("server error")
+          alertInfo("server error")
         })
 
   }
@@ -223,7 +223,7 @@ const ModalSignIn = (props) => {
                       if(password.length != 0 && phonenumber.length != 0){
                         signinUser();
                       }else{
-                        alert("please enter valid credentials");
+                        alertInfo("please enter valid credentials");
                       }
                       
                     }}>

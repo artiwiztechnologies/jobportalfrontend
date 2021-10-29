@@ -35,7 +35,7 @@ import imgB5 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB6 from "../assets/image/l1/png/feature-brand-6.png";
 import { marginRight } from "styled-system";
 import router from "next/router";
-import { printRes } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
 
 const defaultCountries = [
   { value: "sp", label: "Dubai" },
@@ -61,9 +61,9 @@ const ModalViewJobDetails = ({
         jobApply(j_id);
       }
       if (data.message === "Applied successfuly!!") {
-        alert(data.message);
+        alertInfo(data.message);
       } else {
-        alert(data.message);
+        alertInfo(data.message);
         //then do error handling stuff here
       }
     });
@@ -79,9 +79,9 @@ const ModalViewJobDetails = ({
                                   savetheJob(jid)
                                 }
                                 if (dt1.message === "Applied successfuly!!") {
-                                  alert(dt1.message);
+                                  alertInfo(dt1.message);
                                 } else {
-                                  alert(dt1.message);
+                                  alertInfo(dt1.message);
                                   //then do error handling stuff here
                                 }
                               })
@@ -392,9 +392,9 @@ const SearchGrid = () => {
         jobApply(j_id);
       }
       if (data.message === "Applied successfuly!!") {
-        alert(data.message);
+        alertInfo(data.message);
       } else {
-        alert(data.message);
+        alertInfo(data.message);
         //then do error handling stuff here
       }
     });
@@ -409,9 +409,9 @@ const SearchGrid = () => {
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)
                                   if (dt1.message === "Applied successfuly!!") {
-                                    alert(dt1.message);
+                                    alertInfo(dt1.message);
                                   } else {
-                                    alert(dt1.message);
+                                    alertInfo(dt1.message);
                                     //then do error handling stuff here
                                   }
                                 }
@@ -424,7 +424,7 @@ const SearchGrid = () => {
     }
     else{
           router.push("/pricing");
-          alert("please subscribe to a plan!");
+          alertInfo("please subscribe to a plan!");
          
     }
   },[])
@@ -500,11 +500,7 @@ const SearchGrid = () => {
                       <span className="heading-default-color">UI Designer</span>
                     </h5>
                     <div className="d-flex align-items-center result-view-type">
-                      <Link href="/search-list">
-                        <a className="heading-default-color pl-5 font-size-6 hover-text-hitgray">
-                          <i className="fa fa-list-ul"></i>
-                        </a>
-                      </Link>
+                      
                       <Link href="/search-grid">
                         <a className="heading-default-color pl-5 font-size-6 hover-text-hitgray active">
                           <i className="fa fa-th-large"></i>
@@ -581,7 +577,7 @@ const SearchGrid = () => {
                                 <li>
                                   <Link href="/#">
                                     <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
-                                      <i className="fa fa-dollar-sign mr-2 font-weight-bold"></i>{" "}
+                                    <i class="fas fa-rupee-sign"></i>
                                       {job.salary
                                         ? job.salary
                                         : "not mentioned"}
@@ -793,12 +789,12 @@ const SearchGrid = () => {
                       />
                     </div>
                     <div className="text-center pt-5 pt-lg-13">
-                      <Link href="/#">
+                      {/* <Link href="/#">
                         <a className="text-green font-weight-bold text-uppercase font-size-3 d-flex align-items-center justify-content-center">
                           Load More{" "}
                           <i className="fas fa-sort-down ml-3 mt-n2 font-size-4"></i>
                         </a>
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </div>

@@ -206,23 +206,7 @@ const Sidebar = () => {
       </div>
       <div className="widgets mb-11 ">
         <div className="d-flex align-items-center pr-15 pr-xs-0 pr-md-0 pr-xl-22">
-          <h4 className="font-size-6 font-weight-semibold mb-6 w-75">
-            Salary Range
-          </h4>
-          {/* <!-- Range Slider --> */}
-
-          <div className="slider-price w-25 text-right mr-7">
-            <p className="font-weight-bold">
-              <span
-                className="text-primary font-weight-semibold font-size-4 "
-                css={`
-                  white-space: nowrap;
-                `}
-              >
-                ${rangeValues[0].toFixed()} - {rangeValues[1].toFixed()}K
-              </span>
-            </p>
-          </div>
+          
         </div>
         <div className="graph text-center mx-0 mt-5 position-relative chart-postion">
           <span></span>

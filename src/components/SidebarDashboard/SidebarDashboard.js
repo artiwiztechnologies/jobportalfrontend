@@ -34,11 +34,7 @@ const Sidebar = () => {
               </a>
             </div>
               ):(
-                <div>
-              <a className="btn btn-primary btn-xl w-100 text-uppercase">
-                <span  className="mr-5 d-inline-block">+</span>View Jobs Applied
-              </a>
-            </div>
+               null
               )
             }
           </div>
@@ -61,7 +57,7 @@ const Sidebar = () => {
               }
             </li>
             {
-              isAuthenticated().company_id && (
+              isAuthenticated().company_id ? (
                 <li className="">
               <Link href="/dashboard-jobs">
                 <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
@@ -69,7 +65,15 @@ const Sidebar = () => {
                 </a>
               </Link>
             </li>
-              ) 
+              ) :(
+                <li className="">
+              <Link href="/applied-jobs">
+                <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
+                  <i className="fas fa-briefcase mr-7"></i>Applied Jobs
+                </a>
+              </Link>
+            </li>
+              )
             }
             {
               isAuthenticated().company_id && (

@@ -5,7 +5,7 @@ import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPl
 import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
 import router from "next/router";
-import { printRes } from "../helper2";
+import { printRes ,alertInfo,alertSuccess,alertWarning} from "../helper2";
 
 
 
@@ -41,7 +41,7 @@ const Pricing = () => {
           setUsername(d1.name);
         })
         .catch(err=>{
-          alert(err)
+          alertInfo(err)
         })
     }else if(isAuthenticated().company_id){
         getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
@@ -53,12 +53,12 @@ const Pricing = () => {
             
           })
           .catch(err=>{
-            alert(err);
+            alertInfo(err);
           })
     }
   }
   else{
-    alert("you are not signed in,please do signin to access our plans!")
+    alertInfo("you are not signed in,please do signin to access our plans!")
   }
   }
   
@@ -119,12 +119,12 @@ async function displayRazorpay(plan_id) {
 
 
     if(!res){
-      alert("razor pay SDK failed");
+      alertInfo("razor pay SDK failed");
       return
     }
 
     if(!data){
-      alert("cant get payment data from the server!");
+      alertInfo("cant get payment data from the server!");
       return
     }
 
@@ -162,7 +162,7 @@ async function displayRazorpay(plan_id) {
         ValidatePayment(req_data,isAuthenticated().access_token)
           .then(d1=>{
             printRes(d1);
-            alert(d1.message);
+            alertInfo(d1.message);
             if(d1.message==="Valid payment."){
             let authdata = isAuthenticated();
             authdata.active = true
@@ -171,8 +171,8 @@ async function displayRazorpay(plan_id) {
             
             }
           })
-        // alert("PAYMENT ID ::" + response.razorpay_payment_id);
-        // alert("ORDER ID :: " + response.razorpay_order_id);
+        // alertInfo("PAYMENT ID ::" + response.razorpay_payment_id);
+        // alertInfo("ORDER ID :: " + response.razorpay_order_id);
       },
       prefill: {
         name: username,

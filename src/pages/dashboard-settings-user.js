@@ -16,7 +16,7 @@ import {
   UserResumeUpload,
 } from "../helper/index";
 import Notiflix from "notiflix";
-import { printRes } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
 
 const defaultTypes = [
   { value: "b2b", label: "B2B" },
@@ -74,7 +74,7 @@ const DashboardSettings = () => {
     
   }else if(!isAuthenticated()){
     router.push("/");
-    alert("please login!")
+    alertInfo("please login!")
   }
     if (isAuthenticated() && isAuthenticated().user_id) {
       getUserWithId(uId, isAuthenticated().access_token).then((data) => {
@@ -153,17 +153,17 @@ const DashboardSettings = () => {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
           updateUserDetails(data.access_token, uid, userData).then((res) => {
             printRes(res);
-            alert("successfully updated");
+            alertInfo("successfully updated");
             router.push("/");
           });
         });
       } else if (data.error) {
-        alert(data.error);
+        alertInfo(data.error);
       } else if (data.message === "Update successful!") {
-        alert(data.message);
+        alertInfo(data.message);
       }
       // else{
-      //   alert("successfully updated");
+      //   alertInfo("successfully updated");
       //   router.push("/");
       // }
     });
@@ -289,7 +289,7 @@ const DashboardSettings = () => {
                                 if (res.message === "Success") {
                                   setUploadingimg(false);
                                   Notiflix.Loading.remove();
-                                  // alert("image upload sucess!");
+                                  // alertInfo("image upload sucess!");
                                 }
                                 
                                 // setUserData({
@@ -298,7 +298,7 @@ const DashboardSettings = () => {
                                 setImgfile(res.photoURL);
                               });
                             } else {
-                              alert("please choose a image!");
+                              alertInfo("please choose a image!");
                             }
                           }}
                         >
@@ -377,16 +377,16 @@ const DashboardSettings = () => {
                                 setResfile(res.resume);
                                 if (res.message === "success") {
                                   Notiflix.Loading.remove();
-                                  // alert("successfully uploaded!");
+                                  // alertInfo("successfully uploaded!");
                                   // setUploadingRes(false);
 
                                 } else {
-                                  alert("something went wrong!");
+                                  alertInfo("something went wrong!");
                                 }
                                 setUploadingRes(false);
                               });
                             } else {
-                              alert("please choose your resume!");
+                              alertInfo("please choose your resume!");
                             }
                           }}
                         >
@@ -512,7 +512,7 @@ const DashboardSettings = () => {
                                 //     printRes(d1);
                                 //   })
                                 //   .catch((err) => {
-                                //     alert(err);
+                                //     alertInfo(err);
                                 //   });
                               }}
                             >

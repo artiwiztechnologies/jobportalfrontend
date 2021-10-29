@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData } from "../../helper";
-import { printRes } from "../../helper2";
+import { alertInfo, printRes } from "../../helper2";
+
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -176,7 +177,7 @@ const postanewJob = () =>{
       
         })
         setSkillsString("");
-        alert("job posted successfully");
+        alertInfo("job posted successfully");
         gContext.togglePostjobModal();
         if(window.location.pathname==="/dashboard-jobs"){
             window.location.reload()
@@ -204,7 +205,7 @@ const postanewJob = () =>{
         })
         setSkillsString("");
         
-        alert("job posted successfully");
+        alertInfo("job posted successfully");
         printRes(window.location.pathname)
 
         if(window.location.pathname==="/dashboard-jobs"){

@@ -8,7 +8,7 @@ import GlobalContext from "../../context/GlobalContext";
 import {signup} from "../../helper/index.js";
 // import AlertModal from "../AlertModal/AlertModal";
 
-import {printRes, totalCompanies,totalJobs} from "../../helper2/index.js";
+import {printRes, totalCompanies,totalJobs,alertInfo,alertSuccess,alertWarning} from "../../helper2/index.js";
 
 
 const ModalStyled = styled(Modal)`
@@ -66,7 +66,7 @@ const ModalSignUp = (props) => {
         .then(data => {
           if(data.message==="User created successfully."){
           printRes(data);
-          alert("success")
+          alertInfo("success")
           // <AlertModal info={data.message} show={true}   />
 
           setName("");
@@ -79,7 +79,7 @@ const ModalSignUp = (props) => {
           gContext.toggleSignUpModal()
           gContext.toggleConfirmEmail()
           }else{
-            alert(data.message)
+            alertInfo(data.message)
             // <AlertModal info={data.message} show={true}   />
             // alertInfo(data.message)
           }
@@ -87,7 +87,7 @@ const ModalSignUp = (props) => {
         })
     }
     else{
-      alert("please check the feilds you entered");
+      alertInfo("please check the feilds you entered");
     }
     
   }

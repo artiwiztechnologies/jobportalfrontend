@@ -1,4 +1,4 @@
-import { printRes } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
 
 
 
@@ -135,7 +135,7 @@ export const getUserWithId = (uid,token) =>{
     })
     .catch(err =>{
         printRes(err)
-        alert("server error",err)
+        alertInfo("server error",err)
     })
 }
 
@@ -421,20 +421,20 @@ export const GetAppliedUsers = (job_id,tkn) =>{
 }
 
 //get jobs a user applied for
-export const GetJobsApplied = (user_id,tkn) =>{
-    return fetch(`${API}get-jobs/${user_id}`,{
-        method:"GET",
-        headers:{
-            Authorization:`Bearer ${tkn}`
-        }
+export const GetJobsApplied = (user_id, tkn) => {
+    return fetch(`${API}appliedjobs`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      },
     })
-    .then(res=>{
-        return res.json()
-    })
-    .catch(err=>{
-        printRes(err)
-    })
-}
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
 
 // payment with razor pay
@@ -486,8 +486,8 @@ export const fetchOrderData = (orderFetchData) =>{
 //       image: "http://localhost:1337/logo.png",
 //       order_id: data.id,
 //       handler: function (response) {
-//         alert("PAYMENT ID ::" + response.razorpay_payment_id);
-//         alert("ORDER ID :: " + response.razorpay_order_id);
+//         alertInfo("PAYMENT ID ::" + response.razorpay_payment_id);
+//         alertInfo("ORDER ID :: " + response.razorpay_order_id);
 //       },
 //       prefill: {
 //         name: "Anirudh Jwala",
@@ -631,5 +631,22 @@ export const addToFav = (user_id, job_id, tkn) => {
           printRes(err);
         });
   }
+
+
+  export const delAppliedJobs = (application_id, tkn) => {
+    return fetch(`https://api.jobstextile.com/application/${application_id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
 
 

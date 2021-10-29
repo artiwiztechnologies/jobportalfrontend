@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData, getJobFromId, editJobPosted } from "../../helper";
-import {printRes} from "../../helper2/index.js";
+import {alertInfo, printRes} from "../../helper2/index.js";
+
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -181,17 +182,17 @@ const editTheJob = () =>{
               updateAuthData(isAuthenticated())
               editTheJob()
           }else{
-          alert(d1.error)
+          alertInfo(d1.error)
           }
         }else{
-          alert(d1.message);
+          alertInfo(d1.message);
           if(d1.message==="Updated successfuly!"){
             window.location.reload();
           }
         }
       })
       .catch(err=>{
-        alert(err)
+        alertInfo(err)
       })
 }
  

@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninUser } from "../../helper";
 import mail from "../../assets/email.gif";
+import { textAlign } from "styled-system";
 const ModalStyled = styled(Modal)`
   /* &.modal {
     z-index: 10050;
@@ -32,7 +33,7 @@ function ConfirmEmailModal() {
           >
             <i className="fas fa-times"></i>
           </button>
-          <Modal.Title>Email-Confirmation</Modal.Title>
+          <Modal.Title className="mx-auto text-center">Email-Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="text-center">
@@ -45,14 +46,14 @@ function ConfirmEmailModal() {
           <p
             style={{
               paddingTop: "-20px",
-              fontSize: "22px",
+              fontSize: "16px",
               fontWeight: "bold",
               paddingLeft: "10px",
               paddingRight: "10px",
             }}
           >
-            A email has been sent to your email for verification, please verify
-            and login again
+            Verification email has been sent.
+Please verify and login.
           </p>
         </Modal.Body>
       </Modal>

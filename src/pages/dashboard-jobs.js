@@ -5,7 +5,7 @@ import { Select } from "../components/Core";
 import { delJobsByJobId, getJobFromId, getPostedJobByCompanyFromId,isAuthenticated, updateAuthData } from "../helper";
 import GlobalContext from "../context/GlobalContext";
 import CompanyEditJobModal from "../components/CompanyEditJobModal/CompanyEditJobModal";
-import { printRes } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
 
 const defaultJobs = [
   { value: "pd", label: "Product Designer" },
@@ -204,10 +204,10 @@ const DashboardJobs = () => {
                               .then(d=>{
                                 printRes(d);
                                 if(d.message==="Job deleted."){
-                                  alert(d.message);
+                                  alertInfo(d.message);
                                   window.location.reload()
                                 }else{
-                                  alert("something went wrong!")
+                                  alertInfo("something went wrong!")
                                 }
 
                               })

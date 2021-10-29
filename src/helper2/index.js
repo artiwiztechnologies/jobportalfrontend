@@ -60,7 +60,9 @@ let dev = false;
 
   export const alertInfo = (info) =>{
     Notiflix.Notify.info(info,{
-      position: "center-top"
+      position: "center-top",
+      timeout: "3000",
+      showOnlyTheLastOne: true
     })
   }
 

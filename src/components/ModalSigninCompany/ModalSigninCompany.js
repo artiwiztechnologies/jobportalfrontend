@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany } from "../../helper";
-import { printRes } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../../helper2";
 
 
 const ModalStyled = styled(Modal)`
@@ -41,11 +41,11 @@ const ModalSigninCompany = (props) => {
       SigninCompany(user)
         .then((data)=>{
           if(data.message==="Invalid Credentials!"){
-              // alert("enter valid credentials");
+              // alertInfo("enter valid credentials");
               setErrorSgn(true);
               setErrormsg(data.message);
           }else if(data.message==="Company not found!"){
-            // alert("company not found!");
+            // alertInfo("company not found!");
             setErrorSgn(true);
             setErrormsg(data.message);
           }
@@ -70,7 +70,7 @@ const ModalSigninCompany = (props) => {
           }
         })
         .catch(err=>{
-          alert("server error")
+          alertInfo("server error")
         })
 
   }
@@ -207,7 +207,7 @@ const ModalSigninCompany = (props) => {
                       if(password.length != 0 && phonenumber.length != 0){
                         signinUser();
                       }else{
-                        // alert("please enter valid credentials");
+                        // alertInfo("please enter valid credentials");
                         setErrorSgn(true)
                         setErrormsg("please enter valid credentials");
                       }

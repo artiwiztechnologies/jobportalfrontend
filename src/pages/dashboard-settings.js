@@ -13,7 +13,7 @@ import {
 } from "../helper/index";
 import { useRouter } from "next/router";
 import Notiflix from "notiflix";
-import { printRes } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
 
 // import dashboardstyles from "../styles/Dashboard-settings.module.css";
 
@@ -107,7 +107,7 @@ const DashboardSettings = () => {
     
   }else if(!isAuthenticated()){
     router.push("/");
-    alert("please login!")
+    alertInfo("please login!")
   }
     if (isAuthenticated().company_id) printRes(uId);
     getCompanyWithId(uId, isAuthenticated().access_token).then((data) => {
@@ -177,12 +177,12 @@ const DashboardSettings = () => {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
           updateCompanyDetails(data.access_token, uid, userData).then((res) => {
             printRes(res);
-            alert("successfully updated");
+            alertInfo("successfully updated");
             
           });
         });
       } else {
-        alert("successfully updated");
+        alertInfo("successfully updated");
         // router.push("/");
       }
     });
@@ -288,14 +288,14 @@ const DashboardSettings = () => {
                                         ...userData,photourl:d1.photoURL
                                       })
                                         }else{
-                                          alert("somethings went wrong!");
+                                          alertInfo("somethings went wrong!");
                                         }
 
 
                                       })
                                     }
                                     else{
-                                      alert("something went wrong!")
+                                      alertInfo("something went wrong!")
                                     }
                                     
                                   })
@@ -631,13 +631,13 @@ export default DashboardSettings
 //             updateCompanyDetails(data.access_token,uid,userData)
 //               .then(res=>{
 //                 printRes(res);
-//                 alert("successfully updated");
+//                 alertInfo("successfully updated");
 //                 router.push("/");
                 
 //               })
 //           })
 //       }else{
-//         alert("successfully updated");
+//         alertInfo("successfully updated");
 //         router.push("/");
 //       }
 //     })
@@ -730,14 +730,14 @@ export default DashboardSettings
                         //                 ...userData,photourl:d1.photoURL
                         //               })
                         //                 }else{
-                        //                   alert("somethings went wrong!");
+                        //                   alertInfo("somethings went wrong!");
                         //                 }
 
 
                         //               })
                         //             }
                         //             else{
-                        //               alert("something went wrong!")
+                        //               alertInfo("something went wrong!")
                         //             }
                                     
                         //           })
