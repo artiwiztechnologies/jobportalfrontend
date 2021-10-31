@@ -66,7 +66,7 @@ const ModalSignUp = (props) => {
         .then(data => {
           if(data.message==="User created successfully."){
           printRes(data);
-          alertInfo("success")
+          alertSuccess("success")
           // <AlertModal info={data.message} show={true}   />
 
           setName("");
@@ -79,7 +79,7 @@ const ModalSignUp = (props) => {
           gContext.toggleSignUpModal()
           gContext.toggleConfirmEmail()
           }else{
-            alertInfo(data.message)
+            alertWarning(data.message)
             // <AlertModal info={data.message} show={true}   />
             // alertInfo(data.message)
           }

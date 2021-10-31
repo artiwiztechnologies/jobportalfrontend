@@ -177,12 +177,12 @@ const DashboardSettings = () => {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
           updateCompanyDetails(data.access_token, uid, userData).then((res) => {
             printRes(res);
-            alertInfo("successfully updated");
+            alertSuccess("successfully updated");
             
           });
         });
       } else {
-        alertInfo("successfully updated");
+        alertSuccess("successfully updated");
         // router.push("/");
       }
     });
@@ -288,14 +288,14 @@ const DashboardSettings = () => {
                                         ...userData,photourl:d1.photoURL
                                       })
                                         }else{
-                                          alertInfo("somethings went wrong!");
+                                          alertWarning("somethings went wrong!");
                                         }
 
 
                                       })
                                     }
                                     else{
-                                      alertInfo("something went wrong!")
+                                      alertWarning("something went wrong!")
                                     }
                                     
                                   })

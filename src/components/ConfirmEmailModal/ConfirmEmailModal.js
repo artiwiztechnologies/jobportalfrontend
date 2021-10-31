@@ -47,7 +47,7 @@ function ConfirmEmailModal() {
             style={{
               paddingTop: "-20px",
               fontSize: "16px",
-              fontWeight: "bold",
+              
               paddingLeft: "10px",
               paddingRight: "10px",
             }}

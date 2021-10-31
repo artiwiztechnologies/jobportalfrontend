@@ -6,6 +6,7 @@ import { delJobsByJobId, getJobFromId, getPostedJobByCompanyFromId,isAuthenticat
 import GlobalContext from "../context/GlobalContext";
 import CompanyEditJobModal from "../components/CompanyEditJobModal/CompanyEditJobModal";
 import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
+import { Modal } from "react-bootstrap";
 
 const defaultJobs = [
   { value: "pd", label: "Product Designer" },
@@ -15,11 +16,75 @@ const defaultJobs = [
   { value: "cw", label: "Content Writer" },
 ];
 
+
+const ConfirmDeleteModal = ({delModal,setDelModal,jid}) =>{
+  const [yes,setYes] = useState(false);
+
+  const delJobWithId = () =>{
+    delJobsByJobId(jid,isAuthenticated().access_token) 
+                              .then(d=>{
+                                printRes(d);
+                                if(d.message==="Job deleted."){
+                                  alertSuccess(d.message);
+                                  window.location.reload()
+                                }else{
+                                  alertWarning("something went wrong!");
+                                }
+
+                              })
+  }
+  
+  return(
+    <div>
+      <Modal
+        size="sm-down"
+        show={delModal}
+        onHide={()=>{
+          setDelModal(false);
+        }}
+        backdrop="static"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="circle-32 btn-reset bg-white pos-abs-tr mt-n6 mr-lg-n6 focus-reset shadow-10"
+            onClick={() => {
+              setDelModal(false)
+              
+              
+            }}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+          <Modal.Title className="mx-auto text-center">Are you sure you want to delete this Job</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="btn btn-primary ml-3" style={{cursor:"pointer"}} onClick={()=>{
+            printRes(jid);
+            delJobWithId()
+            setDelModal(false);
+          }}>YES</div>
+          <div className="btn btn-danger ml-3" style={{cursor:"pointer"}} onClick={()=>{
+            printRes("cancelled!")
+            setDelModal(false);
+
+          }}>NO</div>
+
+        </Modal.Body>
+      </Modal>
+
+     
+    </div>
+  )
+}
+
+
 const DashboardJobs = () => {
   const gContext = useContext(GlobalContext);
-
+  const [delconfirmModal,setDelconfirmModal] = useState(false);
   const [jobs,setJobs] = useState([]);
   const [jeditData,setJeditData] = useState({});
+  const [jobIdDel,setJobIdDel]= useState();
   const getCompanyPostedJobsClient = () =>{
     getPostedJobByCompanyFromId(isAuthenticated().company_id,isAuthenticated().access_token)
     .then(data=>{
@@ -200,17 +265,19 @@ const DashboardJobs = () => {
                         <td className="table-y-middle py-7 min-width-px-100">
                           <button
                           onClick={()=>{
-                            delJobsByJobId(job.id,isAuthenticated().access_token) 
-                              .then(d=>{
-                                printRes(d);
-                                if(d.message==="Job deleted."){
-                                  alertInfo(d.message);
-                                  window.location.reload()
-                                }else{
-                                  alertInfo("something went wrong!")
-                                }
+                            setDelconfirmModal(true);
+                            setJobIdDel(job.id);
+                            // delJobsByJobId(job.id,isAuthenticated().access_token) 
+                            //   .then(d=>{
+                            //     printRes(d);
+                            //     if(d.message==="Job deleted."){
+                            //       alertSuccess(d.message);
+                            //       window.location.reload()
+                            //     }else{
+                            //       alertWarning("something went wrong!");
+                            //     }
 
-                              })
+                            //   })
                           }}
                             
                             className="font-size-3 font-weight-bold text-red-2 text-uppercase"
@@ -230,7 +297,7 @@ const DashboardJobs = () => {
             </div>
           </div>
           
-
+            <ConfirmDeleteModal delModal={delconfirmModal} setDelModal={setDelconfirmModal} jid={jobIdDel} />
         </div>
       </PageWrapper>
     </>

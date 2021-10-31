@@ -153,14 +153,14 @@ const DashboardSettings = () => {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
           updateUserDetails(data.access_token, uid, userData).then((res) => {
             printRes(res);
-            alertInfo("successfully updated");
+            alertSuccess("successfully updated");
             router.push("/");
           });
         });
       } else if (data.error) {
-        alertInfo(data.error);
+        alertWarning(data.error);
       } else if (data.message === "Update successful!") {
-        alertInfo(data.message);
+        alertSuccess(data.message);
       }
       // else{
       //   alertInfo("successfully updated");
@@ -381,7 +381,7 @@ const DashboardSettings = () => {
                                   // setUploadingRes(false);
 
                                 } else {
-                                  alertInfo("something went wrong!");
+                                  alertWarning("something went wrong!");
                                 }
                                 setUploadingRes(false);
                               });

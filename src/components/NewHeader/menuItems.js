@@ -12,8 +12,8 @@ export const menuItems = [
       label: "Dashboard"
     },
     {
-      name:"search-grid",
-      label:"Find Jobs"
+      name: isAuthenticated().user_id ? "search-grid" : "applicants-list",
+      label:isAuthenticated().user_id ? "Find Jobs" : "Applicants"
     },
 
   {

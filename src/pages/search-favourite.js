@@ -404,9 +404,9 @@ const SearchGrid = () => {
         jobApply(j_id);
       }
       if (data.message === "Applied successfuly!!") {
-        alertInfo(data.message);
+        alertSuccess(data.message);
       } else {
-        alertInfo(data.message);
+        alertWarning(data.message);
         //then do error handling stuff here
       }
     });
@@ -439,9 +439,9 @@ const SearchGrid = () => {
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)
                                   if (dt1.message === "Applied successfuly!!") {
-                                    alertInfo(dt1.message);
+                                    alertSuccess(dt1.message);
                                   } else {
-                                    alertInfo(dt1.message);
+                                    alertWarning(dt1.message);
                                     //then do error handling stuff here
                                   }
                                 }

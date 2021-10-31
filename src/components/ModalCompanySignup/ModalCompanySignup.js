@@ -5,7 +5,7 @@ import GlobalContext from "../../context/GlobalContext";
 // 211
 import signUpStyles from "../../styles/SignupCompany.module.css";
 import {signup, signUpCompany} from "../../helper/index.js";
-import { printRes,alertInfo } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning } from "../../helper2";
 
 
 const ModalStyled = styled(Modal)`
@@ -61,7 +61,7 @@ const ModalCompanySignUp = (props) => {
         .then(data => {
           printRes(data);
           if(data.message === "Company created successfully."){
-              alertInfo("signup success");
+            alertSuccess("signup success");
               setCompanyname("");
               setAddress("");
               setConfirmPass("");
@@ -75,7 +75,7 @@ const ModalCompanySignUp = (props) => {
 
               
           }else{
-            alertInfo(data.message);
+            alertWarning(data.message);
           }
         })
     }

@@ -16,7 +16,7 @@ import { menuItems } from "./menuItems";
 
 
 import imgP from "../../assets/image/header-profile.png";
-import { getCompanyWithId, isAuthenticated, refreshToken, signout } from "../../helper";
+import { getCompanyWithId, getUserWithId, isAuthenticated, refreshToken, signout } from "../../helper";
 import {useRouter} from "next/router";
 import { printRes } from "../../helper2";
 
@@ -106,7 +106,35 @@ const Header = () => {
             }
               
           })
-    } 
+    } else if(isAuthenticated() && isAuthenticated().user_id){
+      getUserWithId(isAuthenticated().user_id,isAuthenticated().access_token)
+      .then(data =>{
+        if(data.error==="token_expired"){
+          refreshToken(authdata.refresh_token)
+            .then(res=>{
+              authdata.access_token=res.access_token;
+          if(typeof window !== "undefined"){
+
+            localStorage.setItem("jwt",JSON.stringify(authdata))
+            getUserWithId(authdata.user_id,res.access_token)
+              .then(respo=>{
+                printRes(respo)
+          setImg_url(respo.photoURL)
+
+
+              })
+            
+            
+            
+        }
+            })
+        }else{
+          printRes(data)
+          setImg_url(data.photoURL)
+        }
+          
+      })
+    }
   },[])
 
   return (
@@ -315,7 +343,7 @@ const Header = () => {
                       className="proile media ml-7 flex-y-center"
                     >
                       <div className="circle-40">
-                        <img src={imgP} alt="" />
+                        <Avatar src={img_url} />
                       </div>
                       <i className="fas fa-chevron-down heading-default-color ml-6"></i>
                     </Dropdown.Toggle>

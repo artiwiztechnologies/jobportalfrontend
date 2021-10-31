@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData } from "../../helper";
-import { alertInfo, printRes } from "../../helper2";
+import { alertInfo, printRes,alertSuccess,alertWarning  } from "../../helper2";
 
 
 const ModalStyled = styled(Modal)`
@@ -12,6 +12,10 @@ const ModalStyled = styled(Modal)`
     z-index: 10050;j
   } */
 `;
+
+
+
+
 
 const CompanyPostjobModal = (props) => {
   const router = useRouter();
@@ -177,7 +181,7 @@ const postanewJob = () =>{
       
         })
         setSkillsString("");
-        alertInfo("job posted successfully");
+        alertSuccess("job posted successfully");
         gContext.togglePostjobModal();
         if(window.location.pathname==="/dashboard-jobs"){
             window.location.reload()
@@ -205,7 +209,7 @@ const postanewJob = () =>{
         })
         setSkillsString("");
         
-        alertInfo("job posted successfully");
+        alertSuccess("job posted successfully");
         printRes(window.location.pathname)
 
         if(window.location.pathname==="/dashboard-jobs"){
@@ -233,8 +237,9 @@ const postanewJob = () =>{
       show={gContext.showPostjobModal}
       onHide={gContext.togglePostjobModal}
     >
+    <div className="p-6">
     <Modal.Header>
-      <p>Post a new Job as {isAuthenticated().email}</p>
+      <p className="m-auto text-center">Post a new Job as <span className="font-weight-bold text-success"> {isAuthenticated().name}</span></p>
       <button
           type="button"
           className="circle-32 btn-reset bg-white pos-abs-tr mt-md-n6 mr-lg-n6 focus-reset z-index-supper"
@@ -257,7 +262,7 @@ const postanewJob = () =>{
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="enter the job title"
+                      placeholder="Enter the job title"
                       id="post_title"
                       value={post_title}
                       onChange={handleChange("post_title")}
@@ -294,12 +299,12 @@ const postanewJob = () =>{
                       
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
                     >
-                     Career Level
+                     Experience
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="enter the career level"
+                      placeholder="Enter the career level"
                       id="none"
                       value={career_level}
                       onChange={handleChange("career_level")}
@@ -315,13 +320,13 @@ const postanewJob = () =>{
               <input
                 type="text"
                 className="form-control"
-                placeholder="enter the skills you expect from the applicants"
+                placeholder="Enter the skills you expect from the applicants"
                 id="none"
                 value={skills_required}
                 onChange={handleChange("skills_required")}
               />
               <button
-                className="btn btn-primary"
+                className="btn btn-primary mt-5"
                 onClick={(e) => {
                   e.preventDefault();
                   addSkill();
@@ -369,18 +374,18 @@ const postanewJob = () =>{
               null}
             </div>
             <label className="font-size-4 text-black-2 font-weight-semibold line-height-reset">
-                Salary
+                CTC
               </label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="enter the salary you provide in Rupees"
+                placeholder="eg.10 LPA"
                 id="none"
                 value={salary}
                 onChange={handleChange("salary")}
               />
 
-                  <div className="form-group">
+                  <div className="form-group mt-6">
                     <label
                       
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
@@ -390,7 +395,7 @@ const postanewJob = () =>{
                     <textarea
                       type="text"
                       className="form-control"
-                      placeholder="give a brief decription of the job"
+                      placeholder="Give a brief decription of the job"
                       id="none"
                       value={job_desc}
                       onChange={handleChange("job_desc")}
@@ -408,7 +413,7 @@ const postanewJob = () =>{
                     <textarea
                       type="text"
                       className="form-control"
-                      placeholder="describe the role of the applicant"
+                      placeholder="Describe the role of the applicant"
                       id="none"
                       value={job_role}
                       onChange={handleChange("job_role")}
@@ -431,6 +436,7 @@ const postanewJob = () =>{
        
         
       </Modal.Body>
+      </div>
     </ModalStyled>
   );
 };

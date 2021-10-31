@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
@@ -6,7 +6,7 @@ import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninUser } from "../../helper";
 import { useRouter } from "next/router";
 import {toast,ToastContainer} from "react-nextjs-toast";
-import { printRes,alertInfo,alertSuccess,alertWarning } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning, totalJobs, totalCompanies } from "../../helper2";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -22,6 +22,20 @@ const ModalSignIn = (props) => {
   const [password,setPassword] = useState("");
   const [errorSgn,setErrorSgn] = useState(false);
   const [errormsg,setErrormsg] = useState("");
+  const [totaljobs,setTotaljobs] = useState();
+  const [totalcompanies,setTotalcompanies] = useState();
+
+  useEffect(()=>{
+    totalJobs()
+      .then(data=>{
+        setTotaljobs(data.total)
+        // printRes(data);
+      })
+    totalCompanies()
+      .then(data=>{
+        setTotalcompanies(data.total);
+      })
+  },[])
 
   const handleClose = () => {
     gContext.toggleSignInModal();
@@ -77,7 +91,7 @@ const ModalSignIn = (props) => {
           }
         })
         .catch(err=>{
-          alertInfo("server error")
+          alertWarning("server error")
         })
 
   }
@@ -119,13 +133,13 @@ const ModalSignIn = (props) => {
                 <div className="border-top border-default-color-2 mt-auto">
                   <div className="d-flex mx-n9 pt-6 flex-xs-row flex-column">
                     <div className="pt-5 px-9">
-                      <h3 className="font-size-7 text-white">295</h3>
+                      <h3 className="font-size-7 text-white">{totaljobs}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
                         New jobs posted today
                       </p>
                     </div>
                     <div className="pt-5 px-9">
-                      <h3 className="font-size-7 text-white">14</h3>
+                      <h3 className="font-size-7 text-white">{totalcompanies}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
                         New companies registered
                       </p>

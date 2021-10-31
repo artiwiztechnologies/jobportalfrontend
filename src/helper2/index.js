@@ -38,7 +38,7 @@ export const totalJobs = () => {
         printRes(err);
       });
   }
-let dev = false;
+let dev = true;
   export const printRes = (res) =>{
     if(dev){
     console.log(res)

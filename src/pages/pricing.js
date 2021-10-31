@@ -41,7 +41,7 @@ const Pricing = () => {
           setUsername(d1.name);
         })
         .catch(err=>{
-          alertInfo(err)
+          alertWarning(err)
         })
     }else if(isAuthenticated().company_id){
         getCompanyWithId(isAuthenticated().company_id,isAuthenticated().access_token)
@@ -53,12 +53,12 @@ const Pricing = () => {
             
           })
           .catch(err=>{
-            alertInfo(err);
+            alertWarning(err);
           })
     }
   }
   else{
-    alertInfo("you are not signed in,please do signin to access our plans!")
+    alertWarning("you are not signed in,please do signin to access our plans!")
   }
   }
   
@@ -119,12 +119,12 @@ async function displayRazorpay(plan_id) {
 
 
     if(!res){
-      alertInfo("razor pay SDK failed");
+      alertWarning("razor pay SDK failed");
       return
     }
 
     if(!data){
-      alertInfo("cant get payment data from the server!");
+      alertWarning("cant get payment data from the server!");
       return
     }
 

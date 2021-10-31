@@ -135,7 +135,7 @@ export const getUserWithId = (uid,token) =>{
     })
     .catch(err =>{
         printRes(err)
-        alertInfo("server error",err)
+        alertWarning("server error",err)
     })
 }
 
