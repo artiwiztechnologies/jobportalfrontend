@@ -67,7 +67,7 @@ const ModalSigninCompany = (props) => {
           else{
             setPhonenumber("");
             setPassword("");
-            // if(data.status==2){
+            if(data.status==2){
 
               authenticate(data,()=>{
                 printRes("signed in and authenticated");
@@ -77,7 +77,13 @@ const ModalSigninCompany = (props) => {
                 
   
                
-              })
+              })}else{
+                gContext.toggleSignInModal();
+  
+                // gContext.setEmailresendId(data.id);
+                // router.push("/dashboard-settings-user")
+                gContext.toggleConfirmEmail();
+              }
 
             
             

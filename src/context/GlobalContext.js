@@ -25,6 +25,7 @@ const GlobalProvider = ({ children }) => {
   const [filterJobType1, setFilterJobType1] = useState("");
   const [filterJobType2, setFilterJobType2] = useState("");
   const [filterJobType3, setFilterJobType3] = useState("");
+  const [emailresendId,setEmailresendId] = useState(0);
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -165,7 +166,9 @@ const GlobalProvider = ({ children }) => {
         filterJobType2,
         toggleFilterJobType2,
         filterJobType3,
-        toggleFilterJobType3
+        toggleFilterJobType3,
+        emailresendId,
+        setEmailresendId
 
 
       }}

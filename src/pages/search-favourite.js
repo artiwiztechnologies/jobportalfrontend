@@ -33,7 +33,7 @@ import {
   
 } from "../helper";
 
-import {alertInfo, printRes,alertWarning,alertSuccess} from "../helper2"
+import {alertInfo, printRes,alertWarning,alertSuccess, totalJobs} from "../helper2"
 
 import imgB1 from "../assets/image/l1/png/feature-brand-1.png";
 import imgB2 from "../assets/image/l1/png/feature-brand-2.png";
@@ -448,10 +448,14 @@ const SearchGrid = () => {
                               })
   }
 
+  
+
+
   useEffect(()=>{
     if(isAuthenticated() && isAuthenticated().active===true){
       // getjobs();
       getSavedJobs();
+      
     }
     else{
           router.push("/pricing");
@@ -459,6 +463,9 @@ const SearchGrid = () => {
          
     }
   },[])
+
+
+
 
   return (
     <>
@@ -526,9 +533,10 @@ const SearchGrid = () => {
                 <div className="pt-12 ml-lg-0 ml-md-15">
                   <div className="d-flex align-items-center justify-content-between">
                     <h5 className="font-size-4 font-weight-normal text-default-color">
-                      <span className="heading-default-color">120</span>
-                      results for{" "}
-                      <span className="heading-default-color">UI Designer</span>
+                      
+                      Total no of{" "}
+                      <span className="heading-default-color">Saved Jobs:</span>
+                      <span className="heading-default-color">{jobs?.length}</span>
                     </h5>
                     <div className="d-flex align-items-center result-view-type">
                       
@@ -596,24 +604,24 @@ const SearchGrid = () => {
                                   </a>
                                 </li>
                                 <li>
-                                  <Link href="/#">
+                                  
                                     <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
                                       <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
                                       {job.job_type
                                         ? job.job_type
                                         : "unavailable"}
                                     </a>
-                                  </Link>
+                                 
                                 </li>
                                 <li>
-                                  <Link href="/#">
+                                  
                                     <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
                                     <i class="fas fa-rupee-sign"></i>
                                       {job.salary
                                         ? job.salary
                                         : "not mentioned"}
                                     </a>
-                                  </Link>
+                                 
                                 </li>
                               </ul>
                               <p className="mb-7 font-size-4 text-gray">

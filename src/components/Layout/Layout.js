@@ -116,6 +116,8 @@ const Layout = ({ children, pageContext }) => {
             </div>
           </Loader>
           <div className="site-wrapper overflow-hidden" ref={eleRef}>
+          
+
             {children}
           </div>
 
@@ -184,6 +186,8 @@ const Layout = ({ children, pageContext }) => {
     );
   }
 
+  
+  
   return (
     <>
       <ThemeProvider

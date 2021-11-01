@@ -55,6 +55,9 @@ function ConfirmEmailModal() {
             Verification email has been sent.
 Please verify and login.
           </p>
+          {/* <span onClick={()=>{
+            printRes(gContext.emailresendId);
+          }}>Resend Email</span> */}
         </Modal.Body>
       </Modal>
 

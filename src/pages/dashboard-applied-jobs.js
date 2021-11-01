@@ -17,6 +17,7 @@ import {
 } from "../helper";
 import GlobalContext from "../context/GlobalContext";
 import CompanyEditJobModal from "../components/CompanyEditJobModal/CompanyEditJobModal";
+import DeleteConfirmationModel from "../components/DeleteConfirmationModel";
 
 const defaultJobs = [
   { value: "pd", label: "Product Designer" },
@@ -31,14 +32,18 @@ const AppliedJobs = () => {
 
   const [jobs, setJobs] = useState([]);
   const [jeditData, setJeditData] = useState();
+  const [showDelModal,setShowDelModal] = useState(false);
+  const [delid,setDelid] = useState();
 
   const deleteJob = (did) => {
     if (did) {
-      delAppliedJobs(did, isAuthenticated().access_token).then((data) => {
-        console.log(data);
-        // change = change +1
-        window.location.reload();
-      });
+      // delAppliedJobs(did, isAuthenticated().access_token).then((data) => {
+      //   console.log(data);
+      //   // change = change +1
+      //   window.location.reload();
+      // });
+      setDelid(did);
+      setShowDelModal(true);
     }
   };
 
@@ -111,6 +116,7 @@ const AppliedJobs = () => {
   }, []);
   return (
     <>
+    
       <PageWrapper
         headerConfig={{
           button: "profile",
@@ -119,7 +125,7 @@ const AppliedJobs = () => {
           reveal: false,
         }}
       >
-      <SidebarDashboard />
+      
         <div className="dashboard-main-container mt-25 mt-lg-31">
           <div className="container">
             <div className="mb-18">
@@ -236,14 +242,17 @@ const AppliedJobs = () => {
                           </td>
                           <td className="table-y-middle py-7 min-width-px-80"></td>
                           <td className="table-y-middle py-7 min-width-px-100">
-                            <button
+                            <span
+                            style={{
+                              cursor: "pointer"
+                            }}
                               onClick={() => {
                                 deleteJob(job.application_id);
                               }}
                               className="font-size-3 font-weight-bold text-red-2 text-uppercase"
                             >
                               Delete
-                            </button>
+                            </span>
                           </td>
                         </tr>
                       ))}
@@ -417,6 +426,7 @@ const AppliedJobs = () => {
               </div>
             </div>
           </div>
+          <DeleteConfirmationModel  delModal={showDelModal} setDelModal={setShowDelModal} jid={delid} />
         </div>
       </PageWrapper>
     </>

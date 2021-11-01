@@ -14,6 +14,7 @@ const Pricing = () => {
   const [username,setUsername] = useState();
   const [phnnum,setPhnnum] = useState();
   const [disabled,setDisabled] = useState(true);
+  // printRes(process.env.RAZOR_PAY_PK)
 
   // if(d2.error === 'token_expired'){
   //   updateAuthData(isAuthenticated())
@@ -134,7 +135,7 @@ async function displayRazorpay(plan_id) {
     
     
     const options = {
-      key: "rzp_test_V7OA6RGtfz7ILD",
+      key: "rzp_test_HG5GAR8YfRNzGa",
       
       currency: 'INR',
       amount: data.amount,
@@ -167,7 +168,11 @@ async function displayRazorpay(plan_id) {
             let authdata = isAuthenticated();
             authdata.active = true
             updateAuthData(authdata)
-            router.push("/search-grid");
+            if(isAuthenticated().user_id){
+              router.push("/search-grid");
+            }else{
+              router.push("/dashboard-settings");
+            }
             
             }
           })

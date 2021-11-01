@@ -58,7 +58,7 @@ const ConfirmDeleteModal = ({delModal,setDelModal,jid}) =>{
           </button>
           <Modal.Title className="mx-auto text-center">Are you sure you want to delete this Job</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="mx-auto text-center">
           <div className="btn btn-primary ml-3" style={{cursor:"pointer"}} onClick={()=>{
             printRes(jid);
             delJobWithId()
@@ -227,11 +227,14 @@ const DashboardJobs = () => {
                         </td>
                         <td className="table-y-middle py-7 min-width-px-205">
                           <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
-                            4{job.salary}
+                            {job.salary}
                           </h3>
                         </td>
                         <td className="table-y-middle py-7 min-width-px-80">
-                          <button
+                          <span
+                           style={{
+                             cursor: "pointer"
+                           }}
                             onClick={()=>{
                               // printRes(gContext.editjid)
                               gContext.changeEditJid(job.id);
@@ -260,10 +263,13 @@ const DashboardJobs = () => {
                             className="font-size-3 font-weight-bold text-green text-uppercase"
                           >
                             Edit
-                          </button>
+                          </span>
                         </td>
                         <td className="table-y-middle py-7 min-width-px-100">
-                          <button
+                          <span
+                          style={{
+                             cursor: "pointer"
+                           }}
                           onClick={()=>{
                             setDelconfirmModal(true);
                             setJobIdDel(job.id);
@@ -283,7 +289,7 @@ const DashboardJobs = () => {
                             className="font-size-3 font-weight-bold text-red-2 text-uppercase"
                           >
                             Delete
-                          </button>
+                          </span>
                         </td>
                       </tr>
                         ))

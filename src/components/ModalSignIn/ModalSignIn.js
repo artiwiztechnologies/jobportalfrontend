@@ -83,6 +83,8 @@ const ModalSignIn = (props) => {
 
             }else{
               gContext.toggleSignInModal();
+
+              // gContext.setEmailresendId(data.id);
               // router.push("/dashboard-settings-user")
               gContext.toggleConfirmEmail();
             }

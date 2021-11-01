@@ -12,7 +12,7 @@ export const menuItems = [
       label: "Dashboard"
     },
     {
-      name: isAuthenticated().user_id ? "search-grid" : "applicants-list",
+      name: isAuthenticated().user_id ? "search-grid" : "dashboard-applicants",
       label:isAuthenticated().user_id ? "Find Jobs" : "Applicants"
     },
 

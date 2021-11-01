@@ -25,12 +25,13 @@ const CompanyEditJobModal = () => {
  
 
   const [c_name,setC_name] = useState("");
+  const [skillsString,setSkillsString] = useState("");
 
   const [values,setValues]=useState({
     title:gContext.editJobData.title,job_type:gContext.editJobData.job_type,career_level:gContext.editJobData.career_level,skills_required:gContext.editJobData.skills,job_desc:gContext.editJobData.description,job_role:gContext.editJobData.role,
-    salary:"",
+    salary:gContext.editJobData.salary,
     c_addr:"",//from getcompany
-    career_level:"",
+    career_level:gContext.editJobData.career_level,
     corp_type:"",//from get company
     comp_size:"",//from getcompany
     
@@ -40,6 +41,9 @@ const CompanyEditJobModal = () => {
 
 
   })
+ 
+  
+
 
 
 
@@ -110,7 +114,7 @@ const CompanyEditJobModal = () => {
 
 //   printRes(gContext.editjid)
 
-const [skillsString,setSkillsString] = useState(""); 
+ 
 const addSkill = () =>{
   // skillsString = skillsString + ", " + skills_required;
   // printRes(skillsString)
@@ -158,8 +162,9 @@ const deleteSkill = (s) =>{
 //changes to be made for edit jobs
 const editTheJob = () =>{
     printRes("edit the job");
+   
 
-    // printRes(values)
+    printRes(values.skills_required)
     const jjj_data = {
       "title": values.title,
       "description": values.job_desc,
@@ -169,7 +174,7 @@ const editTheJob = () =>{
       "salary": values.salary,
       "career_level": values.career_level,
       "role": values.job_role,
-      "skills": skillsString
+      "skills": skillsString.length != 0 ? skillsString : values.skills_required
     }
 
  
@@ -205,8 +210,9 @@ const editTheJob = () =>{
       show={gContext.showEditJobModal}
       onHide={handleClose}
     >
+     <div className="p-6">
     <Modal.Header>
-      <p>Edit the Job as {isAuthenticated().email}</p>
+      <p className="m-auto text-center">Edit the Job as <span className="font-weight-bold text-success"> {isAuthenticated().name}</span></p>
       <button
           type="button"
           className="circle-32 btn-reset bg-white pos-abs-tr mt-md-n6 mr-lg-n6 focus-reset z-index-supper"
@@ -229,7 +235,7 @@ const editTheJob = () =>{
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="enter the job title"
+                      placeholder="Enter the job title"
                       id="title"
                       value={title}
                       onChange={handleChange("title")}
@@ -266,12 +272,12 @@ const editTheJob = () =>{
                       
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
                     >
-                     Career Level
+                     Experience
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="enter the career level"
+                      placeholder="Enter your experience"
                       id="none"
                       value={career_level}
                       onChange={handleChange("career_level")}
@@ -287,13 +293,13 @@ const editTheJob = () =>{
               <input
                 type="text"
                 className="form-control"
-                placeholder="enter the skills you expect from the applicants"
+                placeholder="Enter the skills you expect from the applicants"
                 id="none"
                 value={skills_required}
                 onChange={handleChange("skills_required")}
               />
               <button
-                className="btn btn-primary"
+                className="btn btn-primary mt-5"
                 onClick={(e) => {
                   e.preventDefault();
                   addSkill();
@@ -342,19 +348,19 @@ const editTheJob = () =>{
             </div>
 
             <label className="font-size-4 text-black-2 font-weight-semibold line-height-reset">
-                Salary in Rupees
+                CTC
               </label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="enter the skills you expect from the applicants"
+                placeholder="eg.10LPA"
                 id="none"
                 value={salary}
                 onChange={handleChange("salary")}
               />
                   
 
-                  <div className="form-group">
+                  <div className="form-group mt-6">
                     <label
                       
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
@@ -364,7 +370,7 @@ const editTheJob = () =>{
                     <textarea
                       type="text"
                       className="form-control"
-                      placeholder="give a brief decription of the job"
+                      placeholder="Give a brief decription of the job"
                       id="none"
                       value={job_desc}
                       onChange={handleChange("job_desc")}
@@ -382,7 +388,7 @@ const editTheJob = () =>{
                     <textarea
                       type="text"
                       className="form-control"
-                      placeholder="describe the role of the applicant"
+                      placeholder="Describe the role of the applicant"
                       id="none"
                       value={job_role}
                       onChange={handleChange("job_role")}
@@ -406,6 +412,7 @@ const editTheJob = () =>{
        
         
       </Modal.Body>
+      </div>
     </ModalStyled>
   );
 };
