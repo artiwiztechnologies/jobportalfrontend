@@ -30,10 +30,10 @@ import {
   updateAuthData,
   addToFav,
   getFav,
-  
+
 } from "../helper";
 
-import {alertInfo, printRes,alertWarning,alertSuccess, totalJobs} from "../helper2"
+import { alertInfo, printRes, alertWarning, alertSuccess, totalJobs, checkSubscription } from "../helper2"
 
 import imgB1 from "../assets/image/l1/png/feature-brand-1.png";
 import imgB2 from "../assets/image/l1/png/feature-brand-2.png";
@@ -62,8 +62,8 @@ const ModalViewJobDetails = ({
       j_id,
       isAuthenticated().access_token
     ).then((data) => {
-      
-      if(data.error==="token_expired"){
+
+      if (data.error === "token_expired") {
         updateAuthData(isAuthenticated())
         jobApply(j_id);
       }
@@ -83,25 +83,25 @@ const ModalViewJobDetails = ({
 
   };
 
-  const savetheJob = (jid) =>{
-    addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
-                              .then(dt1=>{
-                                printRes(dt1);
-                                if(dt1.error==="token_expired"){
-                                  updateAuthData(isAuthenticated())
-                                  savetheJob(jid)
-                                }
-                                if (dt1.message === "Applied successfuly!!") {
-                                  // alertInfo(dt1.message);
-                                  Notiflix.Notify.success(dt1.message);
-                                    
-                                } else {
-                                  // alertInfo(dt1.message);
-                                  Notiflix.Notify.failure(dt1.message);
+  const savetheJob = (jid) => {
+    addToFav(isAuthenticated().user_id, jid, isAuthenticated().access_token)
+      .then(dt1 => {
+        printRes(dt1);
+        if (dt1.error === "token_expired") {
+          updateAuthData(isAuthenticated())
+          savetheJob(jid)
+        }
+        if (dt1.message === "Applied successfuly!!") {
+          // alertInfo(dt1.message);
+          Notiflix.Notify.success(dt1.message);
 
-                                  //then do error handling stuff here
-                                }
-                              })
+        } else {
+          // alertInfo(dt1.message);
+          Notiflix.Notify.failure(dt1.message);
+
+          //then do error handling stuff here
+        }
+      })
   }
   if (ModalJobData) {
     printRes(ModalJobData);
@@ -128,9 +128,9 @@ const ModalViewJobDetails = ({
                     {/* <!-- media logo start --> */}
                     <div className="square-72 d-block mr-8">
                       {/* <img src={imgF1} alt="" /> */}
-                      <img width="70" height="71" 
-                                 src={ModalJobData.photoURL ? ModalJobData.photoURL : "data:image/png;base64,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"} 
-                                alt="" />
+                      <img width="70" height="71"
+                        src={ModalJobData.photoURL ? ModalJobData.photoURL : "data:image/png;base64,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"}
+                        alt="" />
                     </div>
                     {/* <!-- media logo end --> */}
                     {/* <!-- media texts start --> */}
@@ -163,22 +163,22 @@ const ModalViewJobDetails = ({
                       onClick={() => {
                         printRes(ModalJobData.id);
                         jobApply(ModalJobData.id);
-                        
+
                       }}
                     >
                       Apply to this job
                     </button>
 
-                    <span onClick={()=>{
+                    <span onClick={() => {
                       printRes("save job!")
                       //addToFav function
                       savetheJob(ModalJobData.id);
 
                     }} className="btn btn-outline-mercury text-black-2 text-uppercase h-px-48 rounded-3 mb-5 px-5">
-                      
-                        <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
-                        Save job
-                      
+
+                      <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
+                      Save job
+
                     </span>
                   </div>
                   {/* <!-- card-btn-group end --> */}
@@ -303,7 +303,7 @@ const ModalViewJobDetails = ({
                       {ModalJobData.role}
                     </p>
 
-                    <button onClick={()=>{
+                    <button onClick={() => {
                       jobApply(ModalJobData.id)
                     }} className="btn btn-green text-uppercase btn-medium w-180 h-px-48 rounded-3 mr-4 mt-6">
                       Apply to this job
@@ -368,6 +368,8 @@ const SearchGrid = () => {
 
   const [jobs, setJobs] = useState([]);
   const [reqjobdata, setReqjobdata] = useState();
+  const [subscribed, setSubscribed] = useState(false);
+  const [subscriptionData, setSubscriptionData] = useState();
 
   const gContext = useContext(GlobalContext);
 
@@ -379,14 +381,14 @@ const SearchGrid = () => {
   printRes(gContext.filterJobType2);
   printRes(gContext.filterJobType3);
 
-  const getSavedJobs = () =>{
+  const getSavedJobs = () => {
     getFav(isAuthenticated().access_token)
-      .then(data=>{
+      .then(data => {
         printRes(data);
-        if(data.error==="token_expired"){
+        if (data.error === "token_expired") {
           updateAuthData(isAuthenticated())
           getSavedJobs()
-        }else{
+        } else {
           setJobs(data.jobs)
         }
       })
@@ -399,7 +401,7 @@ const SearchGrid = () => {
       isAuthenticated().access_token
     ).then((data) => {
       printRes(data);
-      if(data.error==="token_expired"){
+      if (data.error === "token_expired") {
         updateAuthData(isAuthenticated())
         jobApply(j_id);
       }
@@ -413,56 +415,68 @@ const SearchGrid = () => {
 
   };
 
-  const getjobs = () =>{
+  const getjobs = () => {
     getAllJobs(isAuthenticated().access_token)
-        .then(data=>{
-          if(data.error==="token_expired"){
-            printRes("error:",data.error)
-            updateAuthData(isAuthenticated())
-            getjobs();
-            
-            
+      .then(data => {
+        if (data.error === "token_expired") {
+          printRes("error:", data.error)
+          updateAuthData(isAuthenticated())
+          getjobs();
 
-          }else{
+
+
+        } else {
           printRes(data);
           printRes("hey")
           setJobs(data.Jobs)
+        }
+      })
+  }
+
+  const savetheJob = (jid) => {
+    addToFav(isAuthenticated().user_id, jid, isAuthenticated().access_token)
+      .then(dt1 => {
+        printRes(dt1);
+        if (dt1.error === "token_expired") {
+          updateAuthData(isAuthenticated())
+          savetheJob(jid)
+          if (dt1.message === "Applied successfuly!!") {
+            alertSuccess(dt1.message);
+          } else {
+            alertWarning(dt1.message);
+            //then do error handling stuff here
+          }
+        }
+      })
+  }
+
+
+
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+
+      checkSubscription(isAuthenticated().access_token)
+        .then(data => {
+          printRes(data);
+          if (data.active) {
+            setSubscribed(true);
+            setSubscriptionData(data);
+            getSavedJobs();
+          } else {
+            router.push("/pricing");
+            alertInfo("please subscribe to a plan!");
           }
         })
-  }
-
-  const savetheJob = (jid) =>{
-    addToFav(isAuthenticated().user_id,jid,isAuthenticated().access_token)
-                              .then(dt1=>{
-                                printRes(dt1);
-                                if(dt1.error==="token_expired"){
-                                  updateAuthData(isAuthenticated())
-                                  savetheJob(jid)
-                                  if (dt1.message === "Applied successfuly!!") {
-                                    alertSuccess(dt1.message);
-                                  } else {
-                                    alertWarning(dt1.message);
-                                    //then do error handling stuff here
-                                  }
-                                }
-                              })
-  }
-
-  
 
 
-  useEffect(()=>{
-    if(isAuthenticated() && isAuthenticated().active===true){
-      // getjobs();
-      getSavedJobs();
-      
     }
-    else{
-          router.push("/pricing");
-          alertInfo("please subscribe to a plan!");
-         
+    else {
+      alertWarning("please do login to continue!");
+      router.push("/");
+
     }
-  },[])
+  }, [])
 
 
 
@@ -533,13 +547,13 @@ const SearchGrid = () => {
                 <div className="pt-12 ml-lg-0 ml-md-15">
                   <div className="d-flex align-items-center justify-content-between">
                     <h5 className="font-size-4 font-weight-normal text-default-color">
-                      
+
                       Total no of{" "}
                       <span className="heading-default-color">Saved Jobs:</span>
                       <span className="heading-default-color">{jobs?.length}</span>
                     </h5>
                     <div className="d-flex align-items-center result-view-type">
-                      
+
                       <Link href="/search-grid">
                         <a className="heading-default-color pl-5 font-size-6 hover-text-hitgray ">
                           <i className="fa fa-th-large"></i>
@@ -563,9 +577,9 @@ const SearchGrid = () => {
 
                       {jobs.map((job) =>
                         gContext.filterJobType1 === "" &&
-                        gContext.filterJobType2 === "" &&
-                        gContext.filterJobType3 === "" &&
-                        query === "" ? (
+                          gContext.filterJobType2 === "" &&
+                          gContext.filterJobType3 === "" &&
+                          query === "" ? (
                           <div
                             style={{ cursor: "pointer" }}
                             className="col-12 col-lg-6"
@@ -579,9 +593,9 @@ const SearchGrid = () => {
                             >
                               <div className="d-block mb-7">
                                 <a>
-                                <img width="70" height="71" className="rounded-2"
-                                 src={job.photoURL ? job.photoURL : "data:image/png;base64,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"} 
-                                alt="" />
+                                  <img width="70" height="71" className="rounded-2"
+                                    src={job.photoURL ? job.photoURL : "data:image/png;base64,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"}
+                                    alt="" />
                                 </a>
                               </div>
 
@@ -604,50 +618,50 @@ const SearchGrid = () => {
                                   </a>
                                 </li>
                                 <li>
-                                  
-                                    <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
-                                      <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
-                                      {job.job_type
-                                        ? job.job_type
-                                        : "unavailable"}
-                                    </a>
-                                 
+
+                                  <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
+                                    <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
+                                    {job.job_type
+                                      ? job.job_type
+                                      : "unavailable"}
+                                  </a>
+
                                 </li>
                                 <li>
-                                  
-                                    <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
+
+                                  <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
                                     <i class="fas fa-rupee-sign"></i>
-                                      {job.salary
-                                        ? job.salary
-                                        : "not mentioned"}
-                                    </a>
-                                 
+                                    {job.salary
+                                      ? job.salary
+                                      : "not mentioned"}
+                                  </a>
+
                                 </li>
                               </ul>
                               <p className="mb-7 font-size-4 text-gray">
                                 {job.description}
                               </p>
                               <div className="card-btn-group">
-                                <button onClick={()=>{
+                                <button onClick={() => {
                                   jobApply(job.id)
                                 }} className="btn btn-green text-uppercase btn-medium rounded-3">
                                   Apply Now
                                 </button>
 
-                                
-                                  <span onClick={()=>{
-                                    savetheJob(job.id);
-                                  }} className="btn btn-outline-mercury text-black-2 text-uppercase btn-medium rounded-3">
-                                    <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
-                                    Save it
-                                  </span>
-                                
+
+                                <span onClick={() => {
+                                  savetheJob(job.id);
+                                }} className="btn btn-outline-mercury text-black-2 text-uppercase btn-medium rounded-3">
+                                  <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
+                                  Save it
+                                </span>
+
                               </div>
                             </div>
                           </div>
                         ) : job.title
-                            .toLowerCase()
-                            .includes(query.toLowerCase()) &&
+                          .toLowerCase()
+                          .includes(query.toLowerCase()) &&
                           gContext.filterJobType3 === "" &&
                           gContext.filterJobType1 === "" &&
                           gContext.filterJobType2 === "" ? (
@@ -664,9 +678,9 @@ const SearchGrid = () => {
                             >
                               <div className="d-block mb-7">
                                 <a>
-                                <img width="70" height="71" 
-                                 src={job.photoURL ? job.photoURL : "data:image/png;base64,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"} 
-                                alt="" />
+                                  <img width="70" height="71"
+                                    src={job.photoURL ? job.photoURL : "data:image/png;base64,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"}
+                                    alt="" />
                                 </a>
                               </div>
 
@@ -689,135 +703,135 @@ const SearchGrid = () => {
                                   </a>
                                 </li>
                                 <li>
-                                  
-                                    <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
-                                      <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
-                                      {job.job_type
-                                        ? job.job_type
-                                        : "unavailable"}
-                                    </a>
-                                  
+
+                                  <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
+                                    <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
+                                    {job.job_type
+                                      ? job.job_type
+                                      : "unavailable"}
+                                  </a>
+
                                 </li>
                                 <li>
-                                  
-                                    <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
-                                      <i className="fa fa-dollar-sign mr-2 font-weight-bold"></i>{" "}
-                                      {job.salary
-                                        ? job.salary
-                                        : "not mentioned"}
-                                    </a>
-                                  
+
+                                  <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
+                                    <i className="fa fa-dollar-sign mr-2 font-weight-bold"></i>{" "}
+                                    {job.salary
+                                      ? job.salary
+                                      : "not mentioned"}
+                                  </a>
+
                                 </li>
                               </ul>
                               <p className="mb-7 font-size-4 text-gray">
                                 {job.description}
                               </p>
                               <div className="card-btn-group">
-                                <button onClick={()=>{
+                                <button onClick={() => {
                                   jobApply(job.id)
                                 }} className="btn btn-green text-uppercase btn-medium rounded-3">
                                   Apply Now
                                 </button>
 
-                                
-                                  <span onClick={()=>{
-                                    savetheJob(job.id);
-                                  }} className="btn btn-outline-mercury text-black-2 text-uppercase btn-medium rounded-3">
-                                    <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
-                                    Save it
-                                  </span>
-                                
+
+                                <span onClick={() => {
+                                  savetheJob(job.id);
+                                }} className="btn btn-outline-mercury text-black-2 text-uppercase btn-medium rounded-3">
+                                  <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
+                                  Save it
+                                </span>
+
                               </div>
                             </div>
                           </div>
                         ) : //replace
-                        job.job_type === gContext.filterJobType1 ||
-                          job.job_type === gContext.filterJobType2 ||
-                          job.job_type === gContext.filterJobType3 ? (
-                          job.title
-                            .toLowerCase()
-                            .includes(query.toLowerCase()) ? (
-                            <div
-                              style={{ cursor: "pointer" }}
-                              className="col-12 col-lg-6"
-                              key={job.id}
-                            >
+                          job.job_type === gContext.filterJobType1 ||
+                            job.job_type === gContext.filterJobType2 ||
+                            job.job_type === gContext.filterJobType3 ? (
+                            job.title
+                              .toLowerCase()
+                              .includes(query.toLowerCase()) ? (
                               <div
-                                onClick={() => {
-                                  handleShow(job);
-                                }}
-                                className=" bg-white px-8 pt-9 pb-7 rounded-4 mb-9 feature-cardOne-adjustments"
+                                style={{ cursor: "pointer" }}
+                                className="col-12 col-lg-6"
+                                key={job.id}
                               >
-                                <div className="d-block mb-7">
-                                  <a>
-                                  <img width="70" height="71" 
-                                 src={job.photoURL ? job.photoURL : "data:image/png;base64,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"} 
-                                alt="" />
-                                  </a>
-                                </div>
-
-                                <span className="font-size-3 d-block mb-0 text-gray">
-                                  {job.company_name}
-                                </span>
-
-                                <h2 className="mt-n4">
-                                  <span className="font-size-7 text-black-2 font-weight-bold mb-4">
-                                    {job.title}
-                                  </span>
-                                </h2>
-                                <ul className="list-unstyled mb-1 card-tag-list">
-                                  <li>
-                                    <a className="bg-regent-opacity-15 text-denim font-size-3 rounded-3">
-                                      <i className="icon icon-pin-3 mr-2 font-weight-bold"></i>{" "}
-                                      {job.location
-                                        ? job.location
-                                        : "not available"}
+                                <div
+                                  onClick={() => {
+                                    handleShow(job);
+                                  }}
+                                  className=" bg-white px-8 pt-9 pb-7 rounded-4 mb-9 feature-cardOne-adjustments"
+                                >
+                                  <div className="d-block mb-7">
+                                    <a>
+                                      <img width="70" height="71"
+                                        src={job.photoURL ? job.photoURL : "data:image/png;base64,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"}
+                                        alt="" />
                                     </a>
-                                  </li>
-                                  <li>
-                                    
+                                  </div>
+
+                                  <span className="font-size-3 d-block mb-0 text-gray">
+                                    {job.company_name}
+                                  </span>
+
+                                  <h2 className="mt-n4">
+                                    <span className="font-size-7 text-black-2 font-weight-bold mb-4">
+                                      {job.title}
+                                    </span>
+                                  </h2>
+                                  <ul className="list-unstyled mb-1 card-tag-list">
+                                    <li>
+                                      <a className="bg-regent-opacity-15 text-denim font-size-3 rounded-3">
+                                        <i className="icon icon-pin-3 mr-2 font-weight-bold"></i>{" "}
+                                        {job.location
+                                          ? job.location
+                                          : "not available"}
+                                      </a>
+                                    </li>
+                                    <li>
+
                                       <a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
                                         <i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
                                         {job.job_type
                                           ? job.job_type
                                           : "unavailable"}
                                       </a>
-                                   
-                                  </li>
-                                  <li>
-                                    
+
+                                    </li>
+                                    <li>
+
                                       <a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
                                         <i className="fa fa-dollar-sign mr-2 font-weight-bold"></i>{" "}
                                         {job.salary
                                           ? job.salary
                                           : "not mentioned"}
                                       </a>
-                                    
-                                  </li>
-                                </ul>
-                                <p className="mb-7 font-size-4 text-gray">
-                                  {job.description}
-                                </p>
-                                <div className="card-btn-group">
-                                  <button onClick={()=>{
-                                    jobApply(job.id)
-                                  }} className="btn btn-green text-uppercase btn-medium rounded-3">
-                                    Apply Now
-                                  </button>
 
-                                  
-                                    <span onClick={()=>{
+                                    </li>
+                                  </ul>
+                                  <p className="mb-7 font-size-4 text-gray">
+                                    {job.description}
+                                  </p>
+                                  <div className="card-btn-group">
+                                    <button onClick={() => {
+                                      jobApply(job.id)
+                                    }} className="btn btn-green text-uppercase btn-medium rounded-3">
+                                      Apply Now
+                                    </button>
+
+
+                                    <span onClick={() => {
                                       savetheJob(job.id)
                                     }} className="btn btn-outline-mercury text-black-2 text-uppercase btn-medium rounded-3">
                                       <i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
                                       Save it
                                     </span>
-                                  
+
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            ) : null
                           ) : null
-                        ) : null
                       )}
 
                       <ModalViewJobDetails

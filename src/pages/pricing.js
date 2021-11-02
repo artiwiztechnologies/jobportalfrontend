@@ -156,24 +156,24 @@ async function displayRazorpay(plan_id) {
             "razorpay_order_id": response.razorpay_order_id,
             "razorpay_signature": response.razorpay_signature,
             "plan_id":plan_id,
-            "_type":isAuthenticated().type
+            "user_type":isAuthenticated().type
         
         }
         printRes(req_data)
         ValidatePayment(req_data,isAuthenticated().access_token)
           .then(d1=>{
             printRes(d1);
-            alertSuccess(d1.message);
+            // alertSuccess(d1.message);
             if(d1.message==="Valid payment."){
-            let authdata = isAuthenticated();
-            authdata.active = true
-            updateAuthData(authdata)
-            if(isAuthenticated().user_id){
-              router.push("/search-grid");
-            }else{
-              router.push("/dashboard-settings");
-            }
+              alertSuccess(d1.message);
+            // if(isAuthenticated().user_id){
+            //   router.push("/search-grid");
+            // }else{
+            //   router.push("/dashboard-settings");
+            // }
             
+            }else{
+              alertInfo(d1.message);
             }
           })
         // alertInfo("PAYMENT ID ::" + response.razorpay_payment_id);

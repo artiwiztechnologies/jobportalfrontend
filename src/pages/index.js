@@ -16,11 +16,11 @@ const IndexPage = () => {
         }}
       >
         <Hero />
-        <Brands />
-        <Categories />
-        <Content1 />
-        <FeaturedJobs />
-        <Content2 />
+        {/* <Brands /> */}
+        {/* <Categories /> */}
+        {/* <Content1 /> */}
+        {/* <FeaturedJobs /> */}
+        {/* <Content2 /> */}
       </PageWrapper>
     </>
   );

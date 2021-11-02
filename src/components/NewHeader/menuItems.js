@@ -22,7 +22,7 @@ export const menuItems = [
   },
   
   {
-    name: "",
+    name: "customer-support",
     label: "Support",
     // isExternal: true,
   },

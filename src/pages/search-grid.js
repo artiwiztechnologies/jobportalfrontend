@@ -35,7 +35,7 @@ import imgB5 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB6 from "../assets/image/l1/png/feature-brand-6.png";
 import { marginRight } from "styled-system";
 import router from "next/router";
-import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning, checkSubscription } from "../helper2";
 
 const defaultCountries = [
   { value: "sp", label: "Dubai" },
@@ -336,7 +336,12 @@ const CheckStyled = styled.span`
 const SearchGrid = () => {
   const [show, setShow] = useState(false);
   const [showApply, setShowApply] = useState(false);
+
+  const [subscribed,setSubscribed] = useState(false);
+  const [subscriptionData,setSubscriptionData] = useState();
   // const [tjobs,setTjobs] = useState(0);
+
+  
 
   const handleClose = () => {
     setShow(false);
@@ -419,13 +424,26 @@ const SearchGrid = () => {
                               })
   }
   useEffect(()=>{
-    if(isAuthenticated() && isAuthenticated().active===true){
-      getjobs();
+    if(isAuthenticated()){
+      // getjobs();
+      checkSubscription(isAuthenticated().access_token)
+        .then(data=>{
+          printRes(data);
+          if(data.active){
+            setSubscribed(true);
+            setSubscriptionData(data);
+            getjobs();
+          }else{
+            router.push("/pricing");
+            alertInfo("please subscribe to a plan!");
+          }
+        })
+
       
     }
     else{
-          router.push("/pricing");
-          alertInfo("please subscribe to a plan!");
+         alertWarning("please do login to continue!");
+         router.push("/");
          
     }
   },[])

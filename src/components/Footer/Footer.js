@@ -74,16 +74,16 @@ const Footer = () => {
                 <img src={imgM} className="align-self-center mr-3" alt="" />
                 <div className="media-body pl-5">
                   <p className="mb-0 font-size-4 text-white">Contact us at</p>
-                  <Link href="/#">
+                  
                     <a className="mb-0 font-size-4 font-weight-bold">
-                      support@uxtheme.net
+                    support@textilejobs.com
                     </a>
-                  </Link>
+                  
                 </div>
               </div>
               {/* <!-- media start --> */}
               {/* <!-- widget social icon start --> */}
-              <div className="social-icons">
+              {/* <div className="social-icons">
                 <ul className="pl-0 list-unstyled d-flex align-items-end ">
                   <li className="d-flex flex-column justify-content-center px-3 mr-3 font-size-4 heading-default-color">
                     Follow us on:
@@ -110,7 +110,7 @@ const Footer = () => {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               {/* <!-- widget social icon end --> */}
             </div>
             <div className="col-lg-8 col-md-6">
@@ -125,20 +125,20 @@ const Footer = () => {
                     {/* <!-- widget social menu start --> */}
                     <ul className="widget-links pl-0 list-unstyled list-hover-primary">
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/about-us">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             About us
                           </a>
                         </Link>
                       </li>
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/contact-us">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Contact us
                           </a>
                         </Link>
                       </li>
-                      <li className="mb-6">
+                      {/* <li className="mb-6">
                         <Link href="/#">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Careers
@@ -151,7 +151,7 @@ const Footer = () => {
                             Press
                           </a>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                     {/* <!-- widget social menu end --> */}
                   </div>
@@ -165,36 +165,36 @@ const Footer = () => {
                     {/* <!-- footer widget title end --> */}
                     {/* <!-- widget social menu start --> */}
                     <ul className="widget-links pl-0 list-unstyled list-hover-primary">
-                      <li className="mb-6">
+                      {/* <li className="mb-6">
                         <Link href="/#">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Features
                           </a>
                         </Link>
-                      </li>
+                      </li> */}
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/pricing">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Pricing
                           </a>
                         </Link>
                       </li>
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/news">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             News
                           </a>
                         </Link>
                       </li>
-                      <li className="mb-6">
+                      {/* <li className="mb-6">
                         <Link href="/#">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Help desk
                           </a>
                         </Link>
-                      </li>
+                      </li> */}
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/customer-support">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Support
                           </a>
@@ -204,47 +204,7 @@ const Footer = () => {
                     {/* <!-- widget social menu end --> */}
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-3 col-xs-6">
-                  <div className="footer-widget widget4 mb-sm-0 mb-13">
-                    {/* <!-- footer widget title start --> */}
-                    <p className="widget-title font-size-4 text-gray mb-md-8 mb-7">
-                      Services
-                    </p>
-                    {/* <!-- footer widget title end --> */}
-                    {/* <!-- widget social menu start --> */}
-                    <ul className="widget-links pl-0 list-unstyled list-hover-primary">
-                      <li className="mb-6">
-                        <Link href="/#">
-                          <a className="heading-default-color font-size-4 font-weight-normal">
-                            Digital Marketing
-                          </a>
-                        </Link>
-                      </li>
-                      <li className="mb-6">
-                        <Link href="/#">
-                          <a className="heading-default-color font-size-4 font-weight-normal">
-                            SEO for Business
-                          </a>
-                        </Link>
-                      </li>
-                      <li className="mb-6">
-                        <Link href="/#">
-                          <a className="heading-default-color font-size-4 font-weight-normal">
-                            Avasta Dash
-                          </a>
-                        </Link>
-                      </li>
-                      <li className="mb-6">
-                        <Link href="/#">
-                          <a className="heading-default-color font-size-4 font-weight-normal">
-                            UI Design
-                          </a>
-                        </Link>
-                      </li>
-                    </ul>
-                    {/* <!-- widget social menu end --> */}
-                  </div>
-                </div>
+                
                 <div className="col-lg-3 col-md-6 col-sm-3 col-xs-6">
                   <div className="footer-widget widget4">
                     {/* <!-- footer widget title start --> */}
@@ -254,33 +214,36 @@ const Footer = () => {
                     {/* <!-- footer widget title end --> */}
                     <ul className="widget-links pl-0 list-unstyled list-hover-primary">
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/privacy-policy">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Privacy Policy
                           </a>
                         </Link>
                       </li>
                       <li className="mb-6">
-                        <Link href="/#">
+                        <Link href="/terms-and-conditions">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Terms &amp; Conditions
                           </a>
                         </Link>
                       </li>
-                      <li className="mb-6">
-                        <Link href="/#">
+                      {/* <li className="mb-6">
+                        <Link href="/">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Return Policy
                           </a>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
+          
           </div>
+          <p className="mx-auto text-center mt-10 text-info">Powered By and copyright @Artiwiz Technologies</p>
         </div>
+       
       </footer>
     </>
   );

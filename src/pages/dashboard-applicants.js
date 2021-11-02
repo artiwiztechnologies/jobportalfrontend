@@ -67,7 +67,7 @@ const DashboardApplicants = () => {
             <div className="mb-14">
               <div className="row mb-11 align-items-center">
                 <div className="col-lg-6 mb-lg-0 mb-4">
-                  <h3 className="font-size-6 mb-0">Applicants List (12)</h3>
+                  <h3 className="font-size-6 mb-0">Applicants List ({applicants.length})</h3>
                 </div>
                 <div className="col-lg-6">
                   <div className="d-flex flex-wrap align-items-center justify-content-lg-end">

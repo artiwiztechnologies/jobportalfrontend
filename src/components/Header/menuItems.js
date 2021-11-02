@@ -4,7 +4,7 @@ export const menuItems = [
       label: "pricing",
     },
     {
-      name: "",
+      name: "customer-support",
       label: "Support",
       // isExternal: true,
     }

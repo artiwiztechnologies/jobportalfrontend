@@ -21,7 +21,7 @@ import iconC from "../assets/image/svg/icon-clock.svg";
 import GlobalContext from "../context/GlobalContext";
 import { Button } from "react-bootstrap";
 import router from "next/router";
-import { printRes ,alertInfo,alertSuccess,alertWarning} from "../helper2";
+import { printRes ,alertInfo,alertSuccess,alertWarning, checkSubscription} from "../helper2";
 
 const defaultCountries = [
   { value: "sp", label: "Singapore" },
@@ -36,7 +36,7 @@ const SearchGrid = () => {
   const [jobs,setJobs] = useState([]);
   useEffect(()=>{
     
-    if(isAuthenticated() && isAuthenticated().active===true){
+    if(isAuthenticated() && checkSubscription(isAuthenticated().access_token) != false){
       getAllJobs(isAuthenticated().access_token)
         .then(data=>{
           if(data.error){
