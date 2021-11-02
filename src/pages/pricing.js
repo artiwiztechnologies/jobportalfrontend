@@ -156,14 +156,14 @@ async function displayRazorpay(plan_id) {
             "razorpay_order_id": response.razorpay_order_id,
             "razorpay_signature": response.razorpay_signature,
             "plan_id":plan_id,
-            "type":isAuthenticated().type
+            "_type":isAuthenticated().type
         
         }
         printRes(req_data)
         ValidatePayment(req_data,isAuthenticated().access_token)
           .then(d1=>{
             printRes(d1);
-            alertInfo(d1.message);
+            alertSuccess(d1.message);
             if(d1.message==="Valid payment."){
             let authdata = isAuthenticated();
             authdata.active = true

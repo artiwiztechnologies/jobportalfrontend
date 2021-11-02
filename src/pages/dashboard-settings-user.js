@@ -57,7 +57,7 @@ const DashboardSettings = () => {
     name: "",
     location: "",
     profession: "",
-
+    skills:"",
     phonenumber: "",
     links: "",
     about: "",
@@ -65,7 +65,7 @@ const DashboardSettings = () => {
 
   let auth_data = isAuthenticated();
 
-  const { about, name, location, links, email, profession } = userData;
+  const { about, name, location, links, email, skills,profession } = userData;
 
   useEffect(() => {
     if(!isAuthenticated().user_id && isAuthenticated().company_id){
@@ -97,7 +97,7 @@ const DashboardSettings = () => {
                   phonenumber: res.phonenumber,
                   name: res.name,
                   location: res.location,
-
+                  skills: res.skills,
                   profession: res.profession,
                   links: res.links,
                   about: res.about,
@@ -118,7 +118,7 @@ const DashboardSettings = () => {
             phonenumber: data.phonenumber,
             name: data.name,
             location: data.location,
-
+            skills:data.skills,
             profession: data.profession,
             links: data.links,
             about: data.about,
@@ -144,10 +144,31 @@ const DashboardSettings = () => {
   };
 
   const updateProfile = () => {
-    printRes(userData);
+    
+
+    
+
+    const u_data = {
+      
+      email: userData.email,
+      // photourl:"",
+      name: userData.name,
+      location: userData.location,
+      profession: userData.profession,
+      skills: skillsString.length != 0 ? skillsString : userData.skills,
+      phonenumber: userData.phonenumber,
+      links: userData.links,
+      about: userData.about,
+    }
+
+    // printRes(skills)
+    // printRes(skillsString)
+
+    
+    // printRes(userData);
     let tkn = isAuthenticated().access_token;
     let uid = isAuthenticated().user_id;
-    updateUserDetails(tkn, uid, userData).then((data) => {
+    updateUserDetails(tkn, uid, u_data).then((data) => {
       //printRes(data)
       if (data.error === "token_expired") {
         refreshToken(isAuthenticated().refresh_token).then((data) => {
@@ -169,6 +190,47 @@ const DashboardSettings = () => {
     });
   };
 
+
+
+const [skillsString,setSkillsString] = useState(""); 
+const addSkill = () =>{
+  // skillsString = skillsString + ", " + skills_required;
+  // printRes(skillsString)
+  if(skillsString.length === 0){
+    setSkillsString(skillsString+skills);
+    setUserData({
+      ...userData,
+      skills:""
+    })
+
+  }else{
+  setSkillsString(skillsString+","+skills);
+  setUserData({
+    ...userData,
+    skills:""
+  })
+  }
+  
+
+}
+
+const deleteSkill = (s) =>{
+ 
+  // hey, yov, none
+  
+  printRes(s);
+  let str = ","+s;
+  let newstr = s+",";
+  if(skillsString.includes(str)){
+  setSkillsString(skillsString.replace(str,""))
+  }else if(skillsString.includes(newstr)){
+  setSkillsString(skillsString.replace(newstr,""))
+
+  }else{
+  setSkillsString(skillsString.replace(s,""))
+
+  }
+}
 
 
   return (
@@ -480,7 +542,69 @@ const DashboardSettings = () => {
                               ></textarea>
                             </div>
                           </div>
+
                           <div className="col-md-12">
+              <label className="font-size-4 text-black-2 font-weight-semibold line-height-reset">
+                Your Skills 
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter the skills you expect from the applicants"
+                id="none"
+                value={skills}
+                onChange={handleChange("skills")}
+              />
+              <button
+                className="btn btn-primary mt-5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  addSkill();
+                  printRes(skills)
+                }}
+              >
+                Add skill
+              </button>
+              {skillsString ? (
+                // <span>
+                <div
+                
+                  style={{
+                    marginTop:"15px",
+                    // width: "500px",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap:"wrap",
+                    // justifyContent:"space-between",
+                    // alignItems:"center"
+                  }}
+                >
+                  {skillsString.split(",").map((d) => (
+                    <li
+                      style={{ textDecoration: "bold",width:"100px" }}
+                      className="bg-regent-opacity-15 mr-3 h-px-33 text-center flex-all-center rounded-3 px-5 font-size-3 text-black-2 mt-2"
+                      // key={d}
+                    >
+                      {d}
+
+                      <p>&nbsp;</p>
+                      <button
+                        style={{ border: "none" }}
+                        class="btn-light"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          deleteSkill(d);
+                        }}
+                      >
+                        <i className="fas fa-times"></i>
+                      </button>
+                    </li>
+                  ))}
+                </div>
+              ) : // </span>
+              null}
+            </div>
+                          <div className="col-md-12 mt-6">
                             <div className="form-group mb-11">
                               <label
                                 htmlFor="formGroupExampleInput"

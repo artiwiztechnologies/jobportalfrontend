@@ -6,7 +6,6 @@ import imgP from "../../assets/image/patterns/hero-pattern.png";
 
 const defaultCountries = [
   { value: "in", label: "India" },
-  { value: "cn", label: "canada" },
   
 
 ];

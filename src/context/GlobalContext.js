@@ -21,7 +21,7 @@ const GlobalProvider = ({ children }) => {
   const [showalertBox,setShowalertBox] = useState(false);
   const [editJobData,setEditJobData] = useState();
   const [savedJobs,setSavedJobs] = useState();
-
+  const [applicantsdata, setApplicantsdata] = useState([]);
   const [filterJobType1, setFilterJobType1] = useState("");
   const [filterJobType2, setFilterJobType2] = useState("");
   const [filterJobType3, setFilterJobType3] = useState("");
@@ -45,6 +45,10 @@ const GlobalProvider = ({ children }) => {
   const changeEditJid = (jid) =>{
     setEditjid(jid);
   }
+
+  const toggleApplicantsdata = (details) => {
+    setApplicantsdata(details);
+  };
 
   const toggleTheme = () => {
     setThemeDark(!themeDark);
@@ -168,7 +172,9 @@ const GlobalProvider = ({ children }) => {
         filterJobType3,
         toggleFilterJobType3,
         emailresendId,
-        setEmailresendId
+        setEmailresendId,
+        applicantsdata,
+        toggleApplicantsdata,
 
 
       }}

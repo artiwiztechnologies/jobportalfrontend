@@ -13,6 +13,8 @@ import Notiflix from "notiflix";
 //     //create a model for alert box and pass alertinfo as props
 // }
 
+let API = "https://api.jobstextile.com/";
+
 export const totalJobs = () => {
     return fetch(`https://api.jobstextile.com/no-of-jobs`, {
       method: "GET"
@@ -74,4 +76,41 @@ let dev = true;
 
 
 
-  // https://github.com/Chandra-mohan31/jobportalfrontend
+  export const getApplicantsList = (token) => {
+    return fetch(`${API}applicants`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  export const getUser = (u_id, tkn) => {
+    return fetch(`${API}user/${u_id}`, {
+      method: "GET",
+      headers: {
+        // Accept: "application/json",
+        // "Content-Type": "application/json",
+        Authorization: `Bearer ${tkn}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+  
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+

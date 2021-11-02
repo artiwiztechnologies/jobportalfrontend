@@ -78,7 +78,7 @@ const ModalViewJobDetails = ({
                                   updateAuthData(isAuthenticated())
                                   savetheJob(jid)
                                 }
-                                if (dt1.message === "Applied successfuly!!") {
+                                if (dt1.message === "Saved successfuly!!") {
                                   alertSuccess(dt1.message);
                                 } else {
                                   alertWarning(dt1.message);
