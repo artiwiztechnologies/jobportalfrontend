@@ -27,6 +27,7 @@ const ModalSignUp = (props) => {
   const [phonenumber,setPhonenumber] = useState("");
   const [password,setPassword] = useState("");
   const [confirmPass,setConfirmPass] = useState("");
+  const [agreed,setAgreed] = useState(false);
 
   
 
@@ -62,6 +63,8 @@ const ModalSignUp = (props) => {
         "active": false,
         "status":1//change to 1 on moving production 
     }
+
+    if(agreed){
       signup(user)
         .then(data => {
           if(data.message==="User created successfully."){
@@ -85,10 +88,14 @@ const ModalSignUp = (props) => {
           }
           
         })
+    }else{
+      alertInfo("Please agree to terms and conditions!");
     }
-    else{
-      alertInfo("please check the feilds you entered");
-    }
+   
+  }
+  else{
+    alertInfo("Please check the fields you entered!");
+  }
     
   }
 
@@ -136,13 +143,13 @@ const ModalSignUp = (props) => {
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">{totalJob}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New jobs posted today
+                        Total Jobs posted 
                       </p>
                     </div>
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">{totalComp}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New companies registered
+                        Total Companies registered
                       </p>
                     </div>
                   </div>
@@ -200,6 +207,7 @@ const ModalSignUp = (props) => {
                     <input
                       type="email"
                       className="form-control"
+                      required
                       value={name}
                       onChange={e => setName(e.target.value)}
                       placeholder="your Name"
@@ -216,6 +224,8 @@ const ModalSignUp = (props) => {
                     <input
                       type="email"
                       className="form-control"
+                      required
+
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       placeholder="example@gmail.com"
@@ -232,6 +242,8 @@ const ModalSignUp = (props) => {
                     <input
                       
                       className="form-control"
+                      required
+
                       value={phonenumber}
                       onChange={e => setPhonenumber(e.target.value)}
                       placeholder="1234567899"
@@ -264,6 +276,8 @@ const ModalSignUp = (props) => {
                     <div className="position-relative">
                       <input
                         type={showPassFirst ? "password" : "text"}
+                      required
+
                         className="form-control"
                         id="password"
                         placeholder="Enter password"
@@ -292,6 +306,8 @@ const ModalSignUp = (props) => {
                     <div className="position-relative">
                       <input
                         type={showPassSecond ? "password" : "text"}
+                      required
+
                         className="form-control"
                         id="password2"
                         placeholder="Enter password"
@@ -337,11 +353,15 @@ const ModalSignUp = (props) => {
                         className="d-none"
                         type="checkbox"
                         id="terms-check2"
+                        checked={agreed}
+                        onChange={()=>{
+                          setAgreed(!agreed)
+                        }}
                       />
                       <span className="checkbox mr-5"></span>
                       <span className="font-size-3 mb-0 line-height-reset d-block">
                         Agree to the{" "}
-                        <a href="/#" className="text-primary">
+                        <a href="/terms-and-conditions" target="_blank" className="text-primary">
                           Terms &amp; Conditions
                         </a>
                       </span>
@@ -364,6 +384,7 @@ const ModalSignUp = (props) => {
                       e.preventDefault();
                       printRes("signup");
                       signUpUser();
+                      
                       
                       
                     }}>

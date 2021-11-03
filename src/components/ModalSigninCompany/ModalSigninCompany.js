@@ -73,7 +73,8 @@ const ModalSigninCompany = (props) => {
                 printRes("signed in and authenticated");
                 gContext.toggleSigninCompany();
                 // window.location.reload();
-                router.push("/dashboard-settings")
+                // router.push("/dashboard-settings");
+                window.location.reload();
                 
   
                
@@ -135,13 +136,13 @@ const ModalSigninCompany = (props) => {
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">{totaljobs}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New jobs posted today
+                        Total jobs posted 
                       </p>
                     </div>
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">{totalcompanies}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New companies registered
+                        Total companies registered
                       </p>
                     </div>
                   </div>

@@ -109,6 +109,7 @@ const DashboardJobs = () => {
     else
         printRes("not a company")
   },[])
+  
   return (
     <>
       <PageWrapper
@@ -141,7 +142,9 @@ const DashboardJobs = () => {
               </div>
               <div className="bg-white shadow-8 pt-7 rounded pb-9 px-11">
                 <div className="table-responsive ">
-                  <table className="table table-striped">
+                  {
+                    jobs.length != 0 && (
+                      <table className="table table-striped">
                     <thead>
                       <tr>
                         <th
@@ -297,6 +300,8 @@ const DashboardJobs = () => {
                      
                     </tbody>
                   </table>
+                    )
+                  }
                 </div>
                 { gContext.editJobData  && <CompanyEditJobModal  />}
               </div>

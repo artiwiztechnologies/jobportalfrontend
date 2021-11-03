@@ -1,7 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageWrapper from "../components/PageWrapper";
+import {  isAuthenticated } from "../helper";
+import { support } from "../helper2";
+
 
 const CustomerSupport = () => {
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+
+  // console.log(`${title},${desc}`);
+
+  const submitIssue = () => {
+    if (title.length != 0 && desc.length != 0) {
+      let issueData = {
+        title: title,
+        description: desc,
+        user_type: isAuthenticated().type,
+      };
+
+      // console.log(`${title},${desc}`);
+
+      support(issueData, isAuthenticated().access_token).then((data) => {
+        if (data.message == "Issue could not be raised.") {
+          // console.log(data.message);
+          alert(data.message);
+        } else {
+          console.log(data.message);
+          alert("Issue raised successfully");
+          setTitle("");
+          setDesc("");
+        }
+      });
+    } else {
+      alert("Please enter both the fields!");
+    }
+  };
   return (
     <>
       <PageWrapper>
@@ -34,7 +67,9 @@ const CustomerSupport = () => {
                           className="form-control"
                           placeholder="Issue title"
                           id="name"
+                          value={title}
                           name="name"
+                          onChange={(e) => setTitle(e.target.value)}
                           required
                         />
                       </div>
@@ -82,12 +117,18 @@ const CustomerSupport = () => {
                           placeholder="Explain your issue"
                           className="form-control h-px-144"
                           name="message"
+                          value={desc}
+                          onChange={(e) => setDesc(e.target.value)}
                           required
                         ></textarea>
                       </div>
                       <div className="col-lg-12 pt-4">
                         <button
                           type="submit"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            submitIssue();
+                          }}
                           className="btn btn-primary text-uppercase w-100 h-px-48"
                         >
                           Book your issue
@@ -120,13 +161,13 @@ const CustomerSupport = () => {
                     className="text-center"
                   >
                     <span>
-                      <a style={{ color: "black" }} href="#">
+                      <a style={{ color: "black" }} href="/privacy-policy">
                         Privacy Policy
                       </a>
                     </span>
                     &nbsp;&bull;&nbsp;
                     <span>
-                      <a style={{ color: "black" }} href="#">
+                      <a style={{ color: "black" }} href="/terms-and-conditions">
                         Terms & Conditions
                       </a>
                     </span>

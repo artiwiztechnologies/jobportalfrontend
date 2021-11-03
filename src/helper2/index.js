@@ -123,3 +123,54 @@ export const checkSubscription = (tkn) =>{
     });
 }
 
+//support
+
+export const support = (issue, tkn) => {
+  return fetch(`${API}/raise-issue`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tkn}`,
+    },
+    body: JSON.stringify(issue),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+//reset password
+
+export const resetPasswordUser = (reset_data) => {
+  return fetch(`${API}user/reset-password`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      
+    },
+    body: JSON.stringify(reset_data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const forgotPass = (data) =>{
+  return fetch(`${API}user/forgot-password`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+}

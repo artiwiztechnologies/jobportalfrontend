@@ -24,11 +24,9 @@ export const menuItems = [
   {
     name: "customer-support",
     label: "Support",
-    // isExternal: true,
+   
   },
 ];
-
-
 
 
 

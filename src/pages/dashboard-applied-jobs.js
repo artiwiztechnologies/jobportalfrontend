@@ -161,7 +161,9 @@ const AppliedJobs = () => {
               </div>
               <div className="bg-white shadow-8 pt-7 rounded pb-9 px-11">
                 <div className="table-responsive ">
-                  <table className="table table-striped">
+                  {
+                    userAppliedJobs  && (
+                      <table className="table table-striped">
                     <thead>
                       <tr>
                         <th
@@ -193,6 +195,12 @@ const AppliedJobs = () => {
                           className="pl-4 border-0 font-size-4 font-weight-normal"
                         >
                           Salary
+                        </th>
+                        <th
+                          scope="col"
+                          className="pl-4 border-0 font-size-4 font-weight-normal"
+                        >
+                          Status
                         </th>
                         <th
                           scope="col"
@@ -240,7 +248,12 @@ const AppliedJobs = () => {
                               {job.salary}
                             </h3>
                           </td>
-                          <td className="table-y-middle py-7 min-width-px-80"></td>
+                          <td className="table-y-middle py-7 min-width-px-205">
+                            <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
+                              {job.status}
+                            </h3>
+                          </td>
+  
                           <td className="table-y-middle py-7 min-width-px-100">
                             <span
                             style={{
@@ -257,91 +270,7 @@ const AppliedJobs = () => {
                         </tr>
                       ))}
 
-                      {/* {appliedjobs?.map((job) => (
-                        <tr className="border border-color-2">
-                          <th
-                            scope="row"
-                            className="pl-6 border-0 py-7 min-width-px-235"
-                          >
-                            <div className="">
-                              <Link href="/job-details">
-                                <a className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                  {job.title}
-                                </a>
-                              </Link>
-                            </div>
-                          </th>
-                          <td className="table-y-middle py-7 min-width-px-135">
-                            <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                              {job.job_type}
-                            </h3>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-125">
-                            <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                              New York
-                            </h3>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-155">
-                            <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                              {job.date}
-                            </h3>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-205">
-                            <h3 className="font-size-4 font-weight-bold text-black-2 mb-0">
-                              {job.salary}
-                            </h3>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-80">
-                            <button
-                              onClick={() => {
-                                // console.log(gContext.editjid)
-                                gContext.changeEditJid(job.id);
-                                gContext.toggleShowEditJobModal();
-                                getJobFromId(
-                                  job.id,
-                                  isAuthenticated().access_token
-                                ).then((d) => {
-                                  console.log(d);
-                                  setJeditData(d);
-                                });
-                              }}
-                              className="font-size-3 font-weight-bold text-green text-uppercase"
-                            >
-                              Edit
-                            </button>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-100">
-                            <button
-                              onClick={() => {
-                                delJobsByJobId(
-                                  job.id,
-                                  isAuthenticated().access_token
-                                ).then((d) => {
-                                  console.log(d);
-                                  if (d.message === "Job deleted.") {
-                                    alert(d.message);
-                                    window.location.reload();
-                                  } else {
-                                    alert("something went wrong!");
-                                  }
-                                });
-                              }}
-                              className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                            
-                            >
-                              Delete
-                            </button>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-100">
-                            <button
-                              className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                              onClick={() => deleteJob(job.id)}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))} */}
+                     
 
                       {jobs.map((job) => (
                         <tr className="border border-color-2">
@@ -421,6 +350,8 @@ const AppliedJobs = () => {
                       ))}
                     </tbody>
                   </table>
+                    )
+                  }
                 </div>
                 {jeditData && <CompanyEditJobModal jedit_data={jeditData} />}
               </div>

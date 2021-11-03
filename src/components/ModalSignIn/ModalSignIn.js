@@ -6,7 +6,7 @@ import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninUser } from "../../helper";
 import { useRouter } from "next/router";
 import {toast,ToastContainer} from "react-nextjs-toast";
-import { printRes,alertInfo,alertSuccess,alertWarning, totalJobs, totalCompanies } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning, totalJobs, totalCompanies, forgotPass } from "../../helper2";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -75,7 +75,8 @@ const ModalSignIn = (props) => {
                 
                 
                 gContext.toggleSignInModal();
-                router.push("/dashboard-settings-user")
+                // router.push("/dashboard-settings-user");
+                window.location.reload();
                 
   
                
@@ -137,13 +138,13 @@ const ModalSignIn = (props) => {
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">{totaljobs}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New jobs posted today
+                        Total jobs posted 
                       </p>
                     </div>
                     <div className="pt-5 px-9">
                       <h3 className="font-size-7 text-white">{totalcompanies}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New companies registered
+                        Total companies registered
                       </p>
                     </div>
                   </div>
@@ -223,7 +224,29 @@ const ModalSignIn = (props) => {
                       </span>
                     </label>
                     <a
-                      href="/#"
+                    style={{
+                      cursor: "pointer"
+                    }}
+                      onClick={()=>{
+                        let forgetdata = {
+                          "phonenumber":phonenumber
+                        }
+                        if(phonenumber.length != 0){
+                        forgotPass(forgetdata)
+                          .then(data=>{
+                            alertInfo(data.message)
+                            printRes(data.message);
+                            router.push("/forgot-password")
+                            gContext.toggleSignInModal();
+                          })
+                          .catch(err=>{
+                            alertWarning(err)
+                          })
+                      }
+                      else{
+                        alertWarning("Please enter phonenumber!")
+                      }}
+                      }
                       className="font-size-3 text-dodger line-height-reset"
                     >
                       Forget Password

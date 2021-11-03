@@ -81,9 +81,7 @@ const Sidebar = () => {
               <Link href="/dashboard-applicants">
                 <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
                   <i className="fas fa-user mr-7"></i>Applicants{" "}
-                  <span className="ml-auto px-1 h-1 bg-dodger text-white font-size-3 rounded-5 max-height-px-18 flex-all-center">
-                    14
-                  </span>
+                  
                 </a>
               </Link>
             </li>

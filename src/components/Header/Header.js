@@ -345,6 +345,7 @@ const Header = () => {
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
                               printRes("signout success");
+                              localStorage.clear();
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -379,6 +380,7 @@ const Header = () => {
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
                               printRes("signout success");
+                              localStorage.clear();
                               router.push("/");
                             },isAuthenticated().access_token)
                           }}>
@@ -448,6 +450,7 @@ const Header = () => {
                         <button className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase" onClick={()=>{
                             signout(()=>{
                               printRes("signout success");
+                              localStorage.clear();
                               router.push("/");
 
                             },isAuthenticated().access_token)

@@ -41,13 +41,17 @@ const ModalApplicants = (props) => {
   
   printRes(data);
   printRes(data.skills)
-  let arr;
-  printRes(typeof(data.skills))
-   if(typeof(data.skills)=="string"){
-    arr = data.skills.split(",");
-   }
+  let ApplicantSKills = data.skills;
+  let arr = [];
+ 
+  if(data.skills){
+    arr.push(data.skills.split(","));
+  }
+   
+ 
+   
 
-   printRes(arr)
+  //  printRes(arr)
    
   // let skills = data.skills;
   
@@ -224,16 +228,26 @@ const ModalApplicants = (props) => {
                     </h4>
                     <ul className="list-unstyled d-flex align-items-center flex-wrap">
                       {/* {
-                        arr.map((d)=>{
-                          <li>
-                        <Link href="/#">
+                        arr.map((skill,i)=>{
+                          <li key={i}>
+                        
                           <a className="bg-polar text-black-2  mr-6 px-7 mt-2 mb-2 font-size-3 rounded-3 min-height-32 d-flex align-items-center">
-                            {d}
+                            {skill}
                           </a>
-                        </Link>
+                       
                       </li>
                         })
                       } */}
+                     
+
+                     
+
+
+                      <p className="">
+                      {
+                        ApplicantSKills
+                      }
+                      </p>
                       
                     </ul>
                   </div>

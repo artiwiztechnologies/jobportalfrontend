@@ -49,12 +49,14 @@ const Hero = () => {
                       </div>
                       {/* <!-- .select-city starts --> */}
                       <div className="form-group position-relative">
-                        <Select
+                        {/* <Select
+                          
                           options={defaultCountries}
+                          
                           className="pl-8 h-100 arrow-3 font-size-4 d-flex align-items-center w-100"
                           border={false}
-                        />
-
+                        /> */}
+                        <p className="pl-8 h-100 arrow-3 font-size-4 d-flex align-items-center w-100">&nbsp; &nbsp; &nbsp;  India</p>
                         <span className="h-100 w-px-50 pos-abs-tl d-flex align-items-center justify-content-center font-size-6">
                           <i className="icon icon-pin-3 text-primary font-weight-bold"></i>
                         </span>

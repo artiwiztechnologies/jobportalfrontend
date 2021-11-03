@@ -5,7 +5,7 @@ import GlobalContext from "../../context/GlobalContext";
 // 211
 import signUpStyles from "../../styles/SignupCompany.module.css";
 import {signup, signUpCompany} from "../../helper/index.js";
-import { printRes,alertInfo,alertSuccess,alertWarning } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning, totalJobs,totalCompanies } from "../../helper2";
 
 
 const ModalStyled = styled(Modal)`
@@ -22,8 +22,16 @@ const ModalCompanySignUp = (props) => {
   const [password,setPassword] = useState("");
   const [confirmPass,setConfirmPass] = useState("");
   const [companyname,setCompanyname] = useState("");
+  const [tcompanies,setTcompanies] = useState();
+  const [tjobs,setTjobs] = useState();
+
+  useEffect(()=>{
+    totalJobs().then(data => setTjobs(data.total));
+    totalCompanies().then(data => setTcompanies(data.total));
+  },[])
   
   const [address,setAddress] = useState("");
+  const [agreed,setAgreed] = useState(false);
     const [photo,setPhoto] = useState();
   const gContext = useContext(GlobalContext);
   const handleClose = () => {
@@ -39,7 +47,7 @@ const ModalCompanySignUp = (props) => {
   };
 
   const signUpUser = () =>{
-    if(confirmPass === password){
+    if(confirmPass === password && companyname.length != 0 && email && password && phonenumber ){
       // let user = {
       //   email:email,
       //   password:password,
@@ -57,6 +65,7 @@ const ModalCompanySignUp = (props) => {
         "active": false,
         "status":1//in production 1 ,for test 2
     }
+    if(agreed){
       signUpCompany(company)
         .then(data => {
           printRes(data);
@@ -78,9 +87,12 @@ const ModalCompanySignUp = (props) => {
             alertWarning(data.message);
           }
         })
+      }else{
+        alertInfo("Please agree to the terms and conditions!")
+      }
     }
     else{
-      alertInfo("please check the filds you entered");
+      alertInfo("Please check the fields you entered!");
     }
     
   }
@@ -117,16 +129,16 @@ const ModalCompanySignUp = (props) => {
                 <div className="border-top border-default-color-2 mt-auto">
                   <div className="d-flex mx-n9 pt-6 flex-xs-row flex-column">
                     <div className="pt-5 px-9">
-                      <h3 className="font-size-7 text-white">295</h3>
+                      <h3 className="font-size-7 text-white">{tjobs}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New jobs posted today
+                        Total Jobs posted 
                       </p>
 
                     </div>
                     <div className="pt-5 px-9">
-                      <h3 className="font-size-7 text-white">14</h3>
+                      <h3 className="font-size-7 text-white">{tcompanies}</h3>
                       <p className="font-size-3 text-white gr-opacity-5 line-height-1p4">
-                        New companies registered
+                        Total Companies registered
                       </p>
                     </div>
                   </div>
@@ -275,11 +287,15 @@ const ModalCompanySignUp = (props) => {
                         className="d-none"
                         type="checkbox"
                         id="terms-check2"
+                        checked={agreed}
+                        onChange={()=>{
+                          setAgreed(!agreed);
+                        }}
                       />
                       <span className="checkbox mr-5"></span>
                       <span className="font-size-3 mb-0 line-height-reset d-block">
                         Agree to the{" "}
-                        <a href="/#" className="text-primary">
+                        <a href="/terms-and-conditions" className="text-primary">
                           Terms &amp; Conditions
                         </a>
                       </span>
@@ -291,6 +307,7 @@ const ModalCompanySignUp = (props) => {
                       e.preventDefault();
                       printRes("signup");
                       signUpUser();
+                      
                       
                       
                     }}>

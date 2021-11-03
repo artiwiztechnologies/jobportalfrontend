@@ -84,7 +84,9 @@ const DashboardApplicants = () => {
               </div>
               <div className="bg-white shadow-8 pt-7 rounded pb-8 px-11">
                 <div className="table-responsive">
-                  <table className="table table-striped">
+                  {
+                    applicants.length != 0 && (
+                      <table className="table table-striped">
                     <thead>
                       <tr>
                         <th
@@ -192,8 +194,10 @@ const DashboardApplicants = () => {
                       
                     </tbody>
                   </table>
+                    )
+                  }
                 </div>
-                <div className="pt-2">
+                {/* <div className="pt-2">
                   <nav aria-label="Page navigation example">
                     <ul className="pagination pagination-hover-primary rounded-0 ml-n2">
                       <li className="page-item rounded-0 flex-all-center">
@@ -253,7 +257,7 @@ const DashboardApplicants = () => {
                       </li>
                     </ul>
                   </nav>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
