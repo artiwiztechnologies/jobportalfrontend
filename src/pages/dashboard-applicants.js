@@ -6,7 +6,8 @@ import GlobalContext from "../context/GlobalContext";
 import {isAuthenticated,updateAuthData} from "../helper/index";
 import {
   getApplicantsList,
-  printRes
+  printRes,
+  RejectApplication
   
 } from "../helper2/index";
 import imgP1 from "../assets/image/table-one-profile-image-1.png";
@@ -51,6 +52,20 @@ const DashboardApplicants = () => {
       printRes("not a company");
     }
   }, []);
+
+
+  const reject = (id) => {
+    RejectApplication(id, isAuthenticated().access_token).then((data) => {
+      console.log(data);
+      if (data.message === "Application rejected.") {
+        alert(data.message);
+      } else {
+        alert(data.message);
+      }
+      window.location.reload();
+      // console.log(data);
+    });
+  };
 
   return (
     <>
@@ -122,75 +137,163 @@ const DashboardApplicants = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {applicants?.map((app) => (
-                        <tr className="border border-color-2">
-                          <th scope="row" className="pl-6 border-0 py-7 pr-0">
-                            
-                              <a className="media min-width-px-235 align-items-center">
-                                <div className="circle-36 mr-6">
-                                  {app.photoURL ? (
-                                    <Avatar src={app.photoURL} />
-                                  ) : (
-                                    <Avatar src="" />
-                                  )}
-                                  {/* <img
+                    {applicants?.map((app) =>
+                        app.application.status === "rejected" ? (
+                          <tr className="border border-color-2">
+                            <th scope="row" className="pl-6 border-0 py-7 pr-0">
+                              <Link href="/candidate-profile">
+                                <a className="media min-width-px-235 align-items-center">
+                                  <div className="circle-36 mr-6">
+                                    {app.photoURL ? (
+                                      <Avatar src={app.photoURL} />
+                                    ) : (
+                                      <Avatar src="" />
+                                    )}
+                                    {/* <img
                                     src={app.photoURL}
                                     alt=""
                                     className="w-100"
                                   /> */}
-                                </div>
-                                <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                  {app.name}
-                                </h4>
-                              </a>
-                            
-                          </th>
-                          <td className="table-y-middle py-7 min-width-px-235 pr-0">
-                            <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                              {app.application.job_title}
-                            </h3>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-170 pr-0">
-                            <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                              {app.application.date}
-                            </h3>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-170 pr-0">
-                            <div className="">
-                              <span
-                                style={{ cursor: "pointer" }}
-                                className="font-size-3 font-weight-bold text-black-2 text-uppercase"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                 
-                                  gContext.toggleApplicantsdata(app);
-                                  gContext.toggleApplicationModal();
-                                }}
-                              >
-                                View Application
-                              </span>
-                            </div>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-110 pr-0">
-                            <div className="">
-                              <Link href="/contact">
-                                <a className="font-size-3 font-weight-bold text-green text-uppercase">
-                                  Contact
+                                  </div>
+                                  <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">
+                                    {app.name}
+                                  </h4>
                                 </a>
                               </Link>
-                            </div>
-                          </td>
-                          <td className="table-y-middle py-7 min-width-px-100 pr-0">
-                            <div className="">
-                              <Link href="/#">
-                                <a className="font-size-3 font-weight-bold text-red-2 text-uppercase">
-                                  Reject
+                            </th>
+                            <td className="table-y-middle py-7 min-width-px-235 pr-0">
+                              <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                                {app.application.job_title}
+                              </h3>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-170 pr-0">
+                              <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                                {app.application.date}
+                              </h3>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-170 pr-0">
+                              <div className="">
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  className="font-size-3 font-weight-bold text-black-2 text-uppercase"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    // gContext.toggleUserId(app.id);
+                                    // gContext.toggleData(app);
+                                    // gContext.toggleApplicationModal();
+                                  }}
+                                >
+                                  View Application
+                                </span>
+                              </div>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-110 pr-0">
+                              <div className="">
+                                <Link href="/contact">
+                                  <a className="font-size-3 font-weight-bold text-green text-uppercase">
+                                    Contact
+                                  </a>
+                                </Link>
+                              </div>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-100 pr-0">
+                              <div className="">
+                                <span
+                                  style={{ cursor: "default" }}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    reject(app.application.id);
+                                  }}
+                                >
+                                  <a
+                                    style={{ textDecoration: "line-through" }}
+                                    className="font-size-3 font-weight-bold text-red-2 text-uppercase"
+                                  >
+                                    Rejected
+                                  </a>
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : (
+                          <tr
+                            // style={{ backgroundColor: "#ffa3a3" }}
+                            className="border border-color-2"
+                          >
+                            <th scope="row" className="pl-6 border-0 py-7 pr-0">
+                              <Link href="/candidate-profile">
+                                <a className="media min-width-px-235 align-items-center">
+                                  <div className="circle-36 mr-6">
+                                    {app.photoURL ? (
+                                      <Avatar src={app.photoURL} />
+                                    ) : (
+                                      <Avatar src="" />
+                                    )}
+                                    {/* <img
+                                    src={app.photoURL}
+                                    alt=""
+                                    className="w-100"
+                                  /> */}
+                                  </div>
+                                  <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">
+                                    {app.name}
+                                  </h4>
                                 </a>
                               </Link>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                            </th>
+                            <td className="table-y-middle py-7 min-width-px-235 pr-0">
+                              <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                                {app.application.job_title}
+                              </h3>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-170 pr-0">
+                              <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
+                                {app.application.date}
+                              </h3>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-170 pr-0">
+                              <div className="">
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  className="font-size-3 font-weight-bold text-black-2 text-uppercase"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    // gContext.toggleUserId(app.id);
+                                    // gContext.toggleData(app);
+                                    // gContext.toggleApplicationModal();
+                                  }}
+                                >
+                                  View Application
+                                </span>
+                              </div>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-110 pr-0">
+                              <div className="">
+                                <Link href="/contact">
+                                  <a className="font-size-3 font-weight-bold text-green text-uppercase">
+                                    Contact
+                                  </a>
+                                </Link>
+                              </div>
+                            </td>
+                            <td className="table-y-middle py-7 min-width-px-100 pr-0">
+                              <div className="">
+                                <span
+                                  style={{ cursor: "pointer" }}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    reject(app.application.id);
+                                  }}
+                                >
+                                  <a className="font-size-3 font-weight-bold text-red-2 text-uppercase">
+                                    Reject
+                                  </a>
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      )}
                       
                     </tbody>
                   </table>

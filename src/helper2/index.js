@@ -174,3 +174,22 @@ export const forgotPass = (data) =>{
     })
     .catch((err) => console.log(err));
 }
+
+
+export const RejectApplication = (application_id, tkn) => {
+  return fetch(
+    `https://api.jobstextile.com/reject-application/${application_id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${tkn}`,
+      },
+    }
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
