@@ -4,6 +4,7 @@ import {
   alertInfo,
   alertWarning,
   printRes,
+  resetPasswordCompany,
   resetPasswordUser,
 } from "../helper2/index";
 const ForgotPass = () => {
@@ -22,7 +23,7 @@ const ForgotPass = () => {
       otp: otp,
     };
     printRes(reset_data);
-    resetPasswordUser(reset_data)
+    resetPasswordCompany(reset_data)
       .then((data) => {
         printRes(data);
         alertInfo(data.message);

@@ -44,7 +44,34 @@ const ModalSignUp = (props) => {
     setShowPassSecond(!showPassSecond);
   };
 
+  const validateFields = () =>{
+    // let valid = false;
+    var phoneno = /^\d{10}$/;
+    
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+  {
+    printRes("valid email!");
+  }else{
+    alertWarning("Please enter a valid email id!");
+    return false;
+  }
+
+  if(!phonenumber.match(phoneno)){
+    alertWarning("Enter a valid phonenumber!");
+    printRes("invalud phonenumber!");
+    return false;
+  }
+
+  if(password.length < 5){
+    alertWarning("Please enter a strong password,it must contain more than 5 letters!")
+    return false;
+  }
+
+  return true;
+  }
+
   const signUpUser = () =>{
+
     if(confirmPass === password && name.length != 0 && email && password ){
       // let user = {
       //   email:email,
@@ -53,6 +80,8 @@ const ModalSignUp = (props) => {
       //   status:"2"
   
       // }
+
+      
       let user = {
         "name": name,
         "phonenumber": phonenumber,
@@ -65,29 +94,30 @@ const ModalSignUp = (props) => {
     }
 
     if(agreed){
-      signup(user)
-        .then(data => {
-          if(data.message==="User created successfully."){
-          printRes(data);
-          alertSuccess("success")
-          // <AlertModal info={data.message} show={true}   />
+      if(validateFields())
+          signup(user)
+            .then(data => {
+              if(data.message==="User created successfully."){
+              printRes(data);
+              // alertSuccess("success")
+              // <AlertModal info={data.message} show={true}   />
 
-          setName("");
-          setEmail("");
-          setAddress("");
-          setPhonenumber("");
-          setPhotourl("");
-          setPassword("");
-          setConfirmPass("");
-          gContext.toggleSignUpModal()
-          gContext.toggleConfirmEmail()
-          }else{
-            alertWarning(data.message)
-            // <AlertModal info={data.message} show={true}   />
-            // alertInfo(data.message)
-          }
-          
-        })
+              setName("");
+              setEmail("");
+              setAddress("");
+              setPhonenumber("");
+              setPhotourl("");
+              setPassword("");
+              setConfirmPass("");
+              gContext.toggleSignUpModal()
+              gContext.toggleConfirmEmail()
+              }else{
+                alertWarning(data.message)
+                // <AlertModal info={data.message} show={true}   />
+                // alertInfo(data.message)
+              }
+              
+            })
     }else{
       alertInfo("Please agree to terms and conditions!");
     }
@@ -95,8 +125,8 @@ const ModalSignUp = (props) => {
   }
   else{
     alertInfo("Please check the fields you entered!");
-  }
-    
+  
+}
   }
 
   const [totalJob , setTotalJob] = useState();

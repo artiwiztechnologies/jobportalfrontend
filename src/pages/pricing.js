@@ -5,7 +5,7 @@ import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPl
 import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
 import router from "next/router";
-import { printRes ,alertInfo,alertSuccess,alertWarning} from "../helper2";
+import { printRes ,alertInfo,alertSuccess,alertWarning, startFreeTrial} from "../helper2";
 
 
 
@@ -189,6 +189,24 @@ async function displayRazorpay(plan_id) {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
+
+
+  const subscribeToFreeTrial = (plan_data) =>{
+    startFreeTrial(isAuthenticated().access_token,plan_data)
+    .then(data=>{
+      printRes(data);
+      if(data.error){
+        updateAuthData(isAuthenticated())
+        subscribeToFreeTrial(plan_data)
+      }else{
+        alertInfo(data.message)
+      }
+
+    })
+    .catch(err=>{
+      printRes(err)
+    })
+  }
   return (
     <>
       <PageWrapper>
@@ -271,7 +289,28 @@ async function displayRazorpay(plan_id) {
                         <div className="card-footer bg-transparent border-0 px-0 py-0">
                           
                             <button disabled={disabled} onClick={()=>{
+                              if(plan.trial){
+                                const plan_data = {
+                                  "plan_id": plan.id,
+                                  "email": isAuthenticated().email,
+                                  "user_type": isAuthenticated().type
+                                }
+                                subscribeToFreeTrial(plan_data)
+                                
+                                // startFreeTrial(isAuthenticated().access_token,plan_data)
+                                //   .then(data=>{
+                                //     printRes(data);
+                                //     if(data.message){
+                                //       alertInfo(data.message);
+                                //     }
+
+                                //   })
+                                //   .catch(err=>{
+                                //     printRes(err)
+                                //   })
+                              }else{
                               displayRazorpay(plan.id)
+                              }
                             }} className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
                               {`Start with ${plan.plan_name}`}
                             </button>

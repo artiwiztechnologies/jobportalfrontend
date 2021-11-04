@@ -440,11 +440,12 @@ export const GetJobsApplied = (user_id, tkn) => {
 // payment with razor pay
 const paymentServerUrl = 'https://api.jobstextile.com/new-order';
 
-export const fetchOrderData = (orderFetchData) =>{
+export const fetchOrderData = (orderFetchData,tkn) =>{
     return fetch('https://api.jobstextile.com/new-order',{
         method:"POST",
         headers:{
             Accept:"application/json",
+            Authorization: `Bearer ${tkn}`,
             "Content-Type":"application/json"
         },
         body:JSON.stringify(orderFetchData)
@@ -601,7 +602,10 @@ export const addToFav = (user_id, job_id, tkn) => {
     return fetch(`https://api.jobstextile.com/job/${j_id}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${tkn}`,
+        // Accept:"application/json",
+        Authorization:`Bearer ${tkn}`,
+        // "Content-Type":"application/json"
+
       }
     })
     .then((res) => {

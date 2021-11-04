@@ -248,7 +248,7 @@ const Footer = () => {
             </div>
           
           </div>
-          <p className="mx-auto text-center mt-10 text-info">Powered By and copyright @Artiwiz Technologies</p>
+          {/* <p className="mx-auto text-center mt-10 text-info">Powered By and copyright @Artiwiz Technologies</p> */}
         </div>
        
       </footer>

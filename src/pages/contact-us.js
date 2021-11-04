@@ -30,7 +30,7 @@ const Contactus = () => {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Jhon Doe"
+                          placeholder="Enter your name"
                           id="name"
                           name="name"
                           required
@@ -46,7 +46,7 @@ const Contactus = () => {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="example@gmail.com"
+                          placeholder="Example@gmail.com"
                           id="email"
                           name="email"
                           required
@@ -93,30 +93,6 @@ const Contactus = () => {
                       </div>
                     </div>
                   </form>
-                  <div className="mt-8">
-                    <h3 className="font-size-4">Contact Information</h3>
-                    <div className="media mb-2">
-                      <div className="mr-6">
-                        <i className="fas fa-map-marker-alt mt-2"></i>
-                      </div>
-                      <p className="font-size-4 mb-0">
-                        Grayic <br />
-                        Jens Baggesen, 8200 Aarhus
-                      </p>
-                    </div>
-                    <div className="media mb-2">
-                      <div className="mr-6">
-                        <i className="fas fa-phone-alt mt-2"></i>
-                      </div>
-                      <p className="font-size-4 mb-0">+999 546 646</p>
-                    </div>
-                    <div className="media mb-2">
-                      <div className="mr-6">
-                        <i className="fas fa-envelope mt-2"></i>
-                      </div>
-                      <p className="font-size-4 mb-0">support@uxtheme.net</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

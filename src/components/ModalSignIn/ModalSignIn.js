@@ -77,6 +77,7 @@ const ModalSignIn = (props) => {
                 gContext.toggleSignInModal();
                 // router.push("/dashboard-settings-user");
                 window.location.reload();
+                alertSuccess("Welcome!,your Login was successful!")
                 
   
                
@@ -129,6 +130,7 @@ const ModalSignIn = (props) => {
                   <h3 className="font-size-8 text-white line-height-reset pb-4 line-height-1p4">
                     Welcome
                   </h3>
+                  
                   <p className="mb-0 font-size-4 text-white">
                     Log in to continue your account and explore new jobs.
                   </p>
@@ -153,10 +155,11 @@ const ModalSignIn = (props) => {
             </div>
             <div className="col-lg-7 col-md-6">
               <div className="bg-white-2 h-100 px-11 pt-11 pb-7">
-                
+              <h4 className="text-success mx-auto mb-5 text-center">User Login</h4>
               {
                       errorSgn && <ErrorMessage />
                     }
+
                 <form action="/">
                   <div className="form-group">
                   
@@ -236,8 +239,9 @@ const ModalSignIn = (props) => {
                           .then(data=>{
                             alertInfo(data.message)
                             printRes(data.message);
-                            router.push("/forgot-password")
                             gContext.toggleSignInModal();
+                            router.push("/forgot-password")
+                            
                           })
                           .catch(err=>{
                             alertWarning(err)

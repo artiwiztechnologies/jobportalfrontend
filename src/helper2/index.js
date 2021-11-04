@@ -47,7 +47,9 @@ let dev = true;
 
   export const alertSuccess = (info) =>{
     Notiflix.Notify.success(info,{
-      position: "center-top"
+      position: "center-top",
+      showOnlyTheLastOne: true
+
     })
   }
 
@@ -61,7 +63,9 @@ let dev = true;
 
   export const alertWarning = (info) =>{
     Notiflix.Notify.warning(info,{
-      position: "center-top"
+      position: "center-top",
+      showOnlyTheLastOne: true
+
     })
   }
 
@@ -192,4 +196,75 @@ export const RejectApplication = (application_id, tkn) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+
+export const jobsList = (tkn) => {
+  return fetch(`https://api.jobstextile.com/job-titles`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${tkn}`,
+      
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+export const startFreeTrial = (tkn,plan_data) =>{
+  return fetch(`https://api.jobstextile.com/free-trial`,{
+    method:"POST",
+    headers:{
+      Authorization:`Bearer ${tkn}`,
+      Accept: "application/json",
+      "Content-Type": "application/json"
+      
+    },
+    body:JSON.stringify(plan_data)
+  })
+  .then(res=>{
+    return res.json()
+  })
+  .catch(err=>{
+    alertWarning(err)
+  })
+}
+
+
+export const forgotPassCompany = (data) =>{
+  return fetch(`${API}company/forgot-password`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+}
+
+
+export const resetPasswordCompany = (reset_data) => {
+  return fetch(`${API}company/reset-password`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      
+    },
+    body: JSON.stringify(reset_data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
 };

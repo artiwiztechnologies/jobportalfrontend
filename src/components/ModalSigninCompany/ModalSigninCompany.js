@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany } from "../../helper";
-import { printRes,alertInfo,alertSuccess,alertWarning,totalCompanies,totalJobs } from "../../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning,totalCompanies,totalJobs, forgotPass, forgotPassCompany } from "../../helper2";
 
 
 const ModalStyled = styled(Modal)`
@@ -75,6 +75,7 @@ const ModalSigninCompany = (props) => {
                 // window.location.reload();
                 // router.push("/dashboard-settings");
                 window.location.reload();
+                alertSuccess("Welcome!,your Login was successful!")
                 
   
                
@@ -151,6 +152,8 @@ const ModalSigninCompany = (props) => {
             </div>
             <div className="col-lg-7 col-md-6">
               <div className="bg-white-2 h-100 px-11 pt-11 pb-7">
+              <h4 className="text-success mx-auto mb-5 text-center">Company Login</h4>
+
               {
                       errorSgn && <ErrorMessage />
                     }
@@ -217,7 +220,30 @@ const ModalSigninCompany = (props) => {
                       </span>
                     </label>
                     <a
-                      href="/#"
+                    style={{
+                      cursor: "pointer"
+                    }}
+                      onClick={()=>{
+                        let forgetdata = {
+                          "phonenumber":phonenumber
+                        }
+                        if(phonenumber.length != 0){
+                        forgotPassCompany(forgetdata)
+                          .then(data=>{
+                            alertInfo(data.message)
+                            printRes(data.message);
+                            gContext.toggleSigninCompany();
+                            router.push("/company-forgot-password");
+                            
+                          })
+                          .catch(err=>{
+                            alertWarning(err)
+                          })
+                      }
+                      else{
+                        alertWarning("Please enter phonenumber!")
+                      }}
+                      }
                       className="font-size-3 text-dodger line-height-reset"
                     >
                       Forget Password

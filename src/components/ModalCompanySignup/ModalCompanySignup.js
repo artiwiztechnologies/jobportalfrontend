@@ -46,6 +46,32 @@ const ModalCompanySignUp = (props) => {
     setShowPassSecond(!showPassSecond);
   };
 
+  const validateFields = () =>{
+    // let valid = false;
+    var phoneno = /^\d{10}$/;
+    
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+  {
+    printRes("valid email!");
+  }else{
+    alertWarning("Please enter a valid email id!");
+    return false;
+  }
+
+  if(!phonenumber.match(phoneno)){
+    alertWarning("Enter a valid phonenumber!");
+    printRes("invalud phonenumber!");
+    return false;
+  }
+
+  if(password.length < 5){
+    alertWarning("Please enter a strong password,it must contain more than 5 letters!")
+    return false;
+  }
+
+  return true;
+  }
+
   const signUpUser = () =>{
     if(confirmPass === password && companyname.length != 0 && email && password && phonenumber ){
       // let user = {
@@ -66,26 +92,27 @@ const ModalCompanySignUp = (props) => {
         "status":1//in production 1 ,for test 2
     }
     if(agreed){
-      signUpCompany(company)
-        .then(data => {
-          printRes(data);
-          if(data.message === "Company created successfully."){
-            alertSuccess("signup success");
-              setCompanyname("");
-              setAddress("");
-              setConfirmPass("");
-              setPassword("");
-              setEmail("");
-              setPhonenumber("");
-              gContext.toggleSignupCompanyModal();
-              gContext.toggleConfirmEmail()
+      if(validateFields())
+        signUpCompany(company)
+          .then(data => {
+            printRes(data);
+            if(data.message === "Company created successfully."){
+              // alertSuccess("signup success");
+                setCompanyname("");
+                setAddress("");
+                setConfirmPass("");
+                setPassword("");
+                setEmail("");
+                setPhonenumber("");
+                gContext.toggleSignupCompanyModal();
+                gContext.toggleConfirmEmail()
 
-              // gContext.toggleSignInModal();
+                // gContext.toggleSignInModal();
 
-              
-          }else{
-            alertWarning(data.message);
-          }
+                
+            }else{
+              alertWarning(data.message);
+            }
         })
       }else{
         alertInfo("Please agree to the terms and conditions!")
