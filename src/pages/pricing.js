@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
 import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPlans, getUserWithId, getCompanyWithId, updateAuthData } from "../helper";
@@ -6,6 +6,7 @@ import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
 import router from "next/router";
 import { printRes ,alertInfo,alertSuccess,alertWarning, startFreeTrial} from "../helper2";
+import GlobalContext from "../context/GlobalContext";
 
 
 
@@ -189,7 +190,8 @@ async function displayRazorpay(plan_id) {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
-
+ 
+  const gContext = useContext(GlobalContext);
 
   const subscribeToFreeTrial = (plan_data) =>{
     startFreeTrial(isAuthenticated().access_token,plan_data)
@@ -270,17 +272,41 @@ async function displayRazorpay(plan_id) {
                         {/* <!-- card-body start --> */}
                         <div className="card-body px-0 pt-11 pb-15">
                           <ul className="list-unstyled">
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                            {/* <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                               5 Job Postings
+                            </li> */}
+                            {/* {
+                              plan.description.split(",").map((des)=>{
+                                <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              {des}
+                            </li>
+                              })
+                            } */}
+                            {/* <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              
+                            </li> */}
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                                Perfect Job in a month
                             </li>
                             <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              90 Days Duration Each
+                              Technical consultancy
                             </li>
                             <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              Job Alert Emails
+                              Latest Tech Updates
+                            </li>
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              Abroad Opportunities
+                            </li>
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              One Technical webinar
                             </li>
                           </ul>
                         </div>
@@ -288,7 +314,8 @@ async function displayRazorpay(plan_id) {
                         {/* <!-- card-footer end --> */}
                         <div className="card-footer bg-transparent border-0 px-0 py-0">
                           
-                            <button disabled={disabled} onClick={()=>{
+                            <button onClick={()=>{
+                              if(isAuthenticated()){
                               if(plan.trial){
                                 const plan_data = {
                                   "plan_id": plan.id,
@@ -310,6 +337,10 @@ async function displayRazorpay(plan_id) {
                                 //   })
                               }else{
                               displayRazorpay(plan.id)
+                              }
+                              }else{
+                                alertInfo('Please login to subscribe!')
+                                gContext.toggleSignInModal();
                               }
                             }} className="btn btn-green btn-h-60 text-white rounded-5 btn-block text-uppercase">
                               {`Start with ${plan.plan_name}`}

@@ -25,8 +25,8 @@ const Footer = () => {
                     Most comprehensive job portal
                   </h2>
                   <p className="text-hit-gray font-size-5 mb-0">
-                    We must explain to you how all this mistaken idea of
-                    denouncing
+                  Finding a Suitable job in quicker time.
+Knowledge partner
                   </p>
                 </div>
                 {/* <!-- cta-content end --> */}
