@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PageWrapper from "../components/PageWrapper";
 import {  isAuthenticated } from "../helper";
-import { support } from "../helper2";
+import { alertInfo, support } from "../helper2";
+
 
 
 const CustomerSupport = () => {
@@ -23,16 +24,16 @@ const CustomerSupport = () => {
       support(issueData, isAuthenticated().access_token).then((data) => {
         if (data.message == "Issue could not be raised.") {
           // console.log(data.message);
-          alert(data.message);
+          alertInfo(data.message);
         } else {
           console.log(data.message);
-          alert("Issue raised successfully");
+          alertInfo("Issue raised successfully");
           setTitle("");
           setDesc("");
         }
       });
     } else {
-      alert("Please enter both the fields!");
+      alertInfo("Please enter both the fields!");
     }
   };
   return (

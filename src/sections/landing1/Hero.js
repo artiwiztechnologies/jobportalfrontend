@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Select } from "../../components/Core";
 import imgH from "../../assets/image/l1/png/hero-image-man.png";
 import imgP from "../../assets/image/patterns/hero-pattern.png";
+import {isAuthenticated} from "../../helper/index"; 
+// import router from "next/router";
+import router from 'next/router'
 
+import GlobalContext from "../../context/GlobalContext";
 const defaultCountries = [
   { value: "in", label: "India" },
   
@@ -11,6 +15,8 @@ const defaultCountries = [
 ];
 
 const Hero = () => {
+  const gContext = useContext(GlobalContext);
+  
   return (
     <>
       {/* <!-- Hero Area --> */}
@@ -65,7 +71,14 @@ const Hero = () => {
                     </div>
                     {/* <!-- .Hero Button --> */}
                     <div className="button-block">
-                      <button className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase">
+                      <button className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase" onClick={(e)=>{
+                        e.preventDefault();
+                        if(isAuthenticated()){
+                          router.push("/search-grid");
+                        }else{
+                          gContext.toggleSignInModal()
+                        }
+                      }}>
                         Search
                       </button>
                     </div>
