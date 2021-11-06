@@ -90,34 +90,34 @@ Knowledge partner
               </div>
               {/* <!-- media start --> */}
               {/* <!-- widget social icon start --> */}
-              {/* <div className="social-icons">
+               <div className="social-icons">
                 <ul className="pl-0 list-unstyled d-flex align-items-end ">
                   <li className="d-flex flex-column justify-content-center px-3 mr-3 font-size-4 heading-default-color">
                     Follow us on:
                   </li>
                   <li className="d-flex flex-column justify-content-center px-3 mr-3">
-                    <Link href="/#">
+                    <Link href="https://www.instagram.com/jobstextile/">
                       <a className="hover-color-primary heading-default-color">
-                        <i className="fab fa-facebook-f font-size-3 pt-2"></i>
+                        <i className="fab fa-instagram font-size-3 pt-2"></i>
                       </a>
                     </Link>
                   </li>
                   <li className="d-flex flex-column justify-content-center px-3 mr-3">
-                    <Link href="/#">
+                    <Link href="https://twitter.com/JobsTextile">
                       <a className="hover-color-primary heading-default-color">
                         <i className="fab fa-twitter font-size-3 pt-2"></i>
                       </a>
                     </Link>
                   </li>
                   <li className="d-flex flex-column justify-content-center px-3 mr-3">
-                    <Link href="/#">
+                    <Link href="https://wa.me/917339611398?text=I%27m%20interested%20in%20TextileJobs">
                       <a className="hover-color-primary heading-default-color">
-                        <i className="fab fa-linkedin-in font-size-3 pt-2"></i>
+                        <i className="fab fa-whatsapp font-size-3 pt-2"></i>
                       </a>
                     </Link>
                   </li>
                 </ul>
-              </div> */}
+              </div> 
               {/* <!-- widget social icon end --> */}
             </div>
             <div className="col-lg-8 col-md-6">
