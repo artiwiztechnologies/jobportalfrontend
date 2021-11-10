@@ -31,8 +31,10 @@ export const totalJobs = () => {
         printRes(err);
       });
   }
-let dev = true;
+let dev = false;//change to false on production
+//try window.location.hostname === "localhost" instead of checking if dev is true or not
   export const printRes = (res) =>{
+    
     if(dev){
     console.log(res)
     }
