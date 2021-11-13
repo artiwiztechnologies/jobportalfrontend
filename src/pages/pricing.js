@@ -98,7 +98,7 @@ const [amount,setAmount] = useState();
 
 
 
-async function displayRazorpay(plan_id) {
+async function displayRazorpay(plan_id,planname) {
  
     const res = await initiatePayment()
 
@@ -109,14 +109,14 @@ async function displayRazorpay(plan_id) {
       "user_type": isAuthenticated().type
   }
 
-    const data = await  fetchOrderData(orderFetchData)
+    const data = await  fetchOrderData(orderFetchData,isAuthenticated().access_token)
       // .then(data=>{
       //   printRes(data)
       //   setOrderId(data.id)
       //   setAmount(data.amount)
       // })
 
-    // printRes(data)
+    printRes(data)
 
 
 
@@ -133,7 +133,7 @@ async function displayRazorpay(plan_id) {
 
     printRes(data)
     
-
+    
     
     
     const options = {
@@ -141,8 +141,8 @@ async function displayRazorpay(plan_id) {
       
       currency: 'INR',
       amount: data.amount,
-      name: "basic plan",
-      description: "you have opted for the basic plan",
+      name: planname,
+      description: `You have opted for the ${planname} plan.`,
       image: logo ,
       // id: uuidv4(),
       // order_id: "order_I8VB1HVFciWXC5",
@@ -331,7 +331,8 @@ async function displayRazorpay(plan_id) {
                                 //     printRes(err)
                                 //   })
                               }else{
-                              displayRazorpay(plan.id)
+                                printRes(plan)
+                              displayRazorpay(plan.id,plan.plan_name)
                               }
                               }else{
                                 alertInfo('Please login to subscribe!')
