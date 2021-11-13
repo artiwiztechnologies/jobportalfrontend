@@ -22,7 +22,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import * as ga from "../lib/ga";
 
-const MyApp = ({ Component, pageProps, router }) => {
+const MyApp = ({ Component, pageProps }) => {
+
+  const router = useRouter();
 
   const handleRouteChange = (url) => {
     ga.pageview(url)
