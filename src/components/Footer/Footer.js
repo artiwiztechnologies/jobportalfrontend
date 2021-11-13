@@ -90,34 +90,31 @@ Knowledge partner
               </div>
               {/* <!-- media start --> */}
               {/* <!-- widget social icon start --> */}
-              {/* <div className="social-icons">
+              <div className="social-icons">
                 <ul className="pl-0 list-unstyled d-flex align-items-end ">
                   <li className="d-flex flex-column justify-content-center px-3 mr-3 font-size-4 heading-default-color">
                     Follow us on:
                   </li>
-                  <li className="d-flex flex-column justify-content-center px-3 mr-3">
+                  {/* <li className="d-flex flex-column justify-content-center px-3 mr-3">
                     <Link href="/#">
                       <a className="hover-color-primary heading-default-color">
                         <i className="fab fa-facebook-f font-size-3 pt-2"></i>
                       </a>
                     </Link>
-                  </li>
-                  <li className="d-flex flex-column justify-content-center px-3 mr-3">
+                  </li> */}
+
+                  <li class="d-flex flex-column justify-content-center px-3 mr-3"><a class="hover-color-primary heading-default-color" href="https://www.instagram.com/jobstextile/"><i class="fab fa-instagram font-size-3 pt-2"></i></a></li>
+                  <li class="d-flex flex-column justify-content-center px-3 mr-3"><a class="hover-color-primary heading-default-color" href="https://twitter.com/JobsTextile"><i class="fab fa-twitter font-size-3 pt-2"></i></a></li>
+                  {/* <li className="d-flex flex-column justify-content-center px-3 mr-3">
                     <Link href="/#">
                       <a className="hover-color-primary heading-default-color">
                         <i className="fab fa-twitter font-size-3 pt-2"></i>
                       </a>
                     </Link>
-                  </li>
-                  <li className="d-flex flex-column justify-content-center px-3 mr-3">
-                    <Link href="/#">
-                      <a className="hover-color-primary heading-default-color">
-                        <i className="fab fa-linkedin-in font-size-3 pt-2"></i>
-                      </a>
-                    </Link>
-                  </li>
+                  </li> */}
+                  <li class="d-flex flex-column justify-content-center px-3 mr-3"><a class="hover-color-primary heading-default-color" href="https://wa.me/917339611398?text=I%27m%20interested%20in%20TextileJobs"><i class="fab fa-whatsapp font-size-3 pt-2"></i></a></li>
                 </ul>
-              </div> */}
+              </div>
               {/* <!-- widget social icon end --> */}
             </div>
             <div className="col-lg-8 col-md-6">
@@ -234,13 +231,13 @@ Knowledge partner
                           </a>
                         </Link>
                       </li>
-                      {/* <li className="mb-6">
-                        <Link href="/">
+                      <li className="mb-6">
+                        <Link href="/refund-policy">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Return Policy
                           </a>
                         </Link>
-                      </li> */}
+                      </li>
                     </ul>
                   </div>
                 </div>

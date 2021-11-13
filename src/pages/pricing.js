@@ -15,6 +15,7 @@ const Pricing = () => {
   const [username,setUsername] = useState();
   const [phnnum,setPhnnum] = useState();
   const [disabled,setDisabled] = useState(true);
+
   // printRes(process.env.RAZOR_PAY_PK)
 
   // if(d2.error === 'token_expired'){
@@ -272,23 +273,17 @@ async function displayRazorpay(plan_id) {
                         {/* <!-- card-body start --> */}
                         <div className="card-body px-0 pt-11 pb-15">
                           <ul className="list-unstyled">
-                            {/* <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              5 Job Postings
-                            </li> */}
-                            {/* {
-                              plan.description.split(",").map((des)=>{
-                                <li className="mb-6 text-black-2 d-flex font-size-4">
+
+                          {
+                           plan.description.map(des=>(
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                               {des}
                             </li>
-                              })
-                            } */}
+                           ))
+                          }
+                            
                             {/* <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              
-                            </li> */}
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                                 Perfect Job in a month
                             </li>
@@ -307,7 +302,7 @@ async function displayRazorpay(plan_id) {
                             <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                               One Technical webinar
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                         {/* <!-- card-body end --> */}
