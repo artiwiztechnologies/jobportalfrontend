@@ -26,6 +26,8 @@ const GlobalProvider = ({ children }) => {
   const [filterJobType2, setFilterJobType2] = useState("");
   const [filterJobType3, setFilterJobType3] = useState("");
   const [emailresendId,setEmailresendId] = useState(0);
+  const [questioncomments,setQuestioncomments] = useState();
+
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -41,6 +43,8 @@ const GlobalProvider = ({ children }) => {
     theme: "dark",
     style: "style1", //style1, style2
   });
+
+  
    
   const changeEditJid = (jid) =>{
     setEditjid(jid);
@@ -175,6 +179,8 @@ const GlobalProvider = ({ children }) => {
         setEmailresendId,
         applicantsdata,
         toggleApplicantsdata,
+        questioncomments,
+        setQuestioncomments
 
 
       }}

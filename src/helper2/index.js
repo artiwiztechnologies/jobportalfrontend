@@ -270,3 +270,86 @@ export const resetPasswordCompany = (reset_data) => {
     })
     .catch((err) => console.log(err));
 };
+
+
+export const postQuestion = (ques_data,tkn) =>{
+  return fetch(`${API}post-question`, {
+    method: "POST",
+    headers: {
+      Authorization:`Bearer ${tkn}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      
+      
+    },
+    body: JSON.stringify(ques_data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+}
+
+export const getPostedQuestionsSelf = (tkn,user_type) =>{
+  return fetch(`${API}posted-questions/${user_type}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${tkn}`,
+      
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+}
+
+
+export const getQuestions = (tkn,user_type) =>{
+  return fetch(`${API}question-list`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${tkn}`,
+      
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+}
+
+
+export const postComment = (tkn,comment_data) =>{
+  return fetch(`${API}post-comment`,{
+    method:"POST",
+    headers:{
+      Authorization: `Bearer ${tkn}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      
+    },
+    body:JSON.stringify(comment_data)
+  })
+  .then(res=>{
+    return res.json();
+  })
+  .catch(err=>{
+    alertWarning(err);
+  })
+}
+
+
+export const getQuestionCommentsData = (tkn,ques_id) =>{
+  return fetch(`${API}question/${ques_id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${tkn}`,
+      
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+}
