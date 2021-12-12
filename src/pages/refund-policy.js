@@ -1,7 +1,7 @@
 import React from "react";
 import PageWrapper from "../components/PageWrapper";
 
-const Terms = () => {
+const Refund = () => {
   return (
     <>
     <PageWrapper>
@@ -9,7 +9,7 @@ const Terms = () => {
         <div className="container p-5">
            <div className="mx-auto text-center my-9">
            <h3>
-              Terms and Conditions
+              Refund Policy
             </h3>
             <p>updated on 03/11/2021</p>
            </div>
@@ -58,4 +58,4 @@ In the event any provisions of these Website Terms are found to be contrary to a
   </>
   );
 };
-export default Terms;
+export default Refund;

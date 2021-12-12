@@ -234,13 +234,13 @@ Knowledge partner
                           </a>
                         </Link>
                       </li>
-                      {/* <li className="mb-6">
-                        <Link href="/">
+                      <li className="mb-6">
+                        <Link href="/refund-policy">
                           <a className="heading-default-color font-size-4 font-weight-normal">
                             Return Policy
                           </a>
                         </Link>
-                      </li> */}
+                      </li>
                     </ul>
                   </div>
                 </div>

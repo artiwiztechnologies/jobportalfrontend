@@ -15,6 +15,7 @@ const Pricing = () => {
   const [username,setUsername] = useState();
   const [phnnum,setPhnnum] = useState();
   const [disabled,setDisabled] = useState(true);
+
   // printRes(process.env.RAZOR_PAY_PK)
 
   // if(d2.error === 'token_expired'){
@@ -97,7 +98,7 @@ const [amount,setAmount] = useState();
 
 
 
-async function displayRazorpay(plan_id) {
+async function displayRazorpay(plan_id,planname) {
  
     const res = await initiatePayment()
 
@@ -108,14 +109,14 @@ async function displayRazorpay(plan_id) {
       "user_type": isAuthenticated().type
   }
 
-    const data = await  fetchOrderData(orderFetchData)
+    const data = await  fetchOrderData(orderFetchData,isAuthenticated().access_token)
       // .then(data=>{
       //   printRes(data)
       //   setOrderId(data.id)
       //   setAmount(data.amount)
       // })
 
-    // printRes(data)
+    printRes(data)
 
 
 
@@ -132,7 +133,7 @@ async function displayRazorpay(plan_id) {
 
     printRes(data)
     
-
+    
     
     
     const options = {
@@ -140,8 +141,8 @@ async function displayRazorpay(plan_id) {
       
       currency: 'INR',
       amount: data.amount,
-      name: "basic plan",
-      description: "you have opted for the basic plan",
+      name: planname,
+      description: `You have opted for the ${planname} plan.`,
       image: logo ,
       // id: uuidv4(),
       // order_id: "order_I8VB1HVFciWXC5",
@@ -272,23 +273,17 @@ async function displayRazorpay(plan_id) {
                         {/* <!-- card-body start --> */}
                         <div className="card-body px-0 pt-11 pb-15">
                           <ul className="list-unstyled">
-                            {/* <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              5 Job Postings
-                            </li> */}
-                            {/* {
-                              plan.description.split(",").map((des)=>{
-                                <li className="mb-6 text-black-2 d-flex font-size-4">
+
+                          {
+                           plan.description.map(des=>(
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                               {des}
                             </li>
-                              })
-                            } */}
+                           ))
+                          }
+                            
                             {/* <li className="mb-6 text-black-2 d-flex font-size-4">
-                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
-                              
-                            </li> */}
-                            <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                                 Perfect Job in a month
                             </li>
@@ -307,7 +302,7 @@ async function displayRazorpay(plan_id) {
                             <li className="mb-6 text-black-2 d-flex font-size-4">
                               <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
                               One Technical webinar
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                         {/* <!-- card-body end --> */}
@@ -336,7 +331,8 @@ async function displayRazorpay(plan_id) {
                                 //     printRes(err)
                                 //   })
                               }else{
-                              displayRazorpay(plan.id)
+                                printRes(plan)
+                              displayRazorpay(plan.id,plan.plan_name)
                               }
                               }else{
                                 alertInfo('Please login to subscribe!')
