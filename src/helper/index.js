@@ -654,3 +654,24 @@ export const addToFav = (user_id, job_id, tkn) => {
 
 
 
+
+
+// export const testFunc = () =>{
+// const [post, setPost]=useState([])
+//   const url="http://localhost:3000/users"
+//   const WAIT_TIME = 5000;
+
+//   useEffect(() => {
+//     const id = setInterval(() => {
+//       axios
+//      .get(url)
+//      .then(res=>{
+//        setPost(res.data);
+//      })
+//      .catch(err=>{
+//        console.log(err);
+//      })
+//     }, WAIT_TIME);
+//     return () => clearInterval(id);
+//   }, [post]);
+// }
