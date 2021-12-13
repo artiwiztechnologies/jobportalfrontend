@@ -18,6 +18,8 @@ const Faq = () => {
 
   const WAIT_TIME = 5000;
   const filterQuestions = () =>{
+    
+    
     setSearchedQuesArr(questions?.filter(q=>{
       // printRes(q.question.includes(searchQues));
       q.question.includes(searchQues);
@@ -69,6 +71,7 @@ const Faq = () => {
     // },WAIT_TIME);
     // return () => clearInterval(id);
     getAllQuestions()
+    // console.log("hey there")
   },[])
   return (
     <>
