@@ -8,7 +8,7 @@ import {isAuthenticated, postJob, updateAuthData} from "../helper";
 import GlobalContext from "../context/GlobalContext";
 
 
-const Faq = () => {
+const Forum = () => {
   const gContext = useContext(GlobalContext);
   const [openItem, setOpenItem] = useState(1);
   const [searchQues,setSearchQues] = useState("");
@@ -87,7 +87,7 @@ const Faq = () => {
               >
                 <div className="d-flex flex-column">
                   <h5 className="font-weight-bold mb-7 mb-lg-13">
-                    Frequently Asked Questions
+                    Discussion Forum
                   </h5>
                   <p className="font-size-4 mb-2">
                     Not seeing your question here?
@@ -117,7 +117,7 @@ const Faq = () => {
                     id="accordionExample"
                   >
 
-                  <div className="border-bottom overflow-hidden">
+                  {/* <div className="border-bottom overflow-hidden">
                      <input type="text" placeholder="Search for your question" value={searchQues} onChange={(e)=>{
                        setSearchQues(e.target.value);
                      }} />
@@ -130,8 +130,9 @@ const Faq = () => {
                        Search
                      </button>
 
-                  </div>
+                  </div> */}
                     <div className="border-bottom overflow-hidden">
+                    <h5 className="text-success">Questions posted</h5>
                       {
                         questions?.map((ques)=>(
                           <div className="mb-0 border-bottom-0" id="heading2-1">
@@ -200,4 +201,4 @@ const Faq = () => {
     </>
   );
 };
-export default Faq;
+export default Forum;

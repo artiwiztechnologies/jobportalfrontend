@@ -22,8 +22,8 @@ export const menuItems = [
   },
   
   {
-    name: "customer-support",
-    label: "Support",
+    name: "forum",
+    label: "Discussion Forum",
    
   },
 ];

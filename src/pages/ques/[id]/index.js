@@ -9,17 +9,27 @@ import {alertInfo, alertSuccess, getQuestionCommentsData, postComment, printRes}
 import { isAuthenticated, updateAuthData } from "../../../helper";
 import GlobalContext from "../../../context/GlobalContext";
 import { Avatar } from "@material-ui/core";
+import { bottom, zIndex } from "styled-system";
 
-const CommentContainer = ({commentData}) =>{
-  return(
-    <div className="my-10 border-bottom ">
-      <Avatar src={commentData.user_photo} />
-      <p>{commentData.date}</p>
-      <p>{commentData.user_name}</p>
-      <p>{commentData.comment}</p>
+const CommentContainer = ({ commentData }) => {
+  return (
+    <div className="my-10 border-bottom w-75">
+      <div className="d-flex flex">
+        <Avatar src={commentData.user_photo} />
+        <div className="d-flex flex-column" style={{ marginLeft: "4px" }}>
+          <p className="" style={{ fontSize: "18px", fontWeight: "bold" }}>
+            {commentData.user_name}
+          </p>
+          <p style={{ fontSize: "10.5px", marginTop: "-18px" }}>
+            {commentData.date}
+          </p>
+        </div>
+      </div>
+
+      <p style={{ fontSize: "17px" }}>{commentData.comment}</p>
     </div>
-  )
-}
+  );
+};
 const ques = ({id}) => {
   //   const router = useRouter();
   // const {id} = router.query;
@@ -76,12 +86,17 @@ const ques = ({id}) => {
         
         <div className="404-page bg-default min-h-100vh flex-all-center pt-lg-15 pt-xxl-17 pt-27 pb-lg-0 pb-18">
           <div className="container">
-             <h4 className="mt-20">
-               {
-                 questionsData?.question
-               }
+             
+             <h4 className="mt-20 d-flex">
+             <h4 className="text-success">Question: &nbsp;</h4>
+                {
+                  `${questionsData?.question}`
+                }
+               
              </h4>
-             <div className="">
+             {
+               questionsData?.comments.length != 0 ? (
+                <div className="">
                {
                  questionsData?.comments.map(cmt=>(
                    <div key={cmt.id}>
@@ -90,7 +105,12 @@ const ques = ({id}) => {
                  ))
                }
              </div>
-             <div className="my-10">
+               ):(
+                 <p>No comments on this question yet!</p>
+               )
+             }
+             
+             {/* <div className="my-10">
                <input type="text" value={ansToPost} placeholder="Type your answer" onChange={(e)=>{
                   setAnsToPost(e.target.value);
                }} />
@@ -99,7 +119,64 @@ const ques = ({id}) => {
                }}>
                  Post your answer
                </button>
-             </div>
+             </div> */}
+             <div className="my-10">
+             
+              <div
+                style={{
+                  display: "flex",
+                  
+                  padding: "5px",
+                  justifyContent:"space-between",
+                  width: "75%",
+                  border: "1px solid lightgray",
+                  borderRadius:"50px"
+                  
+                  
+                }}
+              >
+               
+               <input type="text" value={ansToPost} 
+                  id="standard-basic"
+                  placeholder="Post your answer here..."
+                  // className="border-none w-75"
+                  style={{
+                    borderRadius: "50px",
+                    border: "none",
+                   
+                    outline: "none",
+                    
+                    marginLeft:"15px",
+                    marginRight:"15px"
+                  }}
+                  onChange={(e)=>{
+                  setAnsToPost(e.target.value);
+               }} />
+              
+                <button
+                  style={{
+                    border: "none",
+                    // borderRadius: "186px",
+                    borderRadius:"50px",
+                    
+
+                    height: "48px",
+                    width: "48px",
+                    backgroundColor: "#28bd8a",
+                    // marginTop: "14px",
+                  }}
+                  onClick={() => {
+                    postAcomment();
+                  }}
+                >
+                  <i
+                    class="fa fa-paper-plane"
+                    aria-hidden="true"
+                    fontSize="27px"
+                  ></i>
+                </button>
+              </div>
+              </div>
           </div>
         </div>
       </PageWrapper>
@@ -107,37 +184,7 @@ const ques = ({id}) => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   // Fetch data from external API
-//  const res = await fetch(`https://api.jobstextile.com/question/${context.params.id}`, {
-//   method: "GET",
-//   headers: {
-//     Authorization: `Bearer ${isAuthenticated().access_token}`,
-    
-//   },
-// })
 
-// const question = res.json();
-  
-
-//   // Pass data to the page via props
-//   return { props: { question } }
-// }
-
-// export const getStaticProps = async (context) => {
-//   // const res = await fetch(`https://api.jobstextile.com/question/${context.params.id}`,{
-//   //   headers:{
-//   //     Authorization:`Bearer ${isAuthenticated().access_token}`
-//   //   }
-//   // });
-//   // const question = await res.json();
-//   const question = getQuestionCommentsData(isAuthenticated().access_token,parseInt(context.params.id))
-//   return {
-//       props:{
-//           question
-//       }
-//   }
-// }
 ques.getInitialProps = async ({ query }) => {
   const {id} = query
 
