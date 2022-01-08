@@ -1,3 +1,5 @@
+pricing.js file contents as on 17/12/21
+
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
@@ -5,9 +7,8 @@ import { displayRazorpay, fetchOrderData, isAuthenticated, ValidatePayment,getPl
 import logo from "../assets/Textilejobs2.png";
 import { v4 as uuidv4 } from 'uuid';
 import router from "next/router";
-import { printRes ,alertInfo,alertSuccess,alertWarning, startFreeTrial, newOrderPaytm, validatePaytmPayment} from "../helper2";
+import { printRes ,alertInfo,alertSuccess,alertWarning, startFreeTrial} from "../helper2";
 import GlobalContext from "../context/GlobalContext";
-import Notiflix from "notiflix";
 
 
 
@@ -16,33 +17,17 @@ const Pricing = () => {
   const [username,setUsername] = useState();
   const [phnnum,setPhnnum] = useState();
   const [disabled,setDisabled] = useState(true);
-  const [paytmtkn,setPaytmtkn] = useState("");
-  const [paytmorderid,setPaytmorderid] = useState("");
 
-  
-
-  
-
-  // const getPaytmOrderData = (plan_id) =>{
-  //   newOrderPaytm(isAuthenticated().access_token,isAuthenticated().user_type,plan_id)
-  //     .then(data=>{
-  //       console.log(data);
-  //     })
-  // }
-
-  const MerchantID = "mlpZrq88573078670457";
-
-  // const MerchantID = "fLioeq85351493665452";
-
+  const MerchantID = "mlpZrq88573078670457"
+    const Merchant_key = "b0z4TdXl#Az7GxIA"
     const HOST = "https://securegw-stage.paytm.in";
-    function onScriptLoad(txnToken, orderId, amount,plan_id) {
+    function onScriptLoad(txnToken, orderId, amount) {
       var config = {
           "root": "",
-          "flow": "WEBSTAGING",
+          "flow": "DEFAULT",
           "merchant":{
                "name":"XYZ Enterprises",
-               "logo":"https://developer.paytm.com/demo//static/images/merchant-logo.png?v=1.4",
-               "redirect": false
+               "logo":"https://developer.paytm.com/demo//static/images/merchant-logo.png?v=1.4"
            },
            "style":{
                "headerBackgroundColor":"#8dd8ff",
@@ -52,43 +37,18 @@ const Pricing = () => {
               "orderId": orderId,
               "token": txnToken,
               "tokenType": "TXN_TOKEN",
-              "amount": amount
+              // "amount": amount
           },
-          "handler":{ 
-            "notifyMerchant": (eventName,data) => {
-              console.log("notify merchant about the payment state",data);
-            } ,
-            "transactionStatus":function(data){
-              const fdata = {
-                ...data,
-                "plan_id":plan_id,
-                "user_type":isAuthenticated().type
-              }
-              console.log("payment status ", fdata);  
-              validatePaytmPayment(isAuthenticated().access_token,fdata)
-                .then(d=>{
-                  console.log(d);
-                  // alertInfo(d.message);
-                  if(d.message == 'Valid payment.'){
-                    alertSuccess("Subscribed to a plan successfully!");
-                    window.Paytm.CheckoutJS.close();
-                    // router.push("/paytmpaymentstatus")
-                    
+          "handler":{
+               "notifyMerchant": function (eventName, data) {
+                  if(eventName == 'SESSION_EXPIRED'){
+                      alert("Your session has expired!!");
+                      location.reload();
                   }else{
-                    alertWarning(d.message)
+                    console.log(data)
                   }
-                })
-                .catch(err=>{
-                  console.log(err)
-                })
-             
-              console.log("payment status msg", data.RESPMSG);  
-              alertInfo(`your payment status is ${data.RESPMSG}`)
-
-              // alert("Your payment status : ",data.status);
-            } 
+               }
           }
-          
       };
 
       if (window.Paytm && window.Paytm.CheckoutJS) {
@@ -151,8 +111,6 @@ const Pricing = () => {
 
      //post req ,send planid ,rootlink,user_type to server
     //get txn_token,order_id and amount from the response
-    console.log(location.origin)
-   
     getDataRequired()
     const script = document.createElement('script');
     script.src = `https://securegw-stage.paytm.in//merchantpgpui/checkoutjs/merchants/${MerchantID}.js`;
@@ -160,7 +118,26 @@ const Pricing = () => {
 
   },[])
   const [orderId,setOrderId] = useState('');
-
+  
+  const initiatePayment = () =>{
+    
+      
+    
+    printRes("initiatepayment")
+    return new Promise((resolve)=>{
+      const script = document.createElement('script');
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      document.body.appendChild(script)
+      script.onload = () =>{
+          resolve(true)
+          
+      } 
+      script.onerror = () =>{
+          resolve(false)
+      }
+    })
+   
+  }
 
 
 
@@ -168,7 +145,100 @@ const [amount,setAmount] = useState();
 
 
 
+async function displayRazorpay(plan_id,planname) {
+ 
+    const res = await initiatePayment()
 
+    const orderFetchData = {
+      "plan_id": plan_id,
+      "user_id": isAuthenticated().user_id ? isAuthenticated().user_id : isAuthenticated().company_id,
+      "email": isAuthenticated().email,
+      "user_type": isAuthenticated().type
+  }
+
+    const data = await  fetchOrderData(orderFetchData,isAuthenticated().access_token)
+      // .then(data=>{
+      //   printRes(data)
+      //   setOrderId(data.id)
+      //   setAmount(data.amount)
+      // })
+
+    printRes(data)
+
+
+
+
+    if(!res){
+      alertWarning("razor pay SDK failed");
+      return
+    }
+
+    if(!data){
+      alertWarning("cant get payment data from the server!");
+      return
+    }
+
+    printRes(data)
+    
+    
+    
+    
+    const options = {
+      key: "rzp_test_HG5GAR8YfRNzGa",
+      
+      currency: 'INR',
+      amount: data.amount,
+      name: planname,
+      description: `You have opted for the ${planname} plan.`,
+      image: logo ,
+      // id: uuidv4(),
+      // order_id: "order_I8VB1HVFciWXC5",
+      order_id: data.id,
+
+      
+      
+      handler: function (response) {
+        printRes(response)
+        const req_data = {
+          
+            "razorpay_payment_id": response.razorpay_payment_id,
+            "razorpay_order_id": response.razorpay_order_id,
+            "razorpay_signature": response.razorpay_signature,
+            "plan_id":plan_id,
+            "user_type":isAuthenticated().type
+        
+        }
+        printRes(req_data)
+        ValidatePayment(req_data,isAuthenticated().access_token)
+          .then(d1=>{
+            printRes(d1);
+            // alertSuccess(d1.message);
+            if(d1.message==="Valid payment."){
+              alertSuccess(d1.message);
+            // if(isAuthenticated().user_id){
+            //   router.push("/search-grid");
+            // }else{
+            //   router.push("/dashboard-settings");
+            // }
+            
+            }else{
+              alertInfo(d1.message);
+            }
+          })
+        // alertInfo("PAYMENT ID ::" + response.razorpay_payment_id);
+        // alertInfo("ORDER ID :: " + response.razorpay_order_id);
+      },
+      prefill: {
+        name: username,
+        email: isAuthenticated().email,
+        contact: phnnum,
+      },
+    };
+  
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
+ 
   const gContext = useContext(GlobalContext);
 
   const subscribeToFreeTrial = (plan_data) =>{
@@ -260,15 +330,33 @@ const [amount,setAmount] = useState();
                            ))
                           }
                             
-                          
+                            {/* <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                                Perfect Job in a month
+                            </li>
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              Technical consultancy
+                            </li>
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              Latest Tech Updates
+                            </li>
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              Abroad Opportunities
+                            </li>
+                            <li className="mb-6 text-black-2 d-flex font-size-4">
+                              <i className="fas fa-check font-size-3 text-black-2 mr-3"></i>{" "}
+                              One Technical webinar
+                            </li> */}
                           </ul>
                         </div>
                         {/* <!-- card-body end --> */}
                         {/* <!-- card-footer end --> */}
                         <div className="card-footer bg-transparent border-0 px-0 py-0">
                           
-                            <button onClick={(e)=>{
-                              e.preventDefault();
+                            <button onClick={()=>{
                               if(isAuthenticated()){
                               if(plan.trial){
                                 const plan_data = {
@@ -291,22 +379,10 @@ const [amount,setAmount] = useState();
                                 //   })
                               }else{
                                 printRes(plan)
-                              
-                                newOrderPaytm(isAuthenticated().access_token,isAuthenticated().type,plan.id)
-                                  .then(data=>{
-                                    console.log(data)
-                                    // console.log(data.response.txnToken);
-                                    if(data.message == 'Already subscribed to a plan'){
-                                      alertWarning(data.message);
-                                    }else{
-                                    setPaytmorderid(data.response.orderId);
-                                    setPaytmtkn(data.response.txnToken);
-                                    onScriptLoad(data.response.txnToken,data.response.orderId,"1.00",plan.id);
-                                    }
-                                  })
-                              // let test_tkn =  "2044e64385ee4bcdb4a9907f133c199a1641566699073";
-                              // let test_order_id = "4350989728904";
-                              // onScriptLoad(test_tkn,test_order_id,"1.00");
+                              // displayRazorpay(plan.id,plan.plan_name)
+                              let test_tkn =  "4de93f7be06a493c91ceea8aebed5e9f1639754210613";
+                              let test_order_id = "9658742315425";
+                              onScriptLoad(test_tkn,test_order_id,"1.00");
                               }
                               }else{
                                 alertInfo('Please login to subscribe!')
@@ -337,3 +413,5 @@ const [amount,setAmount] = useState();
   );
 };
 export default Pricing;
+
+
