@@ -30,11 +30,11 @@ const Pricing = () => {
   //     })
   // }
 
-  const MerchantID = "mlpZrq88573078670457";
+  // const MerchantID = "mlpZrq88573078670457";//stage
 
-  // const MerchantID = "fLioeq85351493665452";
+  const MerchantID = "fLioeq85351493665452";//production
 
-    const HOST = "https://securegw-stage.paytm.in";
+    const HOST = "https://securegw.paytm.in";
     function onScriptLoad(txnToken, orderId, amount,plan_id) {
       var config = {
           "root": "",
@@ -155,7 +155,7 @@ const Pricing = () => {
    
     getDataRequired()
     const script = document.createElement('script');
-    script.src = `https://securegw-stage.paytm.in//merchantpgpui/checkoutjs/merchants/${MerchantID}.js`;
+    script.src = `https://securegw.paytm.in//merchantpgpui/checkoutjs/merchants/${MerchantID}.js`;
     document.body.appendChild(script);
 
   },[])
@@ -240,7 +240,10 @@ const [amount,setAmount] = useState();
                             </h6>
                           </div>
                           <h2 className="mt-11 text-dodger">
-                          {`₹${plan.plan_rate}`}
+                          {`₹${plan.plan_rate}`} 
+                            <span className="font-size-4 text-smoke font-weight-normal">
+                              {plan.tax != 0 ? `+ ${plan.tax}% tax` : null}
+                            </span>
                             <span className="font-size-4 text-smoke font-weight-normal">
                               {`/${plan.duration} days`}
                             </span>{" "}
