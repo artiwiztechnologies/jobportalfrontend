@@ -219,7 +219,7 @@ export const jobsList = (tkn) => {
 
 
 export const startFreeTrial = (tkn,plan_data) =>{
-  return fetch(`https://api.jobstextile.com/free-trial`,{
+  return fetch(`https://api.jobstextile.com/freeTrial-paytm`,{
     method:"POST",
     headers:{
       Authorization:`Bearer ${tkn}`,
@@ -352,4 +352,73 @@ export const getQuestionCommentsData = (tkn,ques_id) =>{
       return response.json();
     })
     .catch((err) => console.log(err));
+}
+
+
+export const newOrderPaytm = (tkn,user_type,plan_id) =>{
+  const order_data = {
+    "user_type":user_type,
+    "plan_id":plan_id
+  }
+  return fetch(`${API}newOrder-paytm`,{
+    method:"POST",
+    headers:{
+      Authorization: `Bearer ${tkn}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body:JSON.stringify(order_data)
+  })
+  .then(res =>{
+    return res.json();
+  })
+  .catch(err=>{
+    alertWarning(err);
+  })
+
+}
+
+
+// export const validatePaytmPayment = (tkn,paytmresponsedata) =>{
+  
+//   console.log(paytmresponsedata)
+
+    
+//   return fetch(`${API}newPayment-paytm`, {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${tkn}`,
+      
+     
+
+//       // "Content-Type":"application/x-www-form-urlencoded"
+      
+      
+//     },
+    
+//     body: paytmresponsedata
+//   })
+//     .then((response) => {
+//       return response.json();
+//     })
+//     .catch((err) => console.log(err));
+  
+// }  
+
+export const validatePaytmPayment = (tkn,fdata) => {
+  return fetch(`${API}newPayment-paytm`,{
+      method:"POST",
+      headers:{
+          
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tkn}`
+      },
+      body: JSON.stringify(fdata)
+  })
+   .then(response => {
+       return response.json();
+   })
+   .catch(err => {
+       console.log(err)
+   })
 }
