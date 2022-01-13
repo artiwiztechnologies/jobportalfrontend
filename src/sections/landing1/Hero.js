@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 
 import { Select } from "../../components/Core";
-import imgH from "../../assets/image/l1/png/hero-image-man.png";
+import imgH from "../../assets/image/l1/png/hero-image-woman.png";
 import imgP from "../../assets/image/patterns/hero-pattern.png";
 import {isAuthenticated} from "../../helper/index"; 
 // import router from "next/router";
 import router from 'next/router'
-
+// import dashboardstyles from "../styles/Dashboard-settings.module.css";
+// import herostyles from "../../styles/Hero.module.css";
 import GlobalContext from "../../context/GlobalContext";
 const defaultCountries = [
   { value: "in", label: "India" },
@@ -34,9 +35,11 @@ const Hero = () => {
               data-aos-duration="1000"
               data-aos-delay="500"
             >
-              <h1 className="font-size-11 mb-12 pr-md-30 pr-lg-0">
-                Find the perfect job that you deserve.
-              </h1>
+              <h4 className="font-size-8 mb-12 pr-md-30 pr-lg-0">
+                {/* Find the perfect job that you deserve. */}
+                This job portal is mainly designed for <span className="font-size-8 mb-12 pr-md-30 pr-lg-0 text-primary">spinning mills and textiles</span>
+
+              </h4>
               <div className="">
                 {/* <!-- .search-form --> */}
                 <form action="/" className="search-form shadow-6">
@@ -71,16 +74,27 @@ const Hero = () => {
                     </div>
                     {/* <!-- .Hero Button --> */}
                     <div className="button-block">
-                      <button className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase" onClick={(e)=>{
+                     {
+                       isAuthenticated() ? (
+                        <button className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase" onClick={(e)=>{
                         e.preventDefault();
                         if(isAuthenticated()){
                           router.push("/search-grid");
-                        }else{
-                          gContext.toggleSignInModal()
                         }
                       }}>
                         Search
                       </button>
+                       ):(
+                        <button className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase" onClick={(e)=>{
+                        e.preventDefault();
+                        gContext.toggleSignInModal()
+                        
+                      }}>
+                        SignIn
+                      </button>
+                       )
+                     }
+
                     </div>
                     {/* <!-- ./Hero Button --> */}
                   </div>
@@ -100,7 +114,7 @@ const Hero = () => {
               data-aos-delay="500"
             >
               <div className=" ml-xxl-23 ml-xl-12 ml-md-7">
-                <img src={imgH} alt="" className="w-100" />
+                <img src={imgH} alt=""  className="w-100" />
               </div>
             </div>
             {/* <!-- ./Hero Right Image --> */}

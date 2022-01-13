@@ -310,6 +310,7 @@ const Header = () => {
                       );
                     }
                   )}
+                  {/* <li className="nav-item" */}
                 </ul>
               </div>
             </div>
@@ -557,7 +558,9 @@ const Header = () => {
             >
               {/* <i className="icon icon-simple-remove icon-close"></i> */}
               <i className="icon icon-menu-34 icon-burger d-block"></i>
+              
             </ToggleButton>
+            
           </nav>
         </Container>
       </SiteHeader>
