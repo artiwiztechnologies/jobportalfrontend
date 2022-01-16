@@ -543,7 +543,8 @@ const Header = () => {
               </div>
             )}
 
-            <ToggleButton
+                <div>
+                <ToggleButton
               className={`navbar-toggler btn-close-off-canvas ml-3 ${
                 gContext.visibleOffCanvas ? "collapsed" : ""
               }`}
@@ -560,6 +561,22 @@ const Header = () => {
               <i className="icon icon-menu-34 icon-burger d-block"></i>
               
             </ToggleButton>
+            {
+              isAuthenticated() ? (
+                <button onClick={()=>{
+                            signout(()=>{
+                              printRes("signout success");
+                              localStorage.clear();
+                              router.push("/");
+                            },isAuthenticated().access_token)
+                          }}>out</button>
+              ):(
+                <button onClick={()=>{
+                            gContext.toggleSignInModal();
+                          }}>Login</button>
+              )
+            }
+                </div>
             
           </nav>
         </Container>

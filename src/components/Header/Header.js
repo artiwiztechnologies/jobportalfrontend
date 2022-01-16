@@ -13,6 +13,7 @@ import { device } from "../../utils";
 import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 import {printRes} from "../../helper2/index.js";
+// import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import imgP from "../../assets/image/header-profile.png";
 import { getCompanyWithId, isAuthenticated, refreshToken, signout } from "../../helper";
@@ -511,6 +512,8 @@ const Header = () => {
               </div>
             )}
 
+            
+            <div>
             <ToggleButton
               className={`navbar-toggler btn-close-off-canvas ml-3 ${
                 gContext.visibleOffCanvas ? "collapsed" : ""
@@ -527,6 +530,22 @@ const Header = () => {
               {/* <i className="icon icon-simple-remove icon-close"></i> */}
               <i className="icon icon-menu-34 icon-burger d-block"></i>
             </ToggleButton>
+            {
+              isAuthenticated() ? (
+                <button className="d-sm-none" onClick={()=>{
+                            signout(()=>{
+                              printRes("signout success");
+                              localStorage.clear();
+                              router.push("/");
+                            },isAuthenticated().access_token)
+                          }}>out</button>
+              ):(
+                <button className="d-xs-none" onClick={()=>{
+                            gContext.toggleSignInModal();
+                          }}>Login</button>
+              )
+            }
+                </div>
           </nav>
         </Container>
       </SiteHeader>
