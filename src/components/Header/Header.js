@@ -513,7 +513,7 @@ const Header = () => {
             )}
 
             
-            <div>
+            <div className="d-flex">
             <ToggleButton
               className={`navbar-toggler btn-close-off-canvas ml-3 ${
                 gContext.visibleOffCanvas ? "collapsed" : ""
@@ -532,17 +532,34 @@ const Header = () => {
             </ToggleButton>
             {
               isAuthenticated() ? (
-                <button className="d-sm-none" onClick={()=>{
+                <button className="d-xs-none btn-danger mx-1" style={{
+                  border: "none",
+                  padding: "5px",
+                  borderRadius:"5px"
+
+                  // marginBottom:"3px"
+                }} onClick={()=>{
                             signout(()=>{
                               printRes("signout success");
                               localStorage.clear();
                               router.push("/");
                             },isAuthenticated().access_token)
-                          }}>out</button>
+                          }}>
+                            Logout
+                          </button>
               ):(
-                <button className="d-xs-none" onClick={()=>{
-                            gContext.toggleSignInModal();
-                          }}>Login</button>
+                <button className="d-xs-none btn-primary mx-1" style={{
+                  border: "none",
+                  padding: "5px",
+                  borderRadius:"5px"
+
+                  // marginBottom:"3px"
+                }} onClick={()=>{
+                           gContext.toggleSignInModal()
+                          }}>
+                            Login
+                          </button>
+                          
               )
             }
                 </div>

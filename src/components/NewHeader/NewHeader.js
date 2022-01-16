@@ -12,7 +12,8 @@ import NestedMenu from "../NestedMenu";
 import { device } from "../../utils";
 import Logo from "../Logo";
 import {menuItems}  from "./menuItems";
-
+// import LoginIcon from '@mui/icons-material/Login';
+// import {LoginIcon} from "@material-ui/core/Login";
 
 
 import imgP from "../../assets/image/header-profile.png";
@@ -543,7 +544,7 @@ const Header = () => {
               </div>
             )}
 
-                <div>
+                <div className="d-flex">
                 <ToggleButton
               className={`navbar-toggler btn-close-off-canvas ml-3 ${
                 gContext.visibleOffCanvas ? "collapsed" : ""
@@ -563,17 +564,33 @@ const Header = () => {
             </ToggleButton>
             {
               isAuthenticated() ? (
-                <button onClick={()=>{
+                <button className="btn-xs-none btn-danger mx-1" style={{
+                  border: "none",
+                  padding: "5px",
+                  borderRadius:"5px"
+                  // marginBottom:"3px"
+                }} onClick={()=>{
                             signout(()=>{
                               printRes("signout success");
                               localStorage.clear();
                               router.push("/");
                             },isAuthenticated().access_token)
-                          }}>out</button>
+                          }}>
+                            Logout
+                          </button>
               ):(
-                <button onClick={()=>{
-                            gContext.toggleSignInModal();
-                          }}>Login</button>
+                <button className="btn-xs-none btn-primary mx-1" style={{
+                  border: "none",
+                  padding: "5px",
+                  borderRadius:"5px"
+
+                  // marginBottom:"3px"
+                }} onClick={()=>{
+                           gContext.toggleSignInModal()
+                          }}>
+                            Login
+                          </button>
+                          
               )
             }
                 </div>
