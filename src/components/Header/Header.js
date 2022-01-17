@@ -13,6 +13,7 @@ import { device } from "../../utils";
 import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 import {printRes} from "../../helper2/index.js";
+// import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import imgP from "../../assets/image/header-profile.png";
 import { getCompanyWithId, isAuthenticated, refreshToken, signout } from "../../helper";
@@ -511,6 +512,8 @@ const Header = () => {
               </div>
             )}
 
+            
+            <div className="d-flex">
             <ToggleButton
               className={`navbar-toggler btn-close-off-canvas ml-3 ${
                 gContext.visibleOffCanvas ? "collapsed" : ""
@@ -527,6 +530,39 @@ const Header = () => {
               {/* <i className="icon icon-simple-remove icon-close"></i> */}
               <i className="icon icon-menu-34 icon-burger d-block"></i>
             </ToggleButton>
+            {
+              isAuthenticated() ? (
+                <button className="d-xs-none btn-danger mx-1" style={{
+                  border: "none",
+                  padding: "5px",
+                  borderRadius:"5px"
+
+                  // marginBottom:"3px"
+                }} onClick={()=>{
+                            signout(()=>{
+                              printRes("signout success");
+                              localStorage.clear();
+                              router.push("/");
+                            },isAuthenticated().access_token)
+                          }}>
+                            Logout
+                          </button>
+              ):(
+                <button className="d-xs-none btn-primary mx-1" style={{
+                  border: "none",
+                  padding: "5px",
+                  borderRadius:"5px"
+
+                  // marginBottom:"3px"
+                }} onClick={()=>{
+                           gContext.toggleSignInModal()
+                          }}>
+                            Login
+                          </button>
+                          
+              )
+            }
+                </div>
           </nav>
         </Container>
       </SiteHeader>

@@ -26,6 +26,10 @@ export const menuItems = [
     label: "Discussion Forum",
    
   },
+  {
+    name:"about-us",
+    label:"About-Us"
+  }
 ];
 
 

@@ -79,12 +79,14 @@ Knowledge partner
               {/* <!-- media start --> */}
               <div className="media mb-11">
                 <img src={imgM} className="align-self-center mr-3" alt="" />
-                <div className="media-body pl-5">
+                <div className="media-body pl-5 d-flex flex-column">
                   <p className="mb-0 font-size-4 text-white">Contact us at</p>
                   
                     <a className="mb-0 font-size-4 font-weight-bold">
                     support@textilejobs.com
                     </a>
+                    <a className="mb-0 font-size-4 font-weight-bold" href="tel:9489340003">+91 - 9489340003</a>
+                    
                   
                 </div>
               </div>
