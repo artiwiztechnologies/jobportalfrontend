@@ -12,24 +12,29 @@ export const menuItems = [
       label: "Dashboard"
     },
     {
-      name: isAuthenticated().user_id ? "search-grid" : "dashboard-applicants",
-      label:isAuthenticated().user_id ? "Find Jobs" : "Applicants"
+      name: isAuthenticated().user_id ? "search-grid" : null,
+      label:isAuthenticated().user_id ? "Find Jobs" : null
     },
 
   {
     name: "pricing",
-    label: "pricing"
+    label: "Pricing"
   },
   
   {
     name: "forum",
-    label: "Discussion Forum",
+    label: "Forum",
    
   },
   {
+    name:"companyproducts",
+    label:"Products"
+  },
+  {
     name:"about-us",
-    label:"About-Us"
-  }
+    label:"About Us"
+  },
+ 
 ];
 
 

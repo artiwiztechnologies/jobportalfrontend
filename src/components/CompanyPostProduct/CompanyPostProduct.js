@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
 import { authenticate, SigninCompany,isAuthenticated, getCompanyWithId, refreshToken, postJob, updateAuthData } from "../../helper";
 import { alertInfo, printRes,alertSuccess,alertWarning  } from "../../helper2";
+import { editProduct, getProductData, postCompanyProduct } from "../../helper3";
 
 
 const ModalStyled = styled(Modal)`
@@ -24,8 +25,21 @@ const CompanyPostProduct = (props) => {
   // printRes(window.location.pathname)
   
   const gContext = useContext(GlobalContext);
-
+  
+  
   const handleClose = () => {
+    gContext.setIsPut(false);
+    gContext.setPdata({
+      ...gContext.pdata,
+      
+        name: "",
+        description: "",
+        photo: null,
+        units:0,
+        price:""
+      
+      
+    })
     gContext.togglePostProductModel();
   };
 
@@ -43,16 +57,135 @@ const CompanyPostProduct = (props) => {
   const [description,setDescription] = useState("");
   const [enquiryLink,setEnquiryLink] = useState();
   const [units,setUnits] = useState(0);
-
+  const [uploadBtn,setUploadBtn] = useState(false);
   const [price,setPrice] = useState();
 
 
+
+
   
   
 
 
+  
+  const postanewProduct = () =>{
+    const formData = new FormData();
+    formData.append("name",p_name);
+    formData.append("description",description);
+    formData.append("price",price);
+    formData.append("units",units);
+    formData.append("photo",photo);
+    console.log(formData);
+    postCompanyProduct(formData,isAuthenticated().access_token)
+      .then(data=>{
+        console.log(data);
+        if(data.message==="Product added successfuly."){
+          alertSuccess(data.message);
+          setP_name("");
+          setDescription("");
+          setPrice("");
+          setUnits(0);
+          setPhoto(null);
+        }else{
+          alertWarning(data.message);
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
 
+  }
 
+ 
+
+  const updateProduct = () =>{
+    const formData = new FormData();
+    formData.append("name",p_name);
+    formData.append("description",description);
+    formData.append("price",price);
+    formData.append("units",units);
+    formData.append("photo",photo);
+    console.log(formData);
+    editProduct(gContext.productIdtoUpdate,formData,isAuthenticated().access_token)
+      .then(data=>{
+        console.log(data);
+        if(data.message==="Product updated successfuly."){
+          alertSuccess(data.message);
+          setP_name("");
+          setDescription("");
+          setPrice("");
+          setUnits(0);
+          setPhoto(null);
+          gContext.setPdata({
+            ...gContext.pdata,
+            
+              name: "",
+              description: "",
+              photo: null,
+              units:0,
+              price:""
+            
+            
+          })
+        }else{
+          alertWarning(data.message);
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+
+  }
+
+  useEffect(()=>{
+    console.log("useEffect called on pdata",gContext.pdata,gContext.isPut);
+    if(gContext.isPut){
+      setP_name(gContext.pdata.name);
+          setDescription(gContext.pdata.description);
+          setPrice(gContext.pdata.price);
+          setUnits(gContext.pdata.units);
+          setPhoto(null);
+    }else{
+      setP_name("");
+      setDescription("");
+      setPrice("");
+      setUnits(0);
+      setPhoto(null);
+    }
+  },[gContext.pdata])
+ 
+
+  // useEffect(()=>{
+  //   // if(gContext.isPut){
+  //   //   console.log("do put request",gContext.isPut);
+      
+  //   //     //get data using get request and store it in the state
+  //   //     getProductData(gContext.productIdtoUpdate,isAuthenticated().access_token)
+  //   //       .then(data=>{
+  //   //         if(data.error==="token_expired"){
+  //   //           updateAuthData(isAuthenticated())
+  //   //           getProductData(gContext.productIdtoUpdate,isAuthenticated().access_token)
+  //   //             .then(d=>{
+  //   //               console.log(d);
+  //   //               setP_name("test name");
+  //   //               setDescription("test description");
+  //   //               setPrice("123");
+  //   //               setUnits(12);
+  //   //               setPhoto(null);
+  //   //             })
+  //   //         }else{
+  //   //           console.log(data);
+  //   //           setP_name("test name");
+  //   //           setDescription("test description");
+  //   //           setPrice("123");
+  //   //           setUnits(12);
+  //   //           setPhoto(null);
+  //   //         }
+  //   //       })
+        
+    
+  //   // }
+  // },[])
  
 
   return (
@@ -176,6 +309,16 @@ const CompanyPostProduct = (props) => {
                     <input
                       type="file"
                       className="form-control"
+                      onChange={(e) => {
+                          if (e.target.files) {
+                            console.log(e.target.files[0]);
+
+                            setUploadBtn(true);
+                            if (e.target.files[0]) {
+                              setPhoto(e.target.files[0]);
+                            }
+                          }
+                        }}
                       
                       
                       // onChange={handleChange("career_level")}
@@ -189,8 +332,14 @@ const CompanyPostProduct = (props) => {
 
                   <button className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase" onClick={(e)=>{
                       e.preventDefault();
+                      if(gContext.isPut){
+                        updateProduct();
+                        gContext.setIsPut(false);
+                      }else{
+                        postanewProduct();
+                      }
                       
-                  }}>POST</button>
+                  }}>{gContext.isPut ? "UPDATE" : "POST"}</button>
 
                   
                  
