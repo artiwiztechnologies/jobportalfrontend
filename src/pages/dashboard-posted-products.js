@@ -113,6 +113,7 @@ const ConfirmDeleteModal = ({ delModal, setDelModal, pid }) => {
 };
 
 
+
 // ///////////////////////////////////////////////////////////
 
 const PostedProducts = () => {
@@ -195,6 +196,10 @@ postedProds.sort(GetSortOrder("name"));
       })
   }
 
+  const truncate = (str) => {
+    return str.length > 10 ? str.substring(0,26) + "...": str;
+  }
+
   // const updateProd = (pid) =>{
   //   update(pid,isAuthenticated().access_token)
   //     .then(data=>{
@@ -268,7 +273,7 @@ postedProds.sort(GetSortOrder("name"));
               })
             }}>
               <a className="btn btn-primary btn-xl w-100 text-uppercase">
-                <span  className="mr-5 d-inline-block">+</span>Post a New Product
+                <span  className="mr-5 d-inline-block"></span>Add a New Product
               </a>
             </div>
                     
@@ -366,7 +371,7 @@ postedProds.sort(GetSortOrder("name"));
                               </th>
                               <td className="table-y-middle py-7 min-width-px-135">
                                 <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                                  {prod.description}
+                                 {truncate(prod.description)}
                                 </h3>
                               </td>
                               <td className="table-y-middle py-7 min-width-px-125">
@@ -386,7 +391,9 @@ postedProds.sort(GetSortOrder("name"));
                                 {/* <input type="" */}
                                 
                                {
-                                <input type="checkbox" checked={prod.enabled} onChange={()=>{
+                                <input style={{
+                                  cursor:"pointer"
+                                }} type="checkbox" checked={prod.enabled} onChange={()=>{
                                   toggleProductEnable(prod.id,isAuthenticated().access_token)
                                     .then(data=>{
                                       if(data.error==="token_expired"){

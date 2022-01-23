@@ -12,8 +12,8 @@ export const menuItems = [
       label: "Dashboard"
     },
     {
-      name: isAuthenticated().user_id ? "search-grid" : null,
-      label:isAuthenticated().user_id ? "Find Jobs" : null
+      name: isAuthenticated().user_id ? "search-grid" : "dashboard-applicants",
+      label:isAuthenticated().user_id ? "Find Jobs" : "Applicants"
     },
 
   {
@@ -34,6 +34,10 @@ export const menuItems = [
     name:"about-us",
     label:"About Us"
   },
+  {
+    name:"dashboard-blog",
+    label:"blog"
+  }
  
 ];
 

@@ -6,9 +6,68 @@ import { getAllProducts } from "../helper3";
 // import companyProductStyles from "../styles/Companyproduct.module.css";
 import Link from "next/link";
 import {isAuthenticated, updateAuthData} from "../helper";
+import { Modal } from "react-bootstrap";
+import {useRouter} from "next/router"
+import { alertWarning } from "../helper2";
+
+
+/////////////////////////////
+
+const ShowDesc = ({ desc, setDescModel,descModel}) => {
+ 
+
+
+  return (
+    <div>
+      <Modal
+        size="sm-down"
+        show={descModel}
+        onHide={() => {
+          setDescModel(false);
+        }}
+        backdrop="static"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="circle-32 btn-reset bg-white pos-abs-tr mt-n6 mr-lg-n6 focus-reset shadow-10"
+            onClick={() => {
+              setDescModel(false);
+            }}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+          <Modal.Title className="mx-auto text-center">
+            Description
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="mx-auto text-center">
+          <div>
+         {desc}
+          </div>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+};
+
+
+///////////////////////////////////////
 const CompanyProducts = () => {
   const [companies,setCompanies] = useState();
   const [hover,setHover] = useState(false);
+  const [desc,setDesc] = useState();
+  const [descModel,setDescModel] = useState(false);
+
+  const router = useRouter();
+  
+  const truncate = (str) => {
+    return str.length > 26 ? str.substring(0,26) + "...": str;
+  }
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
 
   const divStyle = {
       cursor:"pointer",
@@ -38,7 +97,12 @@ const CompanyProducts = () => {
     })
   }
   useEffect(()=>{
-    getProducts()
+    if(isAuthenticated().active){
+      getProducts()
+    }else{
+      alertWarning("Please subscribe to a plan!")
+      router.push("/pricing");
+    }
   },[companies])
   return (
     <>
@@ -51,7 +115,7 @@ const CompanyProducts = () => {
         {
             companies?.map(comp=>(
               <div className="d-flex flex-column align-items-center my-10">
-                <h4>Products of {comp.name}</h4>
+                <h4>Products of <span className="font-weight-bold text-primary">{capitalize(comp.name)}</span></h4>
                 <div className="d-sm-flex flex-row align-items-center justify-content-center flex-wrap my-5">
                   {
                     comp?.products?.map(prod=>(
@@ -71,29 +135,59 @@ const CompanyProducts = () => {
                       }} className="card mb-3 mx-10 my-5">
               <img style={{
                 height: "250px",
-                width:"250px",
+                // width:"250px",
                 objectFit:"contain",
-                margin: "10px"
+                // margin: "10px",
+                display: "block",
+                marginLeft:"auto",
+                marginRight:"auto",
+                width: "250px",
+                
+                
+                
+
               }} src={prod.photoURL ? prod.photoURL : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAm6dU5JsOoX02Rm2pRIq0hW6uIQ8VC8h42w&usqp=CAU"} alt="product image" />
+
+              <hr style={{
+                borderBottom:"1.5px #00b074"
+              }} />
               <div class="card-body">
-                <h5 class="card-title">{prod.name}</h5>
-                <p>{prod.description}</p>
-                <span>Units: {prod.units} Price: Rs.{prod.price}</span>
-                <div className="d-flex align-items-center">
-                <img
+                <h5 class="text-primary">{capitalize(prod.name)}</h5>
+                {
+                  prod.description.length > 26  ? <p onClick={()=>{
+                    setDesc(prod.description);
+                    setDescModel(true)
+                  }}>{capitalize(truncate(prod.description))}</p> : <p>{capitalize(prod.description)}</p>
+                }
+                <span><span className="font-weight-bold" style={{
+                  color: "#00b074"
+                }}>Price:</span>{` Rs.${prod.price}`} <span className="font-weight-bold" style={{
+                  color: "#00b074",
+                  marginLeft:"10px"
+                }}> Units:</span>{" " + prod.units}</span>
+                <div className="d-flex align-items-center mt-5">
+                {/* <img
                           src={prod.company_photo ? prod.company_photo : "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found-300x169.jpg"}
                           className="align-self-center circle-54 mr-3 mt-2"
                           alt="image not found"
-                        />
-                      <h6 className="mb-0">
+                        /> */}
+                      <div className="mb-0">
+                        
                         
                           <a className="mb-0 font-size-4 font-weight-semibold heading-default-color line-height-reset">
-                            {prod.company_email}
+                            {capitalize(prod.company_name)}
                           </a>
+                          {/* <a className="mb-0 font-size-3 heading-default-color line-height-reset">
+                            last-updated: {prod.date}
+                          </a> */}
                         
-                      </h6>
-                     
+                      </div>
+                      
                     </div>
+
+                    <p className="mt-2 font-size-3 heading-default-color line-height-reset">
+                            <span className="font-weight-bold">Edited On: </span>{" " + prod.date}
+                          </p>
                 {/* price */}
               </div>
 
@@ -107,7 +201,14 @@ const CompanyProducts = () => {
           
 
         </div>
+
+        <ShowDesc
+            desc={desc}
+            descModel={descModel}
+            setDescModel={setDescModel}
+          />
       </div>
+      
     </PageWrapper>
   </>
   );

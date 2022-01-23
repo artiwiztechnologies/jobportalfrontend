@@ -86,8 +86,14 @@ const CompanyPostProduct = (props) => {
           setPrice("");
           setUnits(0);
           setPhoto(null);
+          gContext.togglePostProductModel();
+
+        }else if(data.error){
+          alertWarning(data.error)
         }else{
-          alertWarning(data.message);
+          alertInfo(data.message);
+          gContext.togglePostProductModel();
+
         }
       })
       .catch(err=>{
@@ -109,7 +115,7 @@ const CompanyPostProduct = (props) => {
     editProduct(gContext.productIdtoUpdate,formData,isAuthenticated().access_token)
       .then(data=>{
         console.log(data);
-        if(data.message==="Product updated successfuly."){
+        if(data.message==="Product updated."){
           alertSuccess(data.message);
           setP_name("");
           setDescription("");
@@ -127,8 +133,17 @@ const CompanyPostProduct = (props) => {
             
             
           })
-        }else{
-          alertWarning(data.message);
+
+          gContext.togglePostProductModel();
+        }else if(data.error){
+          alertWarning(data.error)
+        }
+        else{
+          alertInfo(data.message);
+          gContext.togglePostProductModel();
+          
+
+
         }
       })
       .catch(err=>{
