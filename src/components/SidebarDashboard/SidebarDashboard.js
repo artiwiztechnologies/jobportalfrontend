@@ -28,11 +28,14 @@ const Sidebar = () => {
             </div> */}
             {
               isAuthenticated().company_id ? (
+                <div>
                 <div onClick={gContext.togglePostjobModal}>
               <a className="btn btn-primary btn-xl w-100 text-uppercase">
                 <span  className="mr-5 d-inline-block">+</span>Post a new job
               </a>
             </div>
+            
+                </div>
               ):(
                null
               )
@@ -76,6 +79,19 @@ const Sidebar = () => {
               )
             }
             {
+              isAuthenticated().company_id ? (
+                <li className="">
+              <Link href="/dashboard-posted-products">
+                <a className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center">
+                  <i className="fas fa-briefcase mr-7"></i>My Products
+                </a>
+              </Link>
+            </li>
+              ) :(
+                null
+              )
+            }
+            {
               isAuthenticated().company_id && (
                 <li className="">
               <Link href="/dashboard-applicants">
@@ -95,6 +111,8 @@ const Sidebar = () => {
                 </a>
               </Link>
             </li>
+            
+           
           </ul>
         </div>
       </Collapse>

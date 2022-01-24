@@ -27,7 +27,9 @@ const GlobalProvider = ({ children }) => {
   const [filterJobType3, setFilterJobType3] = useState("");
   const [emailresendId,setEmailresendId] = useState(0);
   const [questioncomments,setQuestioncomments] = useState();
-
+  const [showPostProductModel,setShowPostProductModel] = useState(false);
+  const [isPut,setIsPut] = useState(false);
+  const [productIdtoUpdate,setProductIdtoUpdate] = useState();
 
   const [header, setHeader] = useState({
     theme: "light",
@@ -39,12 +41,24 @@ const GlobalProvider = ({ children }) => {
     buttonText: "Get started free", // profile, account, null
     reveal: true,
   });
+
   const [footer, setFooter] = useState({
     theme: "dark",
     style: "style1", //style1, style2
   });
 
+  const [pdata, setPdata] = useState({
+    name: "",
+    description: "",
+    photo: null,
+    units:0,
+    price:""
   
+  });
+
+  const togglePostProductModel = () =>{
+    setShowPostProductModel(!showPostProductModel);
+  }
    
   const changeEditJid = (jid) =>{
     setEditjid(jid);
@@ -180,8 +194,15 @@ const GlobalProvider = ({ children }) => {
         applicantsdata,
         toggleApplicantsdata,
         questioncomments,
-        setQuestioncomments
-
+        setQuestioncomments,
+        showPostProductModel,
+        togglePostProductModel,
+        isPut,
+        setIsPut,
+        productIdtoUpdate,
+        setProductIdtoUpdate,
+        pdata,
+        setPdata
 
       }}
     >

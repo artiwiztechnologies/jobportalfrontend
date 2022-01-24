@@ -18,18 +18,27 @@ export const menuItems = [
 
   {
     name: "pricing",
-    label: "pricing"
+    label: "Pricing"
   },
   
   {
     name: "forum",
-    label: "Discussion Forum",
+    label: "Forum",
    
   },
   {
+    name:"companyproducts",
+    label:"Products"
+  },
+  {
     name:"about-us",
-    label:"About-Us"
+    label:"About Us"
+  },
+  {
+    name:"dashboard-blog",
+    label:"blog"
   }
+ 
 ];
 
 

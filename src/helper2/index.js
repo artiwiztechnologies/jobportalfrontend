@@ -422,3 +422,51 @@ export const validatePaytmPayment = (tkn,fdata) => {
        console.log(err)
    })
 }
+
+
+export const getBlogList = (token) => {
+  return fetch(`${API}blogs`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getBlogById = (token, blog_id) => {
+  return fetch(`${API}blog/${blog_id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const postCommentBlog = (tkn, commentData) => {
+  return fetch(`${API}post-blog-comment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tkn}`,
+    },
+    body: JSON.stringify(commentData),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
