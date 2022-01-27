@@ -84,11 +84,17 @@ const ModalSignIn = (props) => {
               })
 
             }else{
-              gContext.toggleSignInModal();
+              // printRes(data)
+              if(data.message == 'Waiting for admin approval.'){
+                alertInfo(data.message)
+              }else{
+                gContext.toggleSignInModal();
 
-              // gContext.setEmailresendId(data.id);
-              // router.push("/dashboard-settings-user")
-              gContext.toggleConfirmEmail();
+                // gContext.setEmailresendId(data.id);
+                // router.push("/dashboard-settings-user")
+                gContext.toggleConfirmEmail();
+              }
+             
             }
             
            
