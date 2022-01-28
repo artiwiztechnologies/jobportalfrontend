@@ -97,12 +97,14 @@ const CompanyProducts = () => {
     })
   }
   useEffect(()=>{
-    if(isAuthenticated().active){
+    if(isAuthenticated()){
       getProducts()
-    }else{
-      alertWarning("Please subscribe to a plan!")
-      router.push("/pricing");
     }
+
+    // else{
+    //   alertWarning("Please subscribe to a plan!")
+    //   router.push("/pricing");
+    // }
   },[companies])
   return (
     <>

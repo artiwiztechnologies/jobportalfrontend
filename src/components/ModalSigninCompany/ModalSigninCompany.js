@@ -79,7 +79,10 @@ const ModalSigninCompany = (props) => {
                 
   
                
-              })}else{
+              })}else if(data.message == 'Waiting for admin approval.'){
+                 alertInfo(data.message)
+                }
+              else{
                 gContext.toggleSignInModal();
   
                 // gContext.setEmailresendId(data.id);

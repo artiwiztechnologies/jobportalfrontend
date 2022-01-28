@@ -6,7 +6,7 @@ import { Select } from "../components/Core";
 import { isAuthenticated, updateAuthData } from "../helper/index";
 import Notiflix from "notiflix";
 import Link from "next/link";
-import { getBlogList } from "../helper2";
+import { alertWarning, checkSubscription, getBlogList } from "../helper2";
 import imgB1 from "../assets/image/l2/png/blog-img1.png";
 import imgB2 from "../assets/image/l2/png/blog-img2.png";
 import imgB3 from "../assets/image/l2/png/blog-img3.png";
@@ -25,7 +25,7 @@ const DashboarBlogSecond = () => {
 
   const getBlogListDatafun = () => {
     getBlogList(isAuthenticated().access_token).then((data) => {
-      if (data === "token_expired") {
+      if (data.error && data.error === "token_expired") {
         updateAuthData(isAuthenticated());
         getBlogListDatafun();
       } else {
@@ -35,8 +35,27 @@ const DashboarBlogSecond = () => {
   };
 
   useEffect(() => {
-    getBlogListDatafun();
-  }, []);
+    if(isAuthenticated().company_id){
+      getBlogListDatafun();
+      
+    }else{
+      checkSubscription(isAuthenticated().access_token)
+      .then(data=>{
+        console.log("subsdata",data)
+        if(data.active==true){
+          getBlogListDatafun();
+        }
+        else{
+          router.push("/pricing");
+          alertWarning("Please subscribe to a plan!");
+        }
+      })
+    }
+    // if(isAuthenticated()){
+    //       getBlogListDatafun();
+
+    // }
+  }, [blogData]);
 
   console.log(blogData);
 
@@ -69,7 +88,7 @@ const DashboarBlogSecond = () => {
               >
                 {/* <!-- section-title start --> */}
                 <div className="section-title text-center pb-lg-15 pb-8 px-xxl-10">
-                  <h2 className="mb-9 font-size-10">Blogs</h2>
+                  <h3 className="mb-9">Research and Development</h3>
                   {/* <p className="text-default-color font-size-5">
                     Collaboratively administrate empowered markets via
                     plug-and-play networks. Dynamically procrastinate{" "}
@@ -95,7 +114,7 @@ const DashboarBlogSecond = () => {
                     onClick={() => {
                       // gContext.setBlog_Id(blog?.id);
                       localStorage.setItem("tempblog_id", blog?.id);
-                      router.push(`/company-profile/${blog?.id}`);
+                      router.push(`/blog_details/${blog?.id}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className="bg-white px-8 pt-9 pb-7 rounded-4 mb-9 feature-cardOne-adjustments"
@@ -132,14 +151,12 @@ const DashboarBlogSecond = () => {
                           </a>
                         </Link>
                       </h4>
-                      <p className="card-text mb-9 font-size-4">
-                        {truncate(blog?.content)}
-                      </p>
+                      
                       <div className="media mb-5 pr-9">
                         <Link href="">
                           <a>
                             <img
-                              src={imgBU1}
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9pwsN7oN02FOgJSVg2fe-R1dMMFRZi9J7Lw&usqp=CAU"
                               className="align-self-center circle-54 mr-3 mt-2"
                               alt=""
                             />
