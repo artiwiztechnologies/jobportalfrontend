@@ -232,7 +232,7 @@ const ModalCompanySignUp = (props) => {
                       htmlFor="password"
                       className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
                     >
-                      Password
+                      Password <span className="text-danger font-size-3">*should be atleast 5 characters long</span>
                     </label>
                     <div className="position-relative">
                       <input

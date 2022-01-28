@@ -36,7 +36,7 @@ export const menuItems = [
   },
   {
     name:"dashboard-blog",
-    label:"blog"
+    label:"R&D"
   }
  
 ];

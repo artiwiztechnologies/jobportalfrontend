@@ -25,7 +25,7 @@ const DashboarBlogSecond = () => {
 
   const getBlogListDatafun = () => {
     getBlogList(isAuthenticated().access_token).then((data) => {
-      if (data === "token_expired") {
+      if (data.error && data.error === "token_expired") {
         updateAuthData(isAuthenticated());
         getBlogListDatafun();
       } else {
@@ -46,7 +46,7 @@ const DashboarBlogSecond = () => {
           getBlogListDatafun();
         }
         else{
-          // router.push("/pricing");
+          router.push("/pricing");
           alertWarning("Please subscribe to a plan!");
         }
       })
@@ -55,7 +55,7 @@ const DashboarBlogSecond = () => {
     //       getBlogListDatafun();
 
     // }
-  }, []);
+  }, [blogData]);
 
   console.log(blogData);
 
@@ -88,7 +88,7 @@ const DashboarBlogSecond = () => {
               >
                 {/* <!-- section-title start --> */}
                 <div className="section-title text-center pb-lg-15 pb-8 px-xxl-10">
-                  <h2 className="mb-9 font-size-10">Blogs</h2>
+                  <h3 className="mb-9">Research and Development</h3>
                   {/* <p className="text-default-color font-size-5">
                     Collaboratively administrate empowered markets via
                     plug-and-play networks. Dynamically procrastinate{" "}
@@ -151,14 +151,12 @@ const DashboarBlogSecond = () => {
                           </a>
                         </Link>
                       </h4>
-                      <p className="card-text mb-9 font-size-4">
-                        {truncate(blog?.content)}
-                      </p>
+                      
                       <div className="media mb-5 pr-9">
                         <Link href="">
                           <a>
                             <img
-                              src={imgBU1}
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9pwsN7oN02FOgJSVg2fe-R1dMMFRZi9J7Lw&usqp=CAU"
                               className="align-self-center circle-54 mr-3 mt-2"
                               alt=""
                             />

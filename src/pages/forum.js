@@ -3,7 +3,7 @@ import { Collapse } from "react-bootstrap";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
 import router from "next/router";
-import { getQuestions, printRes,postQuestion, alertSuccess, getQuestionCommentsData, alertWarning } from "../helper2";
+import { getQuestions, printRes,postQuestion, alertSuccess, getQuestionCommentsData, alertWarning, checkSubscription } from "../helper2";
 import {isAuthenticated, postJob, updateAuthData} from "../helper";
 import GlobalContext from "../context/GlobalContext";
 
@@ -69,9 +69,28 @@ const Forum = () => {
     // const id = setInterval(()=>{
     //   getAllQuestions()
     // },WAIT_TIME);
+    // getAllQuestions()
+
     // return () => clearInterval(id);
-    getAllQuestions()
     // console.log("hey there")
+    
+     if(!isAuthenticated().company_id){
+      checkSubscription(isAuthenticated().access_token)
+      .then(data=>{
+        console.log("subsdata",data)
+        if(data.active==true){
+           getAllQuestions()
+          
+        }
+        else{
+          router.push("/pricing");
+          alertWarning("Please subscribe to a plan!");
+        }
+      })
+     }else{
+      getAllQuestions()
+
+     }
   },[])
   return (
     <>
@@ -87,7 +106,7 @@ const Forum = () => {
               >
                 <div className="d-flex flex-column">
                   <h5 className="font-weight-bold mb-7 mb-lg-13">
-                    Discussion Forum
+                    Technical Discussion Forum
                   </h5>
                   <p className="font-size-4 mb-2">
                     Not seeing your question here?

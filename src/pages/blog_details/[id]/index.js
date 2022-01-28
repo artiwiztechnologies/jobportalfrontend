@@ -61,7 +61,8 @@ const CandidateProfile = ({ id }) => {
     // }
     // setBlogId(localStorage.getItem("tempblog_id"));
     
-    checkSubscription(isAuthenticated().access_token)
+    if(!isAuthenticated().company_id){
+      checkSubscription(isAuthenticated().access_token)
     .then(data=>{
       console.log(data)
       if(data.active){
@@ -72,6 +73,10 @@ const CandidateProfile = ({ id }) => {
         alertWarning("Please subscribe to a plan!");
       }
     })
+    }else{
+      getBlogUsingID();
+      
+    }
   }, [comments]);
 
   // console.log(blogId);
@@ -165,7 +170,7 @@ const CandidateProfile = ({ id }) => {
             >
               <div className="col-12 mt-13 dark-mode-texts">
                 <div className="mb-9">
-                  <Link href="/dashboard-blog-2">
+                  <Link href="/dashboard-blog">
                     <a className="d-flex align-items-center ml-4">
                       <i className="icon icon-small-left bg-white circle-40 mr-5 font-size-7 text-black font-weight-bold shadow-8"></i>
                       <span className="text-uppercase font-size-3 font-weight-bold text-gray">
@@ -212,8 +217,19 @@ const CandidateProfile = ({ id }) => {
                   <div className="text-center">
                     {idData?.photoURL ? (
                       <img
-                        width="400px"
-                        height="300px"
+                        style={{
+                          height: "250px",
+                          // width:"250px",
+                          objectFit:"contain",
+                          // margin: "10px",
+                          // display: "block",
+                          marginLeft:"auto",
+                          marginRight:"auto",
+                          width: "250px",
+                          
+                          
+                        }}
+                      
                         src={idData?.photoURL}
                         alt=""
                       />
