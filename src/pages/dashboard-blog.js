@@ -6,7 +6,7 @@ import { Select } from "../components/Core";
 import { isAuthenticated, updateAuthData } from "../helper/index";
 import Notiflix from "notiflix";
 import Link from "next/link";
-import { getBlogList } from "../helper2";
+import { alertWarning, checkSubscription, getBlogList } from "../helper2";
 import imgB1 from "../assets/image/l2/png/blog-img1.png";
 import imgB2 from "../assets/image/l2/png/blog-img2.png";
 import imgB3 from "../assets/image/l2/png/blog-img3.png";
@@ -35,7 +35,26 @@ const DashboarBlogSecond = () => {
   };
 
   useEffect(() => {
-    getBlogListDatafun();
+    if(isAuthenticated().company_id){
+      getBlogListDatafun();
+      
+    }else{
+      checkSubscription(isAuthenticated().access_token)
+      .then(data=>{
+        console.log("subsdata",data)
+        if(data.active==true){
+          getBlogListDatafun();
+        }
+        else{
+          // router.push("/pricing");
+          alertWarning("Please subscribe to a plan!");
+        }
+      })
+    }
+    // if(isAuthenticated()){
+    //       getBlogListDatafun();
+
+    // }
   }, []);
 
   console.log(blogData);
@@ -95,7 +114,7 @@ const DashboarBlogSecond = () => {
                     onClick={() => {
                       // gContext.setBlog_Id(blog?.id);
                       localStorage.setItem("tempblog_id", blog?.id);
-                      router.push(`/company-profile/${blog?.id}`);
+                      router.push(`/blog_details/${blog?.id}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className="bg-white px-8 pt-9 pb-7 rounded-4 mb-9 feature-cardOne-adjustments"
