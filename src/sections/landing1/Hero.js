@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { Select } from "../../components/Core";
-import imgH from "../../assets/image/l1/png/hero-image-woman.png";
+import imgH from "../../assets/image/l1/png/girl.png";
 import imgP from "../../assets/image/patterns/hero-pattern.png";
 import {isAuthenticated} from "../../helper/index"; 
 // import router from "next/router";

@@ -265,6 +265,14 @@ const CandidateProfile = ({ id }) => {
                     {/* (idData?.content) */}
                   </p>
                 </div>
+                <div className="d-flex flex-column">
+                <p className="mx-10">External Links</p>
+                  {
+                   idData.links && idData.links?.map(link=>(
+                     <a className="mx-10 my-5" href={link} target="_blank">{link}</a>
+                   ))
+                  }
+                </div>
 
                 <h4 style={{ marginLeft: "26px" }} className="font-size-6 mb-1">
                   Comments

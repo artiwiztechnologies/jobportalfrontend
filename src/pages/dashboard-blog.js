@@ -60,7 +60,7 @@ const DashboarBlogSecond = () => {
   console.log(blogData);
 
   const truncate = (str) => {
-    return str.length > 10 ? str.substring(0, 26) + "..." : str;
+    return str.length > 15 ? str.substring(0, 15) + "..." : str;
   };
 
   console.log(blogData);
@@ -147,7 +147,7 @@ const DashboarBlogSecond = () => {
                       <h4>
                         <Link href="">
                           <a className="card-title font-size-7 mt-8 mb-6 heading-default-color">
-                            {blog?.title}
+                            {truncate(blog?.title)}
                           </a>
                         </Link>
                       </h4>
