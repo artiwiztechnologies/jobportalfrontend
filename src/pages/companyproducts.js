@@ -174,11 +174,20 @@ const CompanyProducts = () => {
                           className="align-self-center circle-54 mr-3 mt-2"
                           alt="image not found"
                         /> */}
-                      <div className="mb-0">
+                      <div className="mb-0 d-flex flex-column my-2">
                         
                         
-                          <a className="mb-0 font-size-4 font-weight-semibold heading-default-color line-height-reset">
-                            {capitalize(prod.company_name)}
+                          <a className="mb-0 font-size-4 font-weight-semibold heading-default-color line-height-reset my-2">
+                            <span className="text-primary">Company: </span>{" "+truncate(capitalize(prod.company_name))}
+                            
+                          </a>
+                          <a className="mb-0 font-size-4 font-weight-semibold heading-default-color line-height-reset my-2">
+                            <span className="text-primary">Phone:</span>{" "+ prod.company_phonenumber}
+                            
+                          </a>
+                          <a className="mb-0 font-size-4 font-weight-semibold heading-default-color line-height-resetmy-2 text-wrap">
+                          <span className="text-primary">Email:</span>{" "+prod.company_email}
+                            
                           </a>
                           {/* <a className="mb-0 font-size-3 heading-default-color line-height-reset">
                             last-updated: {prod.date}
@@ -193,7 +202,14 @@ const CompanyProducts = () => {
                           </p>
                 {/* price */}
               </div>
+                  <div className="bg-primary text-center text-white p-3" onClick={()=>{
+                    console.log(prod.company_id)
+                    router.push(`/company_profile/${prod.company_id}`);
 
+
+                  }}>
+                    Enquire
+                  </div>
           </div>
                     ))
                   }

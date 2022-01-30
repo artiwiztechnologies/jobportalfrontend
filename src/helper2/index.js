@@ -111,8 +111,8 @@ let dev = true;//change to false on production
 
 
 
-export const checkSubscription = (tkn) =>{
-  return fetch(`${API}check-user`, {
+export const checkSubscription = (tkn,type) =>{
+  return fetch(`${API}check/${type}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

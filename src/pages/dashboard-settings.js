@@ -13,7 +13,7 @@ import {
 } from "../helper/index";
 import { useRouter } from "next/router";
 import Notiflix from "notiflix";
-import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning, checkSubscription } from "../helper2";
 
 // import dashboardstyles from "../styles/Dashboard-settings.module.css";
 
@@ -57,6 +57,13 @@ const DashboardSettings = () => {
     about: "",
     phonenumber: "",
     links: "",
+  });
+
+  const [activeplanData,setActiveplanData] = useState({
+    active: false,
+    days: 0,
+    plan_name: "",
+    
   });
 
   let auth_data = isAuthenticated();
@@ -158,6 +165,15 @@ const DashboardSettings = () => {
         printRes(data);
       }
     });
+    checkSubscription(isAuthenticated().access_token,isAuthenticated().type).then(data=>{
+      printRes(data);
+      setActiveplanData({
+        ...activeplanData,
+        plan_name:data.plan_name,
+        days:data.days,
+        active:data.active
+      })
+    })
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -206,9 +222,29 @@ const DashboardSettings = () => {
             <div className="mb-15 mb-lg-23">
               <div className="row">
                 <div className="col-xxxl-9 px-lg-13 px-6">
+                  {/* <h5 className="font-size-6 font-weight-semibold mb-11">
+                    Update Company Profile
+                  </h5> */}
+                  <div className="row justify-content-between align-items-center">
                   <h5 className="font-size-6 font-weight-semibold mb-11">
                     Update Company Profile
                   </h5>
+                    {
+                      activeplanData.active ? (
+                        <div>
+                    <h5>Your Plan Expires in <span className="text-danger">{activeplanData.days}</span> Day(s)</h5>
+                    <h6>Your current Plan: <span className="text-primary">{activeplanData.plan_name}</span></h6>
+                    {/* <h4>{activeplanData.active}</h4> */}
+                    </div>
+                      ):(
+                    <h6>You have not Subscribed to any of our plans!</h6>
+
+                      )
+                    }
+                    {/* {
+                      JSON.stringify(activeplanData)
+                    } */}
+                  </div>
                   <div className="contact-form bg-white shadow-8 rounded-4 pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13">
                   {/* <div className="mb-16"> */}
                       <div className="text-center mb-16">

@@ -74,8 +74,8 @@ const Forum = () => {
     // return () => clearInterval(id);
     // console.log("hey there")
     
-     if(!isAuthenticated().company_id){
-      checkSubscription(isAuthenticated().access_token)
+    //  if(!isAuthenticated().company_id){
+      checkSubscription(isAuthenticated().access_token,isAuthenticated().type)
       .then(data=>{
         if(data){
           console.log("subsdata",data)
@@ -91,10 +91,10 @@ const Forum = () => {
           alertWarning("server error contact admin!");
         }
       })
-     }else{
-      getAllQuestions()
+    //  }else{
+    //   getAllQuestions()
 
-     }
+    //  }
   },[])
   return (
     <>

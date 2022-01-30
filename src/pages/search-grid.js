@@ -426,7 +426,7 @@ const SearchGrid = () => {
   useEffect(()=>{
     if(isAuthenticated()){
       // getjobs();
-      checkSubscription(isAuthenticated().access_token)
+      checkSubscription(isAuthenticated().access_token,isAuthenticated().type)
         .then(data=>{
           if(data){
             printRes(data);

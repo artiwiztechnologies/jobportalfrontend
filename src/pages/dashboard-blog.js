@@ -15,7 +15,7 @@ import imgBU1 from "../assets/image/l2/png/blog-user-img1.png";
 import imgBU2 from "../assets/image/l2/png/blog-user-img2.png";
 import imgBU3 from "../assets/image/l2/png/blog-user-img3.png";
 import GlobalContext from "../context/GlobalContext";
-import SingleBlog from "../pages/company-profile/[id]";
+
 import { useContext } from "react";
 
 const DashboarBlogSecond = () => {
@@ -35,11 +35,12 @@ const DashboarBlogSecond = () => {
   };
 
   useEffect(() => {
-    if(isAuthenticated().company_id){
-      getBlogListDatafun();
+    // if(isAuthenticated().company_id){
+    //   getBlogListDatafun();
       
-    }else{
-      checkSubscription(isAuthenticated().access_token)
+    // }else{
+      console.log(isAuthenticated())
+      checkSubscription(isAuthenticated().access_token,isAuthenticated().type)
       .then(data=>{
         console.log("subsdata",data)
         if(data){
@@ -54,7 +55,7 @@ const DashboarBlogSecond = () => {
           alertWarning("some server error contact the admin!");
         }
       })
-    }
+    // }
     // if(isAuthenticated()){
     //       getBlogListDatafun();
 
