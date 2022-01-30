@@ -42,12 +42,16 @@ const DashboarBlogSecond = () => {
       checkSubscription(isAuthenticated().access_token)
       .then(data=>{
         console.log("subsdata",data)
-        if(data.active==true){
-          getBlogListDatafun();
-        }
-        else{
-          router.push("/pricing");
-          alertWarning("Please subscribe to a plan!");
+        if(data){
+          if(data.active==true){
+            getBlogListDatafun();
+          }
+          else{
+            router.push("/pricing");
+            alertWarning("Please subscribe to a plan!");
+          }
+        }else{
+          alertWarning("some server error contact the admin!");
         }
       })
     }
@@ -97,7 +101,9 @@ const DashboarBlogSecond = () => {
                 {/* <!-- section-title end --> */}
               </div>
             </div>
-            <div className="row justify-content-center">
+           {
+             blogData?.length != 0 ? (
+              <div className="row justify-content-center">
               {blogData?.map((blog) => (
                 <div
                   className="col-xl-4 col-md-6 mb-xl-0 mb-13"
@@ -187,6 +193,12 @@ const DashboarBlogSecond = () => {
                 </div>
               ))}
             </div>
+             ):(
+               <div>
+                 <h4 className="text-center">No R&D posts are found!</h4>
+               </div>
+             )
+           }
           </div>
         </div>
       </PageWrapper>

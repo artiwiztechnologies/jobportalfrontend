@@ -428,14 +428,18 @@ const SearchGrid = () => {
       // getjobs();
       checkSubscription(isAuthenticated().access_token)
         .then(data=>{
-          printRes(data);
-          if(data.active){
-            setSubscribed(true);
-            setSubscriptionData(data);
-            getjobs();
+          if(data){
+            printRes(data);
+            if(data.active){
+              setSubscribed(true);
+              setSubscriptionData(data);
+              getjobs();
+            }else{
+              router.push("/pricing");
+              alertInfo("please subscribe to a plan!");
+            }
           }else{
-            router.push("/pricing");
-            alertInfo("please subscribe to a plan!");
+            alertWarning("server error contact admin!")
           }
         })
 
@@ -535,7 +539,9 @@ const SearchGrid = () => {
                   </div>
 
                   <div className="pt-6">
-                    <div className="row justify-content-center">
+                      {
+                        jobs?.length != 0 ? (
+                          <div className="row justify-content-center">
                       {/* <ModalViewJobDetails show={show} handleshow={handleShow} handleClose={handleClose} ModalJobData={reqjobdata} /> */}
 
                       {/* job.job_type === gContext.filterJobType
@@ -808,6 +814,12 @@ const SearchGrid = () => {
                         ModalJobData={reqjobdata}
                       />
                     </div>
+                        ):(
+                          <div className="text-center">
+                            No Jobs Posted
+                          </div>
+                        )
+                      }
                     <div className="text-center pt-5 pt-lg-13">
                       {/* <Link href="/#">
                         <a className="text-green font-weight-bold text-uppercase font-size-3 d-flex align-items-center justify-content-center">

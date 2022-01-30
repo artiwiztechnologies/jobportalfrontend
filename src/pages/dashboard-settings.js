@@ -339,7 +339,7 @@ const DashboardSettings = () => {
                                 type="text"
                                 className="form-control h-px-48"
                                 id="namedash"
-                                placeholder="company Type"
+                                placeholder="Company Type"
                                 value={companyType}
                                 onChange={handleChange("companyType")}
                               />

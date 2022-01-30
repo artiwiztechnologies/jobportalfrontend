@@ -115,7 +115,8 @@ const CompanyProducts = () => {
         
 
         {
-            companies?.map(comp=>(
+            companies?.length != 0 ? (
+              companies?.map(comp=>(
               <div className="d-flex flex-column align-items-center my-10">
                 <h4>Products of <span className="font-weight-bold text-primary">{capitalize(comp.name)}</span></h4>
                 <div className="d-sm-flex flex-row align-items-center justify-content-center flex-wrap my-5">
@@ -199,6 +200,11 @@ const CompanyProducts = () => {
                 </div>
               </div>
             ))
+            ):(
+              <div>
+                <h4 className="text-center">No products are found!</h4>
+              </div>
+            )
           }
           
 
