@@ -15,7 +15,7 @@ import imgBU1 from "../assets/image/l2/png/blog-user-img1.png";
 import imgBU2 from "../assets/image/l2/png/blog-user-img2.png";
 import imgBU3 from "../assets/image/l2/png/blog-user-img3.png";
 import GlobalContext from "../context/GlobalContext";
-import SingleBlog from "../pages/company-profile/[id]";
+
 import { useContext } from "react";
 
 const DashboarBlogSecond = () => {
@@ -35,22 +35,27 @@ const DashboarBlogSecond = () => {
   };
 
   useEffect(() => {
-    if(isAuthenticated().company_id){
-      getBlogListDatafun();
+    // if(isAuthenticated().company_id){
+    //   getBlogListDatafun();
       
-    }else{
-      checkSubscription(isAuthenticated().access_token)
+    // }else{
+      console.log(isAuthenticated())
+      checkSubscription(isAuthenticated().access_token,isAuthenticated().type)
       .then(data=>{
         console.log("subsdata",data)
-        if(data.active==true){
-          getBlogListDatafun();
-        }
-        else{
-          router.push("/pricing");
-          alertWarning("Please subscribe to a plan!");
+        if(data){
+          if(data.active==true){
+            getBlogListDatafun();
+          }
+          else{
+            router.push("/pricing");
+            alertWarning("Please subscribe to a plan!");
+          }
+        }else{
+          alertWarning("some server error contact the admin!");
         }
       })
-    }
+    // }
     // if(isAuthenticated()){
     //       getBlogListDatafun();
 
@@ -97,7 +102,9 @@ const DashboarBlogSecond = () => {
                 {/* <!-- section-title end --> */}
               </div>
             </div>
-            <div className="row justify-content-center">
+           {
+             blogData?.length != 0 ? (
+              <div className="row justify-content-center">
               {blogData?.map((blog) => (
                 <div
                   className="col-xl-4 col-md-6 mb-xl-0 mb-13"
@@ -187,6 +194,12 @@ const DashboarBlogSecond = () => {
                 </div>
               ))}
             </div>
+             ):(
+               <div>
+                 <h4 className="text-center">No R&D posts are found!</h4>
+               </div>
+             )
+           }
           </div>
         </div>
       </PageWrapper>

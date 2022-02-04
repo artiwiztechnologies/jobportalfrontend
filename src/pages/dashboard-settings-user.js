@@ -16,7 +16,7 @@ import {
   UserResumeUpload,
 } from "../helper/index";
 import Notiflix from "notiflix";
-import { printRes,alertInfo,alertSuccess,alertWarning } from "../helper2";
+import { printRes,alertInfo,alertSuccess,alertWarning, checkSubscription } from "../helper2";
 
 const defaultTypes = [
   { value: "b2b", label: "B2B" },
@@ -64,6 +64,13 @@ const DashboardSettings = () => {
   });
 
   let auth_data = isAuthenticated();
+
+  const [activeplanData,setActiveplanData] = useState({
+    active: false,
+    days: 0,
+    plan_name: "",
+    
+  });
 
   const { about, name, location, links, email, skills,profession } = userData;
 
@@ -129,11 +136,22 @@ const DashboardSettings = () => {
           printRes(data);
         }
       });
-    } else {
-      if (isAuthenticated().user_id) {
-        router.push("/dashboard-settings");
-      }
+      checkSubscription(isAuthenticated().access_token,isAuthenticated().type).then(data=>{
+        printRes("subscription data",data);
+        setActiveplanData({
+          ...activeplanData,
+          plan_name:data.plan_name,
+          days:data.days,
+          active:data.active
+        })
+      })
+
     }
+    //  else {
+    //   if (isAuthenticated().user_id) {
+    //     router.push("/dashboard-settings");
+    //   }
+    // }
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -251,9 +269,27 @@ const deleteSkill = (s) =>{
             <div className="mb-15 mb-lg-23">
               <div className="row">
                 <div className="col-xxxl-9 px-lg-13 px-6">
+                  
+                <div className="row justify-content-between align-items-center">
                   <h5 className="font-size-6 font-weight-semibold mb-11">
                     Update User Profile
                   </h5>
+                    {
+                      activeplanData.active ? (
+                        <div>
+                    <h5>Your Plan Expires in <span className="text-danger">{activeplanData.days}</span> Day(s)</h5>
+                    <h6>Your current Plan: <span className="text-primary">{activeplanData.plan_name}</span></h6>
+                    {/* <h4>{activeplanData.active}</h4> */}
+                    </div>
+                      ):(
+                    <h6>You haven't subscribed to any plans!</h6>
+
+                      )
+                    }
+                    {/* {
+                      JSON.stringify(activeplanData)
+                    } */}
+                  </div>
                   {/* <div className="upload-file mb-16 text-center">
                       <div
                         id="userActions"

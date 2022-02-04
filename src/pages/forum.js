@@ -74,10 +74,11 @@ const Forum = () => {
     // return () => clearInterval(id);
     // console.log("hey there")
     
-     if(!isAuthenticated().company_id){
-      checkSubscription(isAuthenticated().access_token)
+    //  if(!isAuthenticated().company_id){
+      checkSubscription(isAuthenticated().access_token,isAuthenticated().type)
       .then(data=>{
-        console.log("subsdata",data)
+        if(data){
+          console.log("subsdata",data)
         if(data.active==true){
            getAllQuestions()
           
@@ -86,11 +87,14 @@ const Forum = () => {
           router.push("/pricing");
           alertWarning("Please subscribe to a plan!");
         }
+        }else{
+          alertWarning("server error contact admin!");
+        }
       })
-     }else{
-      getAllQuestions()
+    //  }else{
+    //   getAllQuestions()
 
-     }
+    //  }
   },[])
   return (
     <>
@@ -150,7 +154,9 @@ const Forum = () => {
                      </button>
 
                   </div> */}
-                    <div className="border-bottom overflow-hidden">
+                    {
+                      questions?.length != 0 ? (
+                        <div className="border-bottom overflow-hidden">
                     <h5 className="text-success">Questions posted</h5>
                       {
                         questions?.map((ques)=>(
@@ -182,6 +188,12 @@ const Forum = () => {
                       }
                       
                     </div>
+                      ):(
+                        <div className="text-center">
+                          No Questions Posted!
+                        </div>
+                      )
+                    }
 
                     {/* <div className="border-bottom overflow-hidden">
                       <div className="mb-0 border-bottom-0" id="heading2-1">
